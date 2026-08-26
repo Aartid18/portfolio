@@ -10,14 +10,14 @@ export const Footer: React.FC = () => {
   };
 
   return (
-    <footer className="py-12 border-t border-white/10 bg-[#08090B] text-[#8A8F98] text-xs font-mono relative z-10">
+    <footer className="py-12 border-t border-white/10 bg-[#050505] text-[#737373] text-xs font-mono relative z-10">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-6">
         {/* Left Info */}
         <div className="text-center md:text-left space-y-1">
-          <p className="text-sm font-extrabold text-white font-display">
-            AARTI<span className="text-[#C7FF3D]">.DEV</span> — FULL STACK ENGINEER + APPLIED AI
+          <p className="text-sm font-extrabold text-white">
+            AARTI<span className="text-[#39ff88]">.DEV</span> — FULL STACK ENGINEER + APPLIED AI
           </p>
-          <p className="text-[11px] text-[#8A8F98]">
+          <p className="text-[11px] text-[#737373]">
             © {new Date().getFullYear()} Aarti Dinkar. Built with Next.js 14, Tailwind CSS & Framer Motion.
           </p>
         </div>
@@ -29,7 +29,7 @@ export const Footer: React.FC = () => {
             target="_blank"
             rel="noopener noreferrer"
             data-cursor="↗"
-            className="p-2.5 rounded-xl bg-[#101216] border border-white/10 text-white hover:text-[#C7FF3D] transition-colors"
+            className="p-2.5 rounded-xl bg-[#0d0d0d] border border-white/10 text-white hover:text-[#39ff88] transition-colors"
             aria-label="GitHub Profile"
           >
             <Github className="w-4 h-4" />
@@ -39,7 +39,7 @@ export const Footer: React.FC = () => {
             target="_blank"
             rel="noopener noreferrer"
             data-cursor="↗"
-            className="p-2.5 rounded-xl bg-[#101216] border border-white/10 text-white hover:text-[#C7FF3D] transition-colors"
+            className="p-2.5 rounded-xl bg-[#0d0d0d] border border-white/10 text-white hover:text-[#39ff88] transition-colors"
             aria-label="LinkedIn Profile"
           >
             <Linkedin className="w-4 h-4" />
@@ -47,7 +47,7 @@ export const Footer: React.FC = () => {
           <a
             href={`mailto:${PERSONAL_INFO.socials.email}`}
             data-cursor="OPEN"
-            className="p-2.5 rounded-xl bg-[#101216] border border-white/10 text-white hover:text-[#C7FF3D] transition-colors"
+            className="p-2.5 rounded-xl bg-[#0d0d0d] border border-white/10 text-white hover:text-[#39ff88] transition-colors"
             aria-label="Email Address"
           >
             <Mail className="w-4 h-4" />
@@ -58,10 +58,10 @@ export const Footer: React.FC = () => {
         <button
           onClick={scrollToTop}
           data-cursor="OPEN"
-          className="flex items-center gap-2 px-4 py-2.5 rounded-full bg-[#101216] hover:bg-[#16191F] border border-white/10 text-white hover:text-[#C7FF3D] transition-colors font-bold text-xs"
+          className="flex items-center gap-2 px-4 py-2.5 rounded-full bg-[#0d0d0d] hover:bg-[#141414] border border-white/10 text-white hover:text-[#39ff88] transition-colors font-bold text-xs"
         >
           <span>BACK TO TOP</span>
-          <ArrowUp className="w-3.5 h-3.5 text-[#C7FF3D]" />
+          <ArrowUp className="w-3.5 h-3.5 text-[#39ff88]" />
         </button>
       </div>
     </footer>

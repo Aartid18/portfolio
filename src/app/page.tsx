@@ -15,30 +15,51 @@ import { Marquee } from "@/components/Marquee";
 
 export default function Home() {
   return (
-    <div className="min-h-screen flex flex-col relative bg-[#08090B] text-[#F4F4F0] selection:bg-[#C7FF3D] selection:text-[#08090B] font-sans overflow-x-hidden">
-      {/* 2-3s Preloader Curtain Lift */}
+    <div className="min-h-screen flex flex-col relative bg-[#050505] text-[#e8e8e3] selection:bg-[#39ff88] selection:text-[#050505] font-sans overflow-x-hidden">
+      {/* Non-linear Boot Preloader Curtain Lift */}
       <Preloader />
 
       {/* Context-Aware Custom Cursor (Desktop only) */}
       <CustomCursor />
 
-      {/* Subtle Fine Technical Grid Layer */}
-      <div className="fixed inset-0 bg-tech-grid opacity-20 pointer-events-none z-0" />
+      {/* Subtle Fine Terminal Grid Layer */}
+      <div className="fixed inset-0 bg-terminal-grid opacity-20 pointer-events-none z-0" />
 
       <Navbar />
 
       <main className="flex-1 relative z-10">
         <Hero />
         
-        <Marquee direction="left" />
+        {/* Post-Hero Marquee */}
+        <Marquee
+          items={["FULL STACK ENGINEERING", "APPLIED AI", "DATA SCIENCE", "SYSTEM ARCHITECTURE", "PRODUCTION SYSTEMS"]}
+          direction="left"
+        />
+        
         <About />
 
-        <Marquee direction="right" />
+        {/* Post-About Marquee */}
+        <Marquee
+          items={["01 PHILOSOPHY", "PRODUCTION SYSTEMS", "INTELLIGENT WORKFLOWS", "MICROSERVICES", "RESTFUL APIS"]}
+          direction="right"
+        />
+
         <Skills />
+
+        {/* Post-Stack Marquee */}
+        <Marquee
+          items={["02 TECHNICAL CAPABILITIES", "CORE LANGUAGES", "FRAMEWORKS", "DATA INFRASTRUCTURE", "MACHINE LEARNING"]}
+          direction="left"
+        />
 
         <Projects />
         
-        <Marquee direction="left" />
+        {/* Post-Resume Marquee */}
+        <Marquee
+          items={["04 ENGINEERING PROFILE", "ACADEMIC CREDENTIALS", "HONOURS IN DATA SCIENCE", "LIVE DEPLOYMENTS"]}
+          direction="right"
+        />
+
         <ResumeSection />
         
         <Contact />

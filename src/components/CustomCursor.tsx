@@ -48,12 +48,12 @@ export const CustomCursor: React.FC = () => {
     <motion.div
       className="fixed top-0 left-0 z-[99] pointer-events-none hidden md:flex items-center justify-center rounded-full font-mono text-[10px] font-black tracking-widest uppercase transition-all duration-150"
       animate={{
-        x: position.x - (isHovered ? 28 : 6),
-        y: position.y - (isHovered ? 28 : 6),
-        width: isHovered ? 56 : 12,
-        height: isHovered ? 56 : 12,
-        backgroundColor: isHovered ? "#C7FF3D" : "rgba(199, 255, 61, 0.9)",
-        color: isHovered ? "#08090B" : "transparent",
+        x: position.x - (isHovered ? 26 : 6),
+        y: position.y - (isHovered ? 26 : 6),
+        width: isHovered ? 52 : 12,
+        height: isHovered ? 52 : 12,
+        backgroundColor: isHovered ? "#39ff88" : "rgba(57, 255, 136, 0.85)",
+        color: isHovered ? "#050505" : "transparent",
       }}
       transition={{ type: "spring", stiffness: 450, damping: 28, mass: 0.1 }}
     >

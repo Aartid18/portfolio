@@ -2,7 +2,8 @@
 
 import React, { useState } from "react";
 import { motion } from "framer-motion";
-import { Code, Server, Database, BrainCircuit, Cpu, Sparkles } from "lucide-react";
+import { Sparkles } from "lucide-react";
+import { dataLineDraw } from "@/lib/motionConfig";
 
 interface TechNode {
   id: string;
@@ -29,15 +30,39 @@ export const TechConstellation: React.FC = () => {
   const [activeTech, setActiveTech] = useState<TechNode>(TECH_NODES[0]);
 
   return (
-    <div className="w-full max-w-5xl mx-auto p-6 sm:p-10 rounded-3xl bg-[#101216] border border-white/10 shadow-2xl relative font-mono">
-      <div className="text-center mb-8">
-        <span className="text-xs font-bold uppercase tracking-widest text-[#C7FF3D] block mb-2">
-          INTERACTIVE TECH CONSTELLATION
+    <div className="w-full max-w-5xl mx-auto p-6 sm:p-10 rounded-3xl bg-[#0d0d0d] border border-white/10 shadow-2xl relative font-mono">
+      {/* Background SVG Self-Drawing Connection Lines */}
+      <svg className="absolute inset-0 w-full h-full pointer-events-none opacity-20 z-0">
+        <motion.path
+          d="M 100,50 Q 300,120 500,50 T 900,50"
+          fill="none"
+          stroke="#39ff88"
+          strokeWidth="1.5"
+          variants={dataLineDraw}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+        />
+        <motion.path
+          d="M 50,150 Q 400,250 850,150"
+          fill="none"
+          stroke="#39ff88"
+          strokeWidth="1.5"
+          variants={dataLineDraw}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+        />
+      </svg>
+
+      <div className="text-center mb-8 relative z-10">
+        <span className="text-xs font-bold uppercase tracking-widest text-[#39ff88] block mb-2">
+          02 / CONSTELLATION GRAPH
         </span>
         <h3 className="text-2xl sm:text-4xl font-black text-white tracking-tight">
           Software & ML Stack Graph
         </h3>
-        <p className="text-xs text-[#8A8F98] mt-2">Hover or click nodes to inspect contextual engineering applications.</p>
+        <p className="text-xs text-[#737373] mt-2">Hover or click nodes to inspect contextual engineering applications.</p>
       </div>
 
       {/* Central Node Visual Network */}
@@ -54,37 +79,37 @@ export const TechConstellation: React.FC = () => {
               whileTap={{ scale: 0.97 }}
               className={`p-4 rounded-2xl text-center border transition-all duration-200 ${
                 isActive
-                  ? "bg-[#16191F] border-[#C7FF3D] shadow-lg shadow-[#C7FF3D]/10"
-                  : "bg-[#08090B] border-white/10 hover:border-white/20"
+                  ? "bg-[#141414] border-[#39ff88] shadow-lg shadow-[#39ff88]/10"
+                  : "bg-[#050505] border-white/10 hover:border-white/20"
               }`}
             >
               <div className="text-xs font-extrabold text-white mb-1">{node.name}</div>
-              <div className="text-[10px] text-[#8A8F98]">{node.category}</div>
+              <div className="text-[10px] text-[#737373]">{node.category}</div>
             </motion.button>
           );
         })}
       </div>
 
       {/* Contextual Technical Detail Card */}
-      <div className="p-6 rounded-2xl bg-[#08090B] border border-white/10 flex flex-col md:flex-row items-start md:items-center justify-between gap-6 relative z-10">
+      <div className="p-6 rounded-2xl bg-[#050505] border border-white/10 flex flex-col md:flex-row items-start md:items-center justify-between gap-6 relative z-10">
         <div className="space-y-1">
           <div className="flex items-center gap-2">
-            <Sparkles className="w-4 h-4 text-[#C7FF3D]" />
+            <Sparkles className="w-4 h-4 text-[#39ff88]" />
             <span className="text-sm font-extrabold text-white">{activeTech.name}</span>
-            <span className="px-2.5 py-0.5 rounded-full bg-[#C7FF3D]/10 text-[#C7FF3D] text-[10px] font-bold">
+            <span className="px-2.5 py-0.5 rounded-full bg-[#39ff88]/10 text-[#39ff88] text-[10px] font-bold">
               {activeTech.category}
             </span>
           </div>
-          <p className="text-xs text-[#8A8F98] leading-relaxed">{activeTech.description}</p>
+          <p className="text-xs text-[#737373] leading-relaxed">{activeTech.description}</p>
         </div>
 
         <div className="text-left md:text-right shrink-0">
-          <span className="text-[10px] text-[#8A8F98] font-bold uppercase tracking-wider block mb-1">
+          <span className="text-[10px] text-[#737373] font-bold uppercase tracking-wider block mb-1">
             APPLIED IN PROJECTS
           </span>
           <div className="flex flex-wrap gap-1.5 justify-start md:justify-end">
             {activeTech.projectsUsed.map((proj) => (
-              <span key={proj} className="px-2.5 py-1 rounded-lg bg-[#16191F] border border-white/10 text-white text-[11px] font-semibold">
+              <span key={proj} className="px-2.5 py-1 rounded-lg bg-[#141414] border border-white/10 text-white text-[11px] font-semibold">
                 {proj}
               </span>
             ))}

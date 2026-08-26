@@ -11,22 +11,22 @@ const config: Config = {
     extend: {
       fontFamily: {
         sans: ["var(--font-sans)", "system-ui", "-apple-system", "sans-serif"],
-        display: ["var(--font-display)", "system-ui", "-apple-system", "sans-serif"],
-        mono: ["ui-monospace", "SFMono-Regular", "Menlo", "Monaco", "Consolas", "monospace"],
+        mono: ["var(--font-mono)", "ui-monospace", "SFMono-Regular", "Menlo", "Monaco", "monospace"],
+        display: ["var(--font-mono)", "system-ui", "-apple-system", "sans-serif"],
       },
       colors: {
-        background: "#08090B",
-        surface: "#101216",
-        elevated: "#16191F",
+        background: "#050505",
+        surface: "#0d0d0d",
+        elevated: "#141414",
         accent: {
-          DEFAULT: "#C7FF3D",
-          hover: "#d4ff66",
-          muted: "rgba(199, 255, 61, 0.12)",
+          DEFAULT: "#39ff88",
+          hover: "#52ff97",
+          muted: "rgba(57, 255, 136, 0.12)",
         },
-        editorial: {
-          text: "#F4F4F0",
-          muted: "#8A8F98",
-          border: "rgba(255, 255, 255, 0.10)",
+        terminal: {
+          text: "#e8e8e3",
+          muted: "#737373",
+          border: "rgba(255, 255, 255, 0.08)",
         }
       },
     },

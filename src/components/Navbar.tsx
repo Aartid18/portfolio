@@ -57,14 +57,14 @@ export const Navbar: React.FC = () => {
           <a
             href="#home"
             data-cursor="OPEN"
-            className="flex items-center gap-2 font-display text-lg font-black tracking-tight text-white hover:text-[#C7FF3D] transition-colors focus-visible:ring-2 focus-visible:ring-[#C7FF3D] rounded-lg p-1"
+            className="flex items-center gap-2 font-mono text-lg font-black tracking-tight text-white hover:text-[#39ff88] transition-colors focus-visible:ring-2 focus-visible:ring-[#39ff88] rounded-lg p-1"
           >
-            <span className="w-2.5 h-2.5 rounded-sm bg-[#C7FF3D]" />
-            <span>AARTI<span className="text-[#C7FF3D]">.DEV</span></span>
+            <span className="w-2.5 h-2.5 rounded-sm bg-[#39ff88]" />
+            <span>AARTI<span className="text-[#39ff88]">.DEV</span></span>
           </a>
 
-          {/* Desktop Floating Navigation Pill */}
-          <nav className="hidden md:flex items-center gap-1 floating-nav p-1.5 rounded-full shadow-2xl font-mono text-xs">
+          {/* Desktop Floating Terminal Nav */}
+          <nav className="hidden md:flex items-center gap-1 terminal-nav p-1.5 rounded-full shadow-2xl font-mono text-xs">
             {NAV_ITEMS.map((item) => {
               const isActive = activeSection === item.href.substring(1);
               return (
@@ -73,13 +73,13 @@ export const Navbar: React.FC = () => {
                   href={item.href}
                   data-cursor="OPEN"
                   className={`relative px-4 py-2 font-bold tracking-wider rounded-full transition-colors duration-200 ${
-                    isActive ? "text-[#08090B]" : "text-[#8A8F98] hover:text-white"
+                    isActive ? "text-[#050505]" : "text-[#737373] hover:text-white"
                   }`}
                 >
                   {isActive && (
                     <motion.span
                       layoutId="navActiveSlide"
-                      className="absolute inset-0 bg-[#C7FF3D] rounded-full shadow-lg shadow-[#C7FF3D]/20"
+                      className="absolute inset-0 bg-[#39ff88] rounded-full shadow-md shadow-[#39ff88]/20"
                       transition={{ type: "spring", stiffness: 380, damping: 30 }}
                     />
                   )}
@@ -96,7 +96,7 @@ export const Navbar: React.FC = () => {
               target="_blank"
               rel="noopener noreferrer"
               data-cursor="↗"
-              className="p-2 text-[#8A8F98] hover:text-white transition-colors"
+              className="p-2 text-[#737373] hover:text-white transition-colors"
               aria-label="GitHub Profile"
             >
               <Github className="w-4.5 h-4.5" />
@@ -106,7 +106,7 @@ export const Navbar: React.FC = () => {
               target="_blank"
               rel="noopener noreferrer"
               data-cursor="↗"
-              className="p-2 text-[#8A8F98] hover:text-[#C7FF3D] transition-colors"
+              className="p-2 text-[#737373] hover:text-[#39ff88] transition-colors"
               aria-label="LinkedIn Profile"
             >
               <Linkedin className="w-4.5 h-4.5" />
@@ -114,7 +114,7 @@ export const Navbar: React.FC = () => {
             <a
               href="#resume"
               data-cursor="OPEN"
-              className="flex items-center gap-2 px-4 py-2 text-xs font-mono font-bold text-white bg-[#16191F] hover:bg-[#C7FF3D] hover:text-[#08090B] border border-white/10 hover:border-[#C7FF3D] rounded-full transition-all duration-200"
+              className="flex items-center gap-2 px-4 py-2 text-xs font-mono font-bold text-white bg-[#141414] hover:bg-[#39ff88] hover:text-[#050505] border border-white/10 hover:border-[#39ff88] rounded-full transition-all duration-200"
             >
               <FileText className="w-3.5 h-3.5" />
               <span>RESUME</span>
@@ -124,7 +124,7 @@ export const Navbar: React.FC = () => {
           {/* Mobile Menu Toggle */}
           <button
             onClick={() => setIsOpen(!isOpen)}
-            className="md:hidden p-2.5 rounded-full bg-[#16191F] border border-white/10 text-white focus:outline-none focus:ring-2 focus:ring-[#C7FF3D]"
+            className="md:hidden p-2.5 rounded-full bg-[#141414] border border-white/10 text-white focus:outline-none focus:ring-2 focus:ring-[#39ff88]"
             aria-label="Toggle Menu"
           >
             {isOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
@@ -140,7 +140,7 @@ export const Navbar: React.FC = () => {
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.2 }}
-            className="md:hidden bg-[#08090B] border-t border-white/10 px-4 pt-4 pb-6 mt-3 space-y-3 shadow-2xl font-mono text-xs"
+            className="md:hidden bg-[#050505] border-t border-white/10 px-4 pt-4 pb-6 mt-3 space-y-3 shadow-2xl font-mono text-xs"
           >
             <div className="flex flex-col space-y-2">
               {NAV_ITEMS.map((item) => (
@@ -150,8 +150,8 @@ export const Navbar: React.FC = () => {
                   onClick={() => setIsOpen(false)}
                   className={`px-4 py-3 font-bold tracking-widest rounded-xl transition-colors ${
                     activeSection === item.href.substring(1)
-                      ? "bg-[#C7FF3D] text-[#08090B]"
-                      : "text-[#8A8F98] hover:bg-[#16191F] hover:text-white"
+                      ? "bg-[#39ff88] text-[#050505]"
+                      : "text-[#737373] hover:bg-[#141414] hover:text-white"
                   }`}
                 >
                   {item.label}
@@ -159,14 +159,14 @@ export const Navbar: React.FC = () => {
               ))}
             </div>
 
-            <div className="pt-4 border-t border-white/10 flex items-center justify-around text-[#8A8F98]">
+            <div className="pt-4 border-t border-white/10 flex items-center justify-around text-[#737373]">
               <a href={PERSONAL_INFO.socials.github} target="_blank" rel="noopener noreferrer" className="hover:text-white flex items-center gap-1.5">
                 <Github className="w-4 h-4" /> GitHub
               </a>
-              <a href={PERSONAL_INFO.socials.linkedin} target="_blank" rel="noopener noreferrer" className="hover:text-[#C7FF3D] flex items-center gap-1.5">
+              <a href={PERSONAL_INFO.socials.linkedin} target="_blank" rel="noopener noreferrer" className="hover:text-[#39ff88] flex items-center gap-1.5">
                 <Linkedin className="w-4 h-4" /> LinkedIn
               </a>
-              <a href={`mailto:${PERSONAL_INFO.socials.email}`} className="hover:text-[#C7FF3D] flex items-center gap-1.5">
+              <a href={`mailto:${PERSONAL_INFO.socials.email}`} className="hover:text-[#39ff88] flex items-center gap-1.5">
                 <Mail className="w-4 h-4" /> Email
               </a>
             </div>

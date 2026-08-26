@@ -4,26 +4,18 @@ import React from "react";
 import { motion } from "framer-motion";
 
 interface MarqueeProps {
-  items?: string[];
+  items: string[];
   direction?: "left" | "right";
   className?: string;
 }
 
-const DEFAULT_ITEMS = [
-  "FULL STACK ENGINEERING",
-  "APPLIED AI",
-  "DATA SCIENCE",
-  "SYSTEM ARCHITECTURE",
-  "PRODUCT ENGINEERING",
-];
-
 export const Marquee: React.FC<MarqueeProps> = ({
-  items = DEFAULT_ITEMS,
+  items,
   direction = "left",
   className = "",
 }) => {
   return (
-    <div className={`w-full overflow-hidden py-4 border-y border-[#16191F] bg-[#0a0c10] font-mono ${className}`}>
+    <div className={`w-full overflow-hidden py-3.5 border-y border-white/10 bg-[#070707] font-mono ${className}`}>
       <motion.div
         animate={{
           x: direction === "left" ? ["0%", "-50%"] : ["-50%", "0%"],
@@ -37,10 +29,10 @@ export const Marquee: React.FC<MarqueeProps> = ({
       >
         {[...items, ...items, ...items, ...items].map((item, idx) => (
           <div key={idx} className="flex items-center gap-8">
-            <span className="text-xs sm:text-sm font-black tracking-widest text-[#F4F4F0] uppercase">
+            <span className="text-xs sm:text-sm font-bold tracking-widest text-[#e8e8e3] uppercase">
               {item}
             </span>
-            <span className="text-[#C7FF3D] text-xs">✦</span>
+            <span className="text-[#39ff88] text-xs">✦</span>
           </div>
         ))}
       </motion.div>

@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter, Space_Grotesk } from "next/font/google";
+import { Inter, Space_Mono } from "next/font/google";
 import "./globals.css";
 
 const sansFont = Inter({
@@ -8,16 +8,17 @@ const sansFont = Inter({
   display: "swap",
 });
 
-const displayFont = Space_Grotesk({
+const monoFont = Space_Mono({
+  weight: ["400", "700"],
   subsets: ["latin"],
-  variable: "--font-display",
+  variable: "--font-mono",
   display: "swap",
 });
 
 export const metadata: Metadata = {
   title: "Aarti Dinkar | Full Stack Engineer & Applied AI",
-  description: "Portfolio of Aarti Dinkar. BE in Information Technology & Honours in Data Science. Full Stack Applications, REST APIs, and Machine Learning Systems.",
-  keywords: ["Aarti Dinkar", "Full Stack Engineer", "Applied AI", "Machine Learning", "React Developer", "Next.js", "Python", "Data Science"],
+  description: "Production Engineering & Applied AI Portfolio of Aarti Dinkar. BE IT (8.4 CGPA) & Data Science Specialization.",
+  keywords: ["Aarti Dinkar", "Full Stack Engineer", "Applied AI", "Machine Learning", "React", "Next.js", "Python", "Data Science"],
   authors: [{ name: "Aarti Dinkar" }],
 };
 
@@ -27,11 +28,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`dark scroll-smooth ${sansFont.variable} ${displayFont.variable}`}>
+    <html lang="en" className={`dark scroll-smooth ${sansFont.variable} ${monoFont.variable}`}>
       <head>
         <link rel="icon" href="/favicon.ico" sizes="any" />
       </head>
-      <body className="antialiased bg-[#0a0a0a] text-[#f5f3ee] selection:bg-[#e0653a] selection:text-white font-sans">
+      <body className="antialiased bg-[#050505] text-[#e8e8e3] selection:bg-[#39ff88] selection:text-[#050505] font-sans">
         {children}
       </body>
     </html>
