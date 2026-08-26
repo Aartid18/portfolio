@@ -4,13 +4,14 @@ import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, FileText, Github, Linkedin, Mail, Sparkles } from "lucide-react";
 import { PERSONAL_INFO } from "@/data/portfolioData";
+import { MagneticButton } from "./motion/MotionPrimitives";
 
 const NAV_ITEMS = [
   { label: "Home", href: "#home" },
   { label: "About", href: "#about" },
   { label: "Skills", href: "#skills" },
   { label: "Projects", href: "#projects" },
-  { label: "Resume", href: "#resume" },
+  { label: "Education", href: "#resume" },
   { label: "Contact", href: "#contact" },
 ];
 
@@ -96,7 +97,7 @@ export const Navbar: React.FC = () => {
             })}
           </nav>
 
-          {/* Quick CTA Actions */}
+          {/* Quick CTA Actions with Magnetic Button */}
           <div className="hidden lg:flex items-center gap-3">
             <a
               href={PERSONAL_INFO.socials.github}
@@ -116,13 +117,13 @@ export const Navbar: React.FC = () => {
             >
               <Linkedin className="w-5 h-5" />
             </a>
-            <a
-              href="#resume"
-              className="flex items-center gap-2 px-4 py-2.5 text-xs font-bold text-cyan-300 bg-cyan-950/80 hover:bg-cyan-900/90 border border-cyan-500/50 rounded-xl transition-all hover:scale-105 shadow-md shadow-cyan-950/50"
-            >
-              <FileText className="w-4 h-4 text-cyan-400" />
-              <span>Resume</span>
-            </a>
+
+            <MagneticButton href="#resume">
+              <div className="flex items-center gap-2 px-4 py-2.5 text-xs font-bold text-cyan-300 bg-cyan-950/80 hover:bg-cyan-900/90 border border-cyan-500/50 rounded-xl transition-all shadow-md shadow-cyan-950/50">
+                <FileText className="w-4 h-4 text-cyan-400" />
+                <span>Resume</span>
+              </div>
+            </MagneticButton>
           </div>
 
           {/* Mobile Menu Toggle */}
@@ -196,4 +197,3 @@ export const Navbar: React.FC = () => {
     </motion.header>
   );
 };
-

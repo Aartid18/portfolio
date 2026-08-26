@@ -2,8 +2,9 @@
 
 import React, { useState } from "react";
 import { motion } from "framer-motion";
-import { Mail, Linkedin, Github, Send, CheckCircle2, Copy, Check, Sparkles, MapPin } from "lucide-react";
+import { Mail, Linkedin, Github, Send, CheckCircle2, Copy, Check, Sparkles, MessageSquare } from "lucide-react";
 import { PERSONAL_INFO } from "@/data/portfolioData";
+import { FadeIn, MagneticButton } from "./motion/MotionPrimitives";
 
 export const Contact: React.FC = () => {
   const [formData, setFormData] = useState({ name: "", email: "", subject: "", message: "" });
@@ -32,36 +33,25 @@ export const Contact: React.FC = () => {
     <section id="contact" className="py-28 px-4 relative z-10">
       <div className="max-w-6xl mx-auto">
         {/* Section Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.5 }}
-          className="text-center mb-16"
-        >
-          <h2 className="text-xs sm:text-sm font-bold tracking-widest text-cyan-400 uppercase mb-3">
+        <FadeIn direction="up" className="text-center mb-16">
+          <h2 className="text-xs sm:text-sm font-bold tracking-widest text-cyan-400 uppercase mb-3 font-mono">
             Get In Touch
           </h2>
-          <h3 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-white tracking-tight">
-            Let&apos;s Build <span className="gradient-text">Something Great</span>
+          <h3 className="text-3xl sm:text-4xl md:text-5xl font-black text-white tracking-tight">
+            Have a problem worth building? <br className="hidden sm:block" />
+            <span className="gradient-text">Let&apos;s turn it into something useful.</span>
           </h3>
           <p className="text-base text-slate-300 mt-3 max-w-xl mx-auto font-normal">
-            Open for Full Stack Developer & AI/ML engineering opportunities, project inquiries, or technical collaborations.
+            Open for Full Stack Developer & Applied AI engineering opportunities, technical discussions, or software collaborations.
           </p>
           <div className="w-20 h-1.5 bg-gradient-to-r from-cyan-400 via-blue-500 to-pink-500 mx-auto mt-5 rounded-full" />
-        </motion.div>
+        </FadeIn>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
           {/* Contact Details Column */}
-          <motion.div
-            initial={{ opacity: 0, x: -30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true, margin: "-80px" }}
-            transition={{ duration: 0.6 }}
-            className="lg:col-span-5 space-y-6"
-          >
+          <FadeIn direction="left" className="lg:col-span-5 space-y-6">
             <div className="glass-panel p-8 rounded-3xl glow-card border-slate-700/80 space-y-6 shadow-2xl">
-              <h4 className="text-2xl font-extrabold text-white mb-2">Direct Channels</h4>
+              <h4 className="text-2xl font-black text-white mb-2">Direct Communication</h4>
               <p className="text-slate-200 text-sm leading-relaxed font-normal">
                 Reach out directly via email or connect on LinkedIn and GitHub. Response guaranteed within 24 hours.
               </p>
@@ -73,8 +63,8 @@ export const Contact: React.FC = () => {
                     <Mail className="w-5 h-5" />
                   </div>
                   <div className="truncate">
-                    <div className="text-xs text-slate-300 font-bold">Email Address</div>
-                    <a href={`mailto:${PERSONAL_INFO.socials.email}`} className="text-sm font-extrabold text-white hover:text-cyan-300 truncate block">
+                    <div className="text-xs text-slate-300 font-bold font-mono">Email Address</div>
+                    <a href={`mailto:${PERSONAL_INFO.socials.email}`} className="text-sm font-extrabold text-white hover:text-cyan-300 truncate block font-mono">
                       {PERSONAL_INFO.socials.email}
                     </a>
                   </div>
@@ -82,7 +72,7 @@ export const Contact: React.FC = () => {
                 <button
                   onClick={handleCopyEmail}
                   className="p-2.5 rounded-xl bg-slate-800 text-slate-200 hover:text-cyan-300 border border-slate-700 transition-colors shrink-0 focus-visible:ring-2 focus-visible:ring-cyan-400"
-                  title="Copy email"
+                  title="Copy email address"
                 >
                   {emailCopied ? <Check className="w-4 h-4 text-emerald-400" /> : <Copy className="w-4 h-4" />}
                 </button>
@@ -100,8 +90,8 @@ export const Contact: React.FC = () => {
                     <Linkedin className="w-5 h-5" />
                   </div>
                   <div>
-                    <div className="text-xs text-slate-300 font-bold">LinkedIn Profile</div>
-                    <div className="text-sm font-extrabold text-white group-hover:text-cyan-300">
+                    <div className="text-xs text-slate-300 font-bold font-mono">LinkedIn Profile</div>
+                    <div className="text-sm font-extrabold text-white group-hover:text-cyan-300 font-mono">
                       linkedin.com/in/aarti-dinkar-534b93312
                     </div>
                   </div>
@@ -120,25 +110,19 @@ export const Contact: React.FC = () => {
                     <Github className="w-5 h-5" />
                   </div>
                   <div>
-                    <div className="text-xs text-slate-300 font-bold">GitHub Repositories</div>
-                    <div className="text-sm font-extrabold text-white group-hover:text-cyan-300">
+                    <div className="text-xs text-slate-300 font-bold font-mono">GitHub Repositories</div>
+                    <div className="text-sm font-extrabold text-white group-hover:text-cyan-300 font-mono">
                       github.com/Aartid18
                     </div>
                   </div>
                 </div>
               </a>
             </div>
-          </motion.div>
+          </FadeIn>
 
           {/* Contact Form Column */}
-          <motion.div
-            initial={{ opacity: 0, x: 30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true, margin: "-80px" }}
-            transition={{ duration: 0.6 }}
-            className="lg:col-span-7 glass-panel p-8 sm:p-10 rounded-3xl glow-card border-slate-700/80 shadow-2xl"
-          >
-            <h4 className="text-2xl font-extrabold text-white mb-6">Send a Message</h4>
+          <FadeIn direction="right" className="lg:col-span-7 glass-panel p-8 sm:p-10 rounded-3xl glow-card border-slate-700/80 shadow-2xl">
+            <h4 className="text-2xl font-black text-white mb-6">Send a Message</h4>
 
             {status === "success" ? (
               <div className="p-8 rounded-2xl bg-emerald-500/15 border border-emerald-400/40 text-center space-y-3 shadow-lg">
@@ -150,7 +134,7 @@ export const Contact: React.FC = () => {
               <form onSubmit={handleSubmit} className="space-y-5">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                   <div>
-                    <label className="block text-xs font-bold uppercase tracking-wider text-slate-200 mb-2">Your Name</label>
+                    <label className="block text-xs font-bold uppercase tracking-wider text-slate-200 mb-2 font-mono">Your Name</label>
                     <input
                       type="text"
                       required
@@ -161,7 +145,7 @@ export const Contact: React.FC = () => {
                     />
                   </div>
                   <div>
-                    <label className="block text-xs font-bold uppercase tracking-wider text-slate-200 mb-2">Email Address</label>
+                    <label className="block text-xs font-bold uppercase tracking-wider text-slate-200 mb-2 font-mono">Email Address</label>
                     <input
                       type="email"
                       required
@@ -174,7 +158,7 @@ export const Contact: React.FC = () => {
                 </div>
 
                 <div>
-                  <label className="block text-xs font-bold uppercase tracking-wider text-slate-200 mb-2">Subject</label>
+                  <label className="block text-xs font-bold uppercase tracking-wider text-slate-200 mb-2 font-mono">Subject</label>
                   <input
                     type="text"
                     required
@@ -186,7 +170,7 @@ export const Contact: React.FC = () => {
                 </div>
 
                 <div>
-                  <label className="block text-xs font-bold uppercase tracking-wider text-slate-200 mb-2">Message</label>
+                  <label className="block text-xs font-bold uppercase tracking-wider text-slate-200 mb-2 font-mono">Message</label>
                   <textarea
                     rows={4}
                     required
@@ -197,20 +181,21 @@ export const Contact: React.FC = () => {
                   />
                 </div>
 
-                <button
-                  type="submit"
-                  disabled={status === "submitting"}
-                  className="w-full py-4 rounded-xl bg-gradient-to-r from-cyan-400 via-blue-500 to-pink-500 hover:from-cyan-300 hover:to-pink-400 text-slate-950 font-black text-sm shadow-xl shadow-cyan-500/30 transition-all flex items-center justify-center gap-2.5 hover:scale-[1.01] disabled:opacity-50 focus-visible:ring-2 focus-visible:ring-cyan-400"
-                >
-                  <Send className="w-4 h-4" />
-                  <span>{status === "submitting" ? "Sending..." : "Send Message"}</span>
-                </button>
+                <MagneticButton className="w-full">
+                  <button
+                    type="submit"
+                    disabled={status === "submitting"}
+                    className="w-full py-4 rounded-xl bg-gradient-to-r from-cyan-400 via-blue-500 to-pink-500 hover:from-cyan-300 hover:to-pink-400 text-slate-950 font-black text-sm shadow-xl shadow-cyan-500/30 transition-all flex items-center justify-center gap-2.5 disabled:opacity-50 font-mono"
+                  >
+                    <Send className="w-4 h-4" />
+                    <span>{status === "submitting" ? "Sending..." : "Send Message"}</span>
+                  </button>
+                </MagneticButton>
               </form>
             )}
-          </motion.div>
+          </FadeIn>
         </div>
       </div>
     </section>
   );
 };
-

@@ -2,8 +2,10 @@
 
 import React, { useState } from "react";
 import { motion } from "framer-motion";
-import { ArrowRight, Download, Github, Linkedin, Mail, Copy, Check, Sparkles, Code2, Brain } from "lucide-react";
+import { ArrowRight, Download, Github, Linkedin, Mail, Copy, Check, Sparkles, Send } from "lucide-react";
 import { PERSONAL_INFO } from "@/data/portfolioData";
+import { TextReveal, MagneticButton } from "./motion/MotionPrimitives";
+import { HeroArchitectureVisual } from "./HeroArchitectureVisual";
 
 export const Hero: React.FC = () => {
   const [copied, setCopied] = useState(false);
@@ -15,10 +17,10 @@ export const Hero: React.FC = () => {
   };
 
   return (
-    <section id="home" className="relative min-h-[92vh] flex items-center justify-center pt-28 pb-20 px-4 overflow-hidden">
+    <section id="home" className="relative min-h-screen flex flex-col justify-center pt-28 pb-20 px-4 overflow-hidden">
       {/* Background Ambient Spotlight Radial Glows */}
-      <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[650px] h-[650px] bg-cyan-500/15 rounded-full blur-[150px] pointer-events-none" />
-      <div className="absolute bottom-10 right-10 w-[450px] h-[450px] bg-pink-500/15 rounded-full blur-[140px] pointer-events-none" />
+      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] bg-cyan-500/15 rounded-full blur-[160px] pointer-events-none" />
+      <div className="absolute bottom-10 right-10 w-[500px] h-[500px] bg-pink-500/15 rounded-full blur-[150px] pointer-events-none" />
 
       <div className="max-w-5xl mx-auto w-full text-center relative z-10">
         {/* Recruiter Role Badge */}
@@ -26,29 +28,27 @@ export const Hero: React.FC = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.1 }}
-          className="inline-flex items-center gap-2.5 px-5 py-2.5 rounded-full glass-panel border-cyan-400/40 text-cyan-300 text-xs sm:text-sm font-semibold mb-8 shadow-xl shadow-cyan-950/50"
+          className="inline-flex items-center gap-2.5 px-5 py-2.5 rounded-full glass-panel border-cyan-400/40 text-cyan-300 text-xs sm:text-sm font-bold mb-8 shadow-xl shadow-cyan-950/50"
         >
           <Sparkles className="w-4 h-4 text-cyan-400 animate-pulse" />
-          <span>BE Information Technology • Honours in Data Science</span>
+          <span>Available for Full-Stack & Applied AI Opportunities</span>
         </motion.div>
 
         {/* Hero Title */}
-        <motion.h1
-          initial={{ opacity: 0, y: 25 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.2 }}
-          className="text-4xl sm:text-6xl md:text-7xl font-extrabold tracking-tight text-white mb-6 leading-[1.15]"
-        >
+        <h1 className="text-4xl sm:text-6xl md:text-7xl font-black tracking-tight text-white mb-6 leading-[1.12]">
           Hi, I&apos;m <span className="gradient-text">{PERSONAL_INFO.name}</span>
           <br />
           <span className="text-2xl sm:text-4xl md:text-5xl font-extrabold text-slate-200 mt-3 block tracking-tight">
-            {PERSONAL_INFO.headline}
+            <TextReveal
+              text="Full Stack Engineer Building Intelligent Web Applications"
+              highlightWords={["Intelligent", "Full", "Stack", "Engineer"]}
+            />
           </span>
-        </motion.h1>
+        </h1>
 
         {/* Hero Pitch Statement */}
         <motion.p
-          initial={{ opacity: 0, y: 25 }}
+          initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.3 }}
           className="max-w-3xl mx-auto text-base sm:text-lg md:text-xl text-slate-300 mb-10 leading-relaxed font-normal"
@@ -56,33 +56,31 @@ export const Hero: React.FC = () => {
           {PERSONAL_INFO.subHeadline}
         </motion.p>
 
-        {/* Primary CTA Buttons */}
+        {/* Primary CTA Buttons with Magnetic System */}
         <motion.div
-          initial={{ opacity: 0, y: 25 }}
+          initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.4 }}
           className="flex flex-wrap items-center justify-center gap-4 mb-14"
         >
-          <a
-            href="#projects"
-            className="group flex items-center gap-3 px-8 py-4 rounded-2xl bg-gradient-to-r from-cyan-400 via-blue-500 to-pink-500 hover:from-cyan-300 hover:to-pink-400 text-slate-950 font-black text-base shadow-2xl shadow-cyan-500/35 hover:shadow-cyan-400/50 hover:scale-105 transition-all duration-200"
-          >
-            <span>View Projects</span>
-            <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-          </a>
+          <MagneticButton href="#projects">
+            <div className="group flex items-center gap-3 px-8 py-4 rounded-2xl bg-gradient-to-r from-cyan-400 via-blue-500 to-pink-500 text-slate-950 font-black text-base shadow-2xl shadow-cyan-500/35 transition-all">
+              <span>View Projects</span>
+              <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+            </div>
+          </MagneticButton>
 
-          <a
-            href="#resume"
-            className="flex items-center gap-3 px-8 py-4 rounded-2xl glass-panel hover:bg-slate-800/90 text-white border-cyan-500/40 hover:border-cyan-400 font-bold text-base shadow-xl hover:scale-105 transition-all duration-200"
-          >
-            <Download className="w-5 h-5 text-cyan-400" />
-            <span>Download Resume</span>
-          </a>
+          <MagneticButton href="#contact">
+            <div className="flex items-center gap-3 px-8 py-4 rounded-2xl glass-panel hover:bg-slate-800/90 text-white border-cyan-500/40 hover:border-cyan-400 font-bold text-base shadow-xl transition-all">
+              <Send className="w-5 h-5 text-cyan-400" />
+              <span>Contact Me</span>
+            </div>
+          </MagneticButton>
         </motion.div>
 
         {/* Recruiter Quick Proof Bar */}
         <motion.div
-          initial={{ opacity: 0, y: 25 }}
+          initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.5 }}
           className="pt-8 border-t border-slate-700/80 max-w-4xl mx-auto"
@@ -134,8 +132,10 @@ export const Hero: React.FC = () => {
             </div>
           </div>
         </motion.div>
+
+        {/* Hero Interactive System Architecture Visual */}
+        <HeroArchitectureVisual />
       </div>
     </section>
   );
 };
-

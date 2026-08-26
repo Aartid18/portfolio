@@ -15,9 +15,9 @@ const headingFont = Outfit({
 });
 
 export const metadata: Metadata = {
-  title: "Aarti Dinkar | Full Stack Developer & AI/ML Specialist",
-  description: "Developer portfolio of Aarti Dinkar. BE in Information Technology & Honours in Data Science. Showcasing Full Stack Web Applications, AI/ML models, and live Vercel deployments.",
-  keywords: ["Aarti Dinkar", "Full Stack Developer", "AI Engineer", "Machine Learning", "React Developer", "Next.js", "Python", "Data Science"],
+  title: "Aarti Dinkar | Full Stack Engineer & Applied AI",
+  description: "Portfolio of Aarti Dinkar. BE in Information Technology (8.4 CGPA) & Honours in Data Science. Showcasing Full Stack Applications, Applied Machine Learning models, and production deployments.",
+  keywords: ["Aarti Dinkar", "Full Stack Engineer", "Applied AI", "Machine Learning", "React Developer", "Next.js", "Python", "Data Science"],
   authors: [{ name: "Aarti Dinkar" }],
 };
 
@@ -37,4 +37,3 @@ export default function RootLayout({
     </html>
   );
 }
-

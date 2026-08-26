@@ -3,6 +3,7 @@
 import React from "react";
 import { ArrowUp, Github, Linkedin, Mail } from "lucide-react";
 import { PERSONAL_INFO } from "@/data/portfolioData";
+import { MagneticButton } from "./motion/MotionPrimitives";
 
 export const Footer: React.FC = () => {
   const scrollToTop = () => {
@@ -10,14 +11,14 @@ export const Footer: React.FC = () => {
   };
 
   return (
-    <footer className="py-14 border-t border-slate-700/80 bg-[#070a12] text-slate-300 text-xs relative z-10">
+    <footer className="py-14 border-t border-slate-700/80 bg-[#070a12] text-slate-300 text-xs relative z-10 font-sans">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-6">
         {/* Left Info */}
         <div className="text-center md:text-left space-y-1.5">
           <p className="text-sm font-extrabold text-white">
-            Aarti Dinkar <span className="gradient-text font-bold">| Full Stack & AI/ML Portfolio</span>
+            Aarti Dinkar <span className="gradient-text font-bold">| Full Stack Engineer & Applied AI</span>
           </p>
-          <p className="text-slate-300 font-medium">
+          <p className="text-slate-300 font-medium font-mono text-[11px]">
             © {new Date().getFullYear()} Aarti Dinkar. Built with Next.js & Tailwind CSS. Hosted on Vercel.
           </p>
         </div>
@@ -52,15 +53,13 @@ export const Footer: React.FC = () => {
         </div>
 
         {/* Right Scroll to Top */}
-        <button
-          onClick={scrollToTop}
-          className="flex items-center gap-2 px-4.5 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-700 text-slate-200 hover:text-cyan-300 transition-colors font-bold text-xs shadow-md focus-visible:ring-2 focus-visible:ring-cyan-400"
-        >
-          <span>Back to Top</span>
-          <ArrowUp className="w-3.5 h-3.5 text-cyan-400" />
-        </button>
+        <MagneticButton onClick={scrollToTop}>
+          <div className="flex items-center gap-2 px-4.5 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-700 text-slate-200 hover:text-cyan-300 transition-colors font-bold text-xs shadow-md font-mono">
+            <span>Back to Top</span>
+            <ArrowUp className="w-3.5 h-3.5 text-cyan-400" />
+          </div>
+        </MagneticButton>
       </div>
     </footer>
   );
 };
-
