@@ -1,6 +1,8 @@
 "use client";
 
 import React from "react";
+import { SmoothScrollProvider } from "@/components/SmoothScrollProvider";
+import { ScrollProgress } from "@/components/ScrollProgress";
 import { Preloader } from "@/components/Preloader";
 import { CustomCursor } from "@/components/CustomCursor";
 import { Navbar } from "@/components/Navbar";
@@ -15,57 +17,63 @@ import { Marquee } from "@/components/Marquee";
 
 export default function Home() {
   return (
-    <div className="min-h-screen flex flex-col relative bg-[#050505] text-[#e8e8e3] selection:bg-[#39ff88] selection:text-[#050505] font-sans overflow-x-hidden">
-      {/* Non-linear Boot Preloader Curtain Lift */}
-      <Preloader />
+    <SmoothScrollProvider>
+      <div className="min-h-screen flex flex-col relative bg-[#0a0b0a] text-[#e9ece7] selection:bg-[#3ef281] selection:text-[#0a0b0a] font-sans overflow-x-hidden">
+        {/* Preloader Boot Sequence Curtain Wipe Reveal */}
+        <Preloader />
 
-      {/* Context-Aware Custom Cursor (Desktop only) */}
-      <CustomCursor />
+        {/* Global Scroll Progress Bar & Live Section Readout */}
+        <ScrollProgress />
 
-      {/* Subtle Fine Terminal Grid Layer */}
-      <div className="fixed inset-0 bg-terminal-grid opacity-20 pointer-events-none z-0" />
+        {/* Context-Aware Custom Cursor (Desktop Only) */}
+        <CustomCursor />
 
-      <Navbar />
+        {/* Fine Technical Mesh */}
+        <div className="fixed inset-0 bg-tech-mesh opacity-20 pointer-events-none z-0" />
 
-      <main className="flex-1 relative z-10">
-        <Hero />
-        
-        {/* Post-Hero Marquee */}
-        <Marquee
-          items={["FULL STACK ENGINEERING", "APPLIED AI", "DATA SCIENCE", "SYSTEM ARCHITECTURE", "PRODUCTION SYSTEMS"]}
-          direction="left"
-        />
-        
-        <About />
+        <Navbar />
 
-        {/* Post-About Marquee */}
-        <Marquee
-          items={["01 PHILOSOPHY", "PRODUCTION SYSTEMS", "INTELLIGENT WORKFLOWS", "MICROSERVICES", "RESTFUL APIS"]}
-          direction="right"
-        />
+        <main className="flex-1 relative z-10">
+          <Hero />
 
-        <Skills />
+          {/* Post-Hero Section Marquee */}
+          <Marquee
+            items={["FULL STACK ENGINEERING", "APPLIED AI", "DATA SCIENCE", "SYSTEM ARCHITECTURE", "PRODUCTION SYSTEMS"]}
+            direction="left"
+          />
 
-        {/* Post-Stack Marquee */}
-        <Marquee
-          items={["02 TECHNICAL CAPABILITIES", "CORE LANGUAGES", "FRAMEWORKS", "DATA INFRASTRUCTURE", "MACHINE LEARNING"]}
-          direction="left"
-        />
+          <About />
 
-        <Projects />
-        
-        {/* Post-Resume Marquee */}
-        <Marquee
-          items={["04 ENGINEERING PROFILE", "ACADEMIC CREDENTIALS", "HONOURS IN DATA SCIENCE", "LIVE DEPLOYMENTS"]}
-          direction="right"
-        />
+          {/* Post-About Section Marquee */}
+          <Marquee
+            items={["01 PHILOSOPHY", "PRODUCTION SYSTEMS", "INTELLIGENT WORKFLOWS", "MICROSERVICES", "RESTFUL APIS"]}
+            direction="right"
+          />
 
-        <ResumeSection />
-        
-        <Contact />
-      </main>
+          <Skills />
 
-      <Footer />
-    </div>
+          {/* Post-Stack Section Marquee */}
+          <Marquee
+            items={["02 TECHNICAL CAPABILITIES", "CORE LANGUAGES", "FRAMEWORKS", "DATA INFRASTRUCTURE", "MACHINE LEARNING"]}
+            direction="left"
+          />
+
+          {/* Work Section with Scroll-Driven Color Inversion (#0a0b0a -> #f4f1e8 Editorial Ivory) */}
+          <Projects />
+
+          {/* Post-Resume Section Marquee */}
+          <Marquee
+            items={["04 ENGINEERING PROFILE", "ACADEMIC CREDENTIALS", "HONOURS IN DATA SCIENCE", "LIVE DEPLOYMENTS"]}
+            direction="right"
+          />
+
+          <ResumeSection />
+
+          <Contact />
+        </main>
+
+        <Footer />
+      </div>
+    </SmoothScrollProvider>
   );
 }

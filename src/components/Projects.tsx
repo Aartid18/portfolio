@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useRef } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, useScroll, useTransform, useSpring } from "framer-motion";
 import { PROJECTS, Project } from "@/data/portfolioData";
 import { ProjectCard } from "./ProjectCard";
 import { ProjectCaseStudyModal } from "./ProjectCaseStudyModal";
@@ -10,13 +10,12 @@ import { Layers } from "lucide-react";
 
 const CATEGORIES = ["All", "Full Stack", "AI / ML", "Data Science"] as const;
 
-// Per-project assigned ambient radial wash accent colors
 const PROJECT_ACCENTS: Record<string, string> = {
-  "ai-job-platform": "#3ef281",
-  "cinemind-movie-rec": "#7fdca4",
-  "fraud-detection": "#4a5a4f",
-  "ai-ecommerce": "#5ea88a",
-  "secure-print-link": "#3d453f",
+  "ai-job-platform": "#8b5cf6",
+  "cinemind-movie-rec": "#ec4899",
+  "fraud-detection": "#3ef281",
+  "ai-ecommerce": "#ef4444",
+  "secure-print-link": "#3ef281",
 };
 
 export const Projects: React.FC = () => {
@@ -25,6 +24,21 @@ export const Projects: React.FC = () => {
   const [selectedCaseStudy, setSelectedCaseStudy] = useState<Project | null>(null);
   const [hoveredCardId, setHoveredCardId] = useState<string | null>(null);
   const [glowPos, setGlowPos] = useState({ x: 50, y: 50 });
+
+  // Scroll-Driven Color Inversion Theme Interpolation (#0a0b0a -> #f4f1e8 -> #0a0b0a)
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start end", "end start"],
+  });
+
+  const smoothProgress = useSpring(scrollYProgress, { stiffness: 200, damping: 25 });
+
+  // Background Interpolation: Dark (#0a0b0a) -> High-Contrast Editorial Ivory (#f4f1e8) -> Dark (#0a0b0a)
+  const bgInterpolation = useTransform(
+    smoothProgress,
+    [0, 0.25, 0.75, 1],
+    ["#0a0b0a", "#f4f1e8", "#f4f1e8", "#0a0b0a"]
+  );
 
   const filteredProjects = PROJECTS.filter((project) => {
     if (activeCategory === "All") return true;
@@ -48,17 +62,18 @@ export const Projects: React.FC = () => {
   const activeAccentColor = hoveredCardId ? PROJECT_ACCENTS[hoveredCardId] : null;
 
   return (
-    <section
+    <motion.section
       ref={sectionRef}
       id="projects"
-      className="py-32 px-4 relative z-10 bg-[#0a0b0a] border-t border-white/10 font-mono overflow-hidden"
+      style={{ backgroundColor: bgInterpolation }}
+      className="py-32 px-4 relative z-10 font-mono transition-colors duration-500 overflow-hidden"
     >
-      {/* Section-level Ambient Radial Background Wash following cursor */}
+      {/* Per-card ambient radial wash following cursor */}
       <motion.div
         className="absolute inset-0 pointer-events-none z-0"
         animate={{
           background: activeAccentColor
-            ? `radial-gradient(700px circle at ${glowPos.x}px ${glowPos.y}px, ${activeAccentColor}1f, transparent 70%)`
+            ? `radial-gradient(700px circle at ${glowPos.x}px ${glowPos.y}px, ${activeAccentColor}22, transparent 70%)`
             : "transparent",
         }}
         transition={{ duration: 0.4, ease: "easeOut" }}
@@ -82,11 +97,11 @@ export const Projects: React.FC = () => {
                 {isActive && (
                   <motion.div
                     layoutId="activeTab"
-                    className="absolute inset-0 bg-[#3ef281]/15 border border-[#3ef281] rounded-full shadow-md shadow-[#3ef281]/20"
+                    className="absolute inset-0 bg-[#3ef281] rounded-full shadow-md shadow-[#3ef281]/20"
                     transition={{ type: "spring", stiffness: 380, damping: 30 }}
                   />
                 )}
-                <span className={`relative z-10 ${isActive ? "text-[#3ef281]" : "text-[#8a938a] hover:text-white"}`}>
+                <span className={`relative z-10 ${isActive ? "text-[#0a0b0a]" : "text-[#8a938a] hover:text-[#0a0b0a]"}`}>
                   {tab}
                 </span>
               </button>
@@ -117,7 +132,7 @@ export const Projects: React.FC = () => {
         </motion.div>
 
         {/* Live Deployments Banner */}
-        <div className="mt-16 p-8 rounded-3xl bg-[#131513] border border-white/10 text-center max-w-3xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-6 shadow-2xl text-xs">
+        <div className="mt-16 p-8 rounded-3xl bg-[#131513] border border-white/10 text-center max-w-3xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-6 shadow-2xl text-xs text-white">
           <div className="flex items-center gap-4 text-left">
             <div className="p-3.5 rounded-2xl bg-[#3ef281]/10 border border-[#3ef281]/30 text-[#3ef281] shrink-0">
               <Layers className="w-6 h-6" />
@@ -144,6 +159,6 @@ export const Projects: React.FC = () => {
         project={selectedCaseStudy}
         onClose={() => setSelectedCaseStudy(null)}
       />
-    </section>
+    </motion.section>
   );
 };
