@@ -5,12 +5,12 @@ import { motion, AnimatePresence } from "framer-motion";
 import { PROJECTS, Project } from "@/data/portfolioData";
 import { ProjectCard } from "./ProjectCard";
 import { ProjectCaseStudyModal } from "./ProjectCaseStudyModal";
-import { scrollEmergeUp } from "@/lib/motionConfig";
+import { WorkSectionIntro } from "./WorkSectionIntro";
 import { Layers } from "lucide-react";
 
 const CATEGORIES = ["All", "Full Stack", "AI / ML", "Data Science"] as const;
 
-// Designer Brief v3: Assigned per-project accent colors within green/gray family
+// Per-project assigned ambient radial wash accent colors
 const PROJECT_ACCENTS: Record<string, string> = {
   "ai-job-platform": "#3ef281",
   "cinemind-movie-rec": "#7fdca4",
@@ -23,7 +23,7 @@ export const Projects: React.FC = () => {
   const sectionRef = useRef<HTMLElement>(null);
   const [activeCategory, setActiveCategory] = useState<string>("All");
   const [selectedCaseStudy, setSelectedCaseStudy] = useState<Project | null>(null);
-  const [activeGlowColor, setActiveGlowColor] = useState<string | null>(null);
+  const [hoveredCardId, setHoveredCardId] = useState<string | null>(null);
   const [glowPos, setGlowPos] = useState({ x: 50, y: 50 });
 
   const filteredProjects = PROJECTS.filter((project) => {
@@ -31,48 +31,42 @@ export const Projects: React.FC = () => {
     return project.category === activeCategory;
   });
 
-  const handleCardMouseMove = (e: React.MouseEvent, accentColor: string) => {
+  const handleCardMouseEnter = (e: React.MouseEvent, project: Project) => {
     if (!sectionRef.current) return;
     const rect = sectionRef.current.getBoundingClientRect();
     const x = e.clientX - rect.left;
     const y = e.clientY - rect.top;
 
     setGlowPos({ x, y });
-    setActiveGlowColor(accentColor);
+    setHoveredCardId(project.id);
   };
 
+  const handleCardMouseLeave = () => {
+    setHoveredCardId(null);
+  };
+
+  const activeAccentColor = hoveredCardId ? PROJECT_ACCENTS[hoveredCardId] : null;
+
   return (
-    <section ref={sectionRef} id="projects" className="py-32 px-4 relative z-10 bg-[#0a0b0a] border-t border-white/10 font-mono overflow-hidden">
+    <section
+      ref={sectionRef}
+      id="projects"
+      className="py-32 px-4 relative z-10 bg-[#0a0b0a] border-t border-white/10 font-mono overflow-hidden"
+    >
       {/* Section-level Ambient Radial Background Wash following cursor */}
       <motion.div
         className="absolute inset-0 pointer-events-none z-0"
         animate={{
-          background: activeGlowColor
-            ? `radial-gradient(650px circle at ${glowPos.x}px ${glowPos.y}px, ${activeGlowColor}1e, transparent 70%)`
+          background: activeAccentColor
+            ? `radial-gradient(700px circle at ${glowPos.x}px ${glowPos.y}px, ${activeAccentColor}1f, transparent 70%)`
             : "transparent",
         }}
         transition={{ duration: 0.4, ease: "easeOut" }}
       />
 
       <div className="max-w-7xl mx-auto relative z-10">
-        {/* Section Header */}
-        <motion.div
-          variants={scrollEmergeUp}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-          className="text-center mb-14"
-        >
-          <span className="text-xs font-bold uppercase tracking-widest text-[#3ef281] block mb-3">
-            03 / FEATURED WORK
-          </span>
-          <h2 className="text-3xl sm:text-5xl font-black text-white tracking-tight">
-            PROOF OF <span className="text-[#3ef281]">ENGINEERING</span>
-          </h2>
-          <p className="text-xs text-[#8a938a] mt-3 max-w-xl mx-auto font-sans">
-            Production-oriented full-stack web applications, applied machine learning systems, and financial risk dashboards.
-          </p>
-        </motion.div>
+        {/* Work Section Intro Component */}
+        <WorkSectionIntro />
 
         {/* Sliding Filter Tabs (layoutId="activeTab") */}
         <div className="flex flex-wrap items-center justify-center gap-2 mb-14 text-xs font-mono">
@@ -100,7 +94,7 @@ export const Projects: React.FC = () => {
           })}
         </div>
 
-        {/* Project Cards Grid */}
+        {/* Project Cards Grid with Active Focus Mode */}
         <motion.div layout className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 items-stretch">
           <AnimatePresence mode="popLayout">
             {filteredProjects.map((project, index) => {
@@ -111,9 +105,11 @@ export const Projects: React.FC = () => {
                   project={project}
                   index={index}
                   accentColor={accent}
+                  isAnyHovered={hoveredCardId !== null}
+                  isActiveHovered={hoveredCardId === project.id}
                   onOpenCaseStudy={(proj) => setSelectedCaseStudy(proj)}
-                  onMouseEnter={(e) => handleCardMouseMove(e, accent)}
-                  onMouseLeave={() => setActiveGlowColor(null)}
+                  onMouseEnter={(e) => handleCardMouseEnter(e, project)}
+                  onMouseLeave={handleCardMouseLeave}
                 />
               );
             })}
