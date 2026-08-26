@@ -3,18 +3,26 @@
 @tailwind utilities;
 
 :root {
-  --bg: #050505;
-  --surface: #0d0d0d;
-  --elevated: #141414;
-  --text: #e8e8e3;
-  --muted: #737373;
-  --border: rgba(255, 255, 255, 0.08);
-  --accent: #39ff88;
+  --bg: #0a0b0a;
+  --surface: #131513;
+  --elevated: #171917;
+  --text: #e9ece7;
+  --muted: #8a938a;
+  --border: rgba(255, 255, 255, 0.06);
+  --accent: #3ef281;
+  --mint: #7fdca4;
+  --sage: #4a5a4f;
 }
 
 html {
   scroll-behavior: smooth;
   color-scheme: dark;
+}
+
+@media (pointer: fine) {
+  body, button, a, input, textarea, select {
+    cursor: none !important;
+  }
 }
 
 body {
@@ -30,54 +38,50 @@ h1, h2, h3, h4, h5, h6 {
   letter-spacing: -0.03em;
 }
 
-/* Technical 1px Fine Terminal Grid */
-.bg-terminal-grid {
-  background-size: 28px 28px;
+/* Technical 1px Grid */
+.bg-tech-mesh {
+  background-size: 30px 30px;
   background-image: 
-    linear-gradient(to right, rgba(255, 255, 255, 0.025) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
+    linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
 }
 
-/* Hairline Terminal Card Panel */
-.terminal-panel {
-  background: #0d0d0d;
-  border: 1px solid rgba(255, 255, 255, 0.08);
+/* Hairline Card Panel */
+.designer-panel {
+  background: #131513;
+  border: 1px solid rgba(255, 255, 255, 0.06);
   transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.terminal-panel:hover {
-  border-color: rgba(57, 255, 136, 0.4);
-  box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.95), 0 0 20px -5px rgba(57, 255, 136, 0.15);
+.designer-panel:hover {
+  border-color: rgba(62, 242, 129, 0.4);
+  box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.95), 0 0 20px -5px rgba(62, 242, 129, 0.15);
 }
 
 /* Signal Green Accent Classes */
 .text-signal-green {
-  color: #39ff88;
+  color: #3ef281;
 }
 
 .bg-signal-green {
-  background-color: #39ff88;
+  background-color: #3ef281;
 }
 
 .border-signal-green {
-  border-color: #39ff88;
+  border-color: #3ef281;
 }
 
-/* Floating Terminal Nav */
-.terminal-nav {
-  background: rgba(13, 13, 13, 0.88);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.10);
+/* Breathing Telemetry Pulse Bar */
+@keyframes pulse-breath {
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 1; }
 }
 
-/* Tabular Numbers for Live Data */
-.tabular-data {
-  font-variant-numeric: tabular-nums;
-  font-family: var(--font-mono), monospace;
+.animate-pulse-breath {
+  animation: pulse-breath 2s infinite ease-in-out;
 }
 
-/* Scanline Overlay Effect on Hover */
+/* Scanline Sweep Effect on Hover */
 .scanline-card {
   position: relative;
   overflow: hidden;
@@ -93,10 +97,10 @@ h1, h2, h3, h4, h5, h6 {
   background: linear-gradient(
     90deg,
     transparent 0%,
-    rgba(57, 255, 136, 0.06) 50%,
+    rgba(62, 242, 129, 0.08) 50%,
     transparent 100%
   );
-  transition: all 0.6s ease;
+  transition: all 0.4s ease-in-out;
   pointer-events: none;
 }
 
@@ -104,23 +108,29 @@ h1, h2, h3, h4, h5, h6 {
   left: 100%;
 }
 
+/* Tabular Data Readouts */
+.tabular-data {
+  font-variant-numeric: tabular-nums;
+  font-family: var(--font-mono), monospace;
+}
+
 /* Custom Scrollbar */
 ::-webkit-scrollbar {
   width: 5px;
 }
 ::-webkit-scrollbar-track {
-  background: #050505;
+  background: #0a0b0a;
 }
 ::-webkit-scrollbar-thumb {
-  background: #1a1a1a;
+  background: #1e211e;
   border-radius: 2px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #39ff88;
+  background: #3ef281;
 }
 
-/* Accessible Focus Outlines */
+/* Accessible Focus Ring */
 *:focus-visible {
-  outline: 2px solid #39ff88;
+  outline: 2px solid #3ef281;
   outline-offset: 2px;
 }

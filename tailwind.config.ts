@@ -15,18 +15,20 @@ const config: Config = {
         display: ["var(--font-mono)", "system-ui", "-apple-system", "sans-serif"],
       },
       colors: {
-        background: "#050505",
-        surface: "#0d0d0d",
-        elevated: "#141414",
+        background: "#0a0b0a",
+        surface: "#131513",
+        elevated: "#171917",
         accent: {
-          DEFAULT: "#39ff88",
-          hover: "#52ff97",
-          muted: "rgba(57, 255, 136, 0.12)",
+          DEFAULT: "#3ef281",
+          hover: "#59f493",
+          muted: "rgba(62, 242, 129, 0.12)",
+          mint: "#7fdca4",
+          sage: "#4a5a4f",
         },
-        terminal: {
-          text: "#e8e8e3",
-          muted: "#737373",
-          border: "rgba(255, 255, 255, 0.08)",
+        designer: {
+          text: "#e9ece7",
+          muted: "#8a938a",
+          border: "rgba(255, 255, 255, 0.06)",
         }
       },
     },
