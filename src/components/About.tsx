@@ -2,131 +2,133 @@
 
 import React from "react";
 import { motion } from "framer-motion";
-import { GraduationCap, Award, CheckCircle2, Code, Brain, Database, Server, Sparkles } from "lucide-react";
+import { GraduationCap, Award, Code, Brain, Database, CheckCircle2 } from "lucide-react";
 import { PERSONAL_INFO } from "@/data/portfolioData";
-import { FadeIn } from "./motion/MotionPrimitives";
+import { scrollEmergeUp } from "@/lib/motionConfig";
 
 export const About: React.FC = () => {
   return (
-    <section id="about" className="py-28 px-4 relative z-10">
+    <section id="about" className="py-32 px-4 relative z-10 bg-[#08090B] border-t border-white/10">
       <div className="max-w-6xl mx-auto">
-        {/* Section Header */}
-        <FadeIn direction="up" className="text-center mb-16">
-          <h2 className="text-xs sm:text-sm font-bold tracking-widest text-cyan-400 uppercase mb-3 font-mono">
-            Professional Profile
+        {/* Editorial Statement */}
+        <motion.div
+          variants={scrollEmergeUp}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          className="mb-20 text-center max-w-4xl mx-auto"
+        >
+          <span className="text-xs font-mono font-bold uppercase tracking-widest text-[#C7FF3D] block mb-4">
+            01 / PHILOSOPHY & CAPABILITIES
+          </span>
+          <h2 className="text-3xl sm:text-5xl md:text-6xl font-black text-white tracking-tight leading-tight font-display mb-6">
+            I DON&apos;T JUST BUILD INTERFACES.
+            <br />
+            <span className="text-[#C7FF3D]">I BUILD SYSTEMS WHERE</span>
           </h2>
-          <h3 className="text-3xl sm:text-4xl md:text-5xl font-black text-white tracking-tight">
-            Full Stack Engineering meets <span className="gradient-text-pink">Applied AI & Data Science</span>
-          </h3>
-          <div className="w-20 h-1.5 bg-gradient-to-r from-cyan-400 via-blue-500 to-pink-500 mx-auto mt-5 rounded-full" />
-        </FadeIn>
 
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
-          {/* Main Bio & Summary Card */}
-          <FadeIn direction="left" className="lg:col-span-7 flex flex-col justify-between glass-panel p-8 sm:p-10 rounded-3xl glow-card border-slate-700/80 shadow-2xl">
+          {/* SOFTWARE -> DATA -> INTELLIGENCE Scale Progression */}
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 pt-6 font-display font-black text-2xl sm:text-4xl text-white">
+            <motion.div
+              whileHover={{ scale: 1.05 }}
+              className="p-6 rounded-2xl bg-[#101216] border border-white/10 text-center shadow-xl"
+            >
+              <Code className="w-8 h-8 text-[#C7FF3D] mx-auto mb-3" />
+              <span>SOFTWARE</span>
+              <span className="text-xs font-mono font-normal text-[#8A8F98] block mt-2">React / Next / Node</span>
+            </motion.div>
+
+            <motion.div
+              whileHover={{ scale: 1.05 }}
+              className="p-6 rounded-2xl bg-[#101216] border border-white/10 text-center shadow-xl"
+            >
+              <Database className="w-8 h-8 text-[#C7FF3D] mx-auto mb-3" />
+              <span>DATA</span>
+              <span className="text-xs font-mono font-normal text-[#8A8F98] block mt-2">Postgres / Mongo / SQL</span>
+            </motion.div>
+
+            <motion.div
+              whileHover={{ scale: 1.05 }}
+              className="p-6 rounded-2xl bg-[#101216] border border-white/10 text-center shadow-xl"
+            >
+              <Brain className="w-8 h-8 text-[#C7FF3D] mx-auto mb-3" />
+              <span>INTELLIGENCE</span>
+              <span className="text-xs font-mono font-normal text-[#8A8F98] block mt-2">Python / XGBoost / ML</span>
+            </motion.div>
+          </div>
+        </motion.div>
+
+        {/* Asymmetric Bio & Credentials Layout */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch mb-20">
+          {/* Left Column (60%): Bio & Core Focus */}
+          <div className="lg:col-span-7 p-8 sm:p-10 rounded-3xl bg-[#101216] border border-white/10 flex flex-col justify-between shadow-2xl">
             <div>
-              <div className="flex items-center gap-3.5 mb-6">
-                <div className="p-3 rounded-2xl bg-cyan-500/15 text-cyan-400 border border-cyan-400/30">
-                  <Code className="w-6 h-6" />
-                </div>
-                <div>
-                  <h4 className="text-xl sm:text-2xl font-extrabold text-white">Engineering Background</h4>
-                  <p className="text-xs font-semibold text-cyan-300 font-mono">Full-Stack & Applied Machine Learning</p>
-                </div>
-              </div>
-
-              <p className="text-slate-200 leading-relaxed text-base sm:text-lg mb-8 font-normal">
+              <h3 className="text-2xl font-black text-white mb-4 font-display">Background & Engineering Intent</h3>
+              <p className="text-base text-[#F4F4F0] leading-relaxed mb-8 font-sans font-normal">
                 {PERSONAL_INFO.aboutText}
               </p>
 
-              <div className="space-y-4 pt-6 border-t border-slate-700/80">
-                <h5 className="text-xs font-bold text-white uppercase tracking-wider font-mono">Core Technical Focus Areas:</h5>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
-                  <div className="flex items-center gap-3 text-sm text-slate-200 font-medium">
-                    <CheckCircle2 className="w-4 h-4 text-cyan-400 shrink-0" />
-                    <span>Full-Stack Web Apps (React / Next.js)</span>
-                  </div>
-                  <div className="flex items-center gap-3 text-sm text-slate-200 font-medium">
-                    <CheckCircle2 className="w-4 h-4 text-pink-400 shrink-0" />
-                    <span>Applied ML Models & Analytics</span>
-                  </div>
-                  <div className="flex items-center gap-3 text-sm text-slate-200 font-medium">
-                    <CheckCircle2 className="w-4 h-4 text-cyan-400 shrink-0" />
-                    <span>Scalable Backend REST APIs</span>
-                  </div>
-                  <div className="flex items-center gap-3 text-sm text-slate-200 font-medium">
-                    <CheckCircle2 className="w-4 h-4 text-pink-400 shrink-0" />
-                    <span>SQL & NoSQL Database Architecture</span>
-                  </div>
+              <div className="space-y-3 pt-6 border-t border-white/10 font-mono text-xs text-[#F4F4F0]">
+                <div className="flex items-center gap-3">
+                  <CheckCircle2 className="w-4 h-4 text-[#C7FF3D] shrink-0" />
+                  <span>Full-Stack Web Engineering (React, Next.js, Node.js)</span>
+                </div>
+                <div className="flex items-center gap-3">
+                  <CheckCircle2 className="w-4 h-4 text-[#C7FF3D] shrink-0" />
+                  <span>Applied Machine Learning (XGBoost, Scikit-learn, Python)</span>
+                </div>
+                <div className="flex items-center gap-3">
+                  <CheckCircle2 className="w-4 h-4 text-[#C7FF3D] shrink-0" />
+                  <span>Scalable RESTful Microservices & Database Schemas</span>
                 </div>
               </div>
             </div>
+          </div>
 
-            {/* Quick Metrics Bar */}
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 pt-8 mt-8 border-t border-slate-700/80 font-mono">
-              {PERSONAL_INFO.stats.map((stat, idx) => (
-                <div key={idx} className="text-center p-3.5 rounded-2xl bg-slate-900/80 border border-slate-700/80 shadow-md">
-                  <div className="text-2xl sm:text-3xl font-black text-white gradient-text">{stat.value}</div>
-                  <div className="text-[11px] text-slate-300 font-bold mt-1">{stat.label}</div>
-                </div>
-              ))}
-            </div>
-          </FadeIn>
-
-          {/* Education & Credentials Column (Floating Identity Cards) */}
-          <FadeIn direction="right" className="lg:col-span-5 flex flex-col gap-6 justify-between">
-            {/* Education Card 1 */}
-            <motion.div
-              whileHover={{ y: -5 }}
-              className="glass-panel p-7 rounded-3xl glow-card border-slate-700/80 flex-1 shadow-2xl flex flex-col justify-between"
-            >
+          {/* Right Column (40%): Education Stack */}
+          <div className="lg:col-span-5 flex flex-col gap-6">
+            <div className="p-8 rounded-3xl bg-[#101216] border border-white/10 flex-1 shadow-2xl flex flex-col justify-between">
               <div>
-                <div className="flex items-start justify-between mb-4">
-                  <div className="p-3 rounded-2xl bg-cyan-500/15 text-cyan-400 border border-cyan-400/30">
-                    <GraduationCap className="w-6 h-6" />
-                  </div>
-                  <span className="px-3.5 py-1 text-xs font-bold font-mono rounded-full bg-cyan-500/15 text-cyan-300 border border-cyan-400/40">
+                <div className="flex items-center justify-between mb-4">
+                  <GraduationCap className="w-8 h-8 text-[#C7FF3D]" />
+                  <span className="px-3 py-1 rounded-full bg-[#C7FF3D]/15 text-[#C7FF3D] text-xs font-mono font-bold">
                     8.4 CGPA
                   </span>
                 </div>
-                <h4 className="text-xl font-black text-white mb-1">
-                  BE Information Technology
-                </h4>
-                <p className="text-xs text-cyan-300 font-bold mb-3 font-mono">
-                  Bachelor of Engineering
-                </p>
-                <p className="text-sm text-slate-300 leading-relaxed font-normal">
-                  Focused on core computer science foundations, algorithms, object-oriented software design, web engineering lifecycle, and database management.
+                <h4 className="text-xl font-extrabold text-white mb-1 font-display">BE Information Technology</h4>
+                <p className="text-xs text-[#8A8F98] font-mono mb-3">Bachelor of Engineering</p>
+                <p className="text-xs text-[#F4F4F0] leading-relaxed">
+                  Data structures, algorithms, object-oriented software design, web architecture, and database systems.
                 </p>
               </div>
-            </motion.div>
+            </div>
 
-            {/* Education Card 2 */}
-            <motion.div
-              whileHover={{ y: -5 }}
-              className="glass-panel p-7 rounded-3xl glow-card border-slate-700/80 flex-1 shadow-2xl flex flex-col justify-between"
-            >
+            <div className="p-8 rounded-3xl bg-[#101216] border border-white/10 flex-1 shadow-2xl flex flex-col justify-between">
               <div>
-                <div className="flex items-start justify-between mb-4">
-                  <div className="p-3 rounded-2xl bg-pink-500/15 text-pink-400 border border-pink-400/30">
-                    <Award className="w-6 h-6" />
-                  </div>
-                  <span className="px-3.5 py-1 text-xs font-bold font-mono rounded-full bg-pink-500/15 text-pink-300 border border-pink-400/40">
+                <div className="flex items-center justify-between mb-4">
+                  <Award className="w-8 h-8 text-[#C7FF3D]" />
+                  <span className="px-3 py-1 rounded-full bg-[#C7FF3D]/15 text-[#C7FF3D] text-xs font-mono font-bold">
                     Honours
                   </span>
                 </div>
-                <h4 className="text-xl font-black text-white mb-1">
-                  Honours in Data Science
-                </h4>
-                <p className="text-xs text-pink-300 font-bold mb-3 font-mono">
-                  Specialized Academic Program
-                </p>
-                <p className="text-sm text-slate-300 leading-relaxed font-normal">
-                  Specialized training in predictive statistical modeling, machine learning pipelines (XGBoost, Scikit-learn), data analysis with Pandas, and data visualization.
+                <h4 className="text-xl font-extrabold text-white mb-1 font-display">Honours in Data Science</h4>
+                <p className="text-xs text-[#8A8F98] font-mono mb-3">Specialized Academic Program</p>
+                <p className="text-xs text-[#F4F4F0] leading-relaxed">
+                  Machine learning pipelines, XGBoost classification, data modeling with Pandas, and predictive analytics.
                 </p>
               </div>
-            </motion.div>
-          </FadeIn>
+            </div>
+          </div>
+        </div>
+
+        {/* Large Editorial Stats Display */}
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 font-mono">
+          {PERSONAL_INFO.stats.map((stat, idx) => (
+            <div key={idx} className="p-6 rounded-3xl bg-[#101216] border border-white/10 text-center shadow-xl">
+              <div className="text-4xl sm:text-6xl font-black text-[#C7FF3D] font-display mb-2">{stat.value}</div>
+              <div className="text-xs text-[#8A8F98] font-bold uppercase tracking-wider">{stat.label}</div>
+            </div>
+          ))}
         </div>
       </div>
     </section>

@@ -1,113 +1,123 @@
 "use client";
 
-import React from "react";
-import { motion } from "framer-motion";
-import { ExternalLink, Github, Sparkles, CheckCircle2, BookOpen } from "lucide-react";
+import React, { useRef } from "react";
+import { motion, useMotionValue, useSpring, useReducedMotion } from "framer-motion";
+import { ExternalLink, Github, BookOpen, Sparkles, CheckCircle2 } from "lucide-react";
 import { Project } from "@/data/portfolioData";
-import { MagneticButton } from "./motion/MotionPrimitives";
 
 interface ProjectCardProps {
   project: Project;
+  index: number;
   onOpenCaseStudy: (project: Project) => void;
 }
 
-export const ProjectCard: React.FC<ProjectCardProps> = ({ project, onOpenCaseStudy }) => {
+export const ProjectCard: React.FC<ProjectCardProps> = ({ project, index, onOpenCaseStudy }) => {
+  const ref = useRef<HTMLDivElement>(null);
+  const shouldReduceMotion = useReducedMotion();
+
+  const rotateX = useMotionValue(0);
+  const rotateY = useMotionValue(0);
+
+  const springConfig = { damping: 20, stiffness: 300, mass: 0.1 };
+  const springRotateX = useSpring(rotateX, springConfig);
+  const springRotateY = useSpring(rotateY, springConfig);
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!ref.current || shouldReduceMotion || "ontouchstart" in window) return;
+    const rect = ref.current.getBoundingClientRect();
+    const width = rect.width;
+    const height = rect.height;
+    const mouseX = e.clientX - rect.left;
+    const mouseY = e.clientY - rect.top;
+
+    const rY = ((mouseX - width / 2) / width) * 4; // max 4 deg
+    const rX = ((mouseY - height / 2) / height) * -4;
+
+    rotateX.set(rX);
+    rotateY.set(rY);
+  };
+
+  const handleMouseLeave = () => {
+    rotateX.set(0);
+    rotateY.set(0);
+  };
+
   return (
     <motion.div
-      layout
-      initial={{ opacity: 0, y: 25 }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, scale: 0.95 }}
-      transition={{ duration: 0.4 }}
+      ref={ref}
+      style={shouldReduceMotion ? {} : { rotateX: springRotateX, rotateY: springRotateY, transformStyle: "preserve-3d" }}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
       whileHover={{ y: -6 }}
-      className="group glass-panel rounded-3xl overflow-hidden border-slate-700/80 glow-card flex flex-col justify-between h-full transition-all duration-300 shadow-2xl relative"
+      data-cursor="VIEW"
+      className="group p-8 rounded-3xl bg-[#101216] border border-white/10 hover:border-[#C7FF3D]/50 shadow-2xl flex flex-col justify-between h-full transition-all duration-300 relative font-sans"
     >
-      {/* Top Accent Line Gradient */}
-      <div className="h-1.5 w-full bg-gradient-to-r from-cyan-400 via-blue-500 to-pink-500" />
-
-      <div className="p-7 flex-1 flex flex-col justify-between">
-        <div>
-          {/* Card Header & Badges */}
-          <div className="flex items-center justify-between gap-3 mb-5">
-            <span className="px-3.5 py-1 rounded-full bg-cyan-500/15 border border-cyan-400/40 text-cyan-300 text-xs font-bold tracking-wide font-mono shadow-sm">
-              {project.category}
-            </span>
-            {project.isFeatured && (
-              <span className="flex items-center gap-1.5 text-xs text-amber-300 font-bold bg-amber-500/15 px-3 py-1 rounded-full border border-amber-400/40 shadow-sm font-mono">
-                <Sparkles className="w-3.5 h-3.5 text-amber-400" />
-                Featured
-              </span>
-            )}
-          </div>
-
-          {/* Title & Subtitle */}
-          <h3 className="text-xl sm:text-2xl font-black text-white group-hover:text-cyan-300 transition-colors mb-1.5 leading-snug">
-            {project.title}
-          </h3>
-          <p className="text-xs font-bold text-cyan-400/90 mb-4 font-mono">{project.subtitle}</p>
-
-          {/* Description */}
-          <p className="text-sm text-slate-200 leading-relaxed mb-6 font-normal">
-            {project.description}
-          </p>
-
-          {/* Tech Stack Badges */}
-          <div className="mb-6">
-            <h4 className="text-xs font-bold text-slate-300 uppercase tracking-widest mb-2.5 font-mono">Tech Stack</h4>
-            <div className="flex flex-wrap gap-1.5">
-              {project.techStack.map((tech) => (
-                <span
-                  key={tech}
-                  className="px-3 py-1 rounded-lg bg-slate-900 border border-slate-700/90 text-slate-200 text-xs font-semibold font-mono shadow-sm"
-                >
-                  {tech}
-                </span>
-              ))}
-            </div>
-          </div>
+      <div>
+        {/* Header Metadata */}
+        <div className="flex items-center justify-between gap-3 mb-6 font-mono">
+          <span className="text-xs font-black text-[#C7FF3D] tracking-widest">
+            PROJECT 0{index + 1}
+          </span>
+          <span className="px-3 py-1 rounded-full bg-[#16191F] border border-white/10 text-white text-[11px] font-bold">
+            {project.category}
+          </span>
         </div>
 
-        {/* Key Features List */}
-        <div className="mt-2">
-          <h4 className="text-xs font-bold text-slate-300 uppercase tracking-widest mb-3 font-mono">Key Highlights</h4>
-          <ul className="space-y-2.5">
-            {project.features.map((feature, idx) => (
-              <li key={idx} className="flex items-start gap-2.5 text-xs sm:text-sm text-slate-200 font-medium">
-                <CheckCircle2 className="w-4 h-4 text-cyan-400 shrink-0 mt-0.5" />
-                <span>{feature}</span>
-              </li>
-            ))}
-          </ul>
+        {/* Title & Subtitle */}
+        <h3 className="text-2xl font-black text-white group-hover:text-[#C7FF3D] transition-colors mb-2 font-display">
+          {project.title}
+        </h3>
+        <p className="text-xs font-bold text-[#8A8F98] mb-4 font-mono">{project.subtitle}</p>
+        <p className="text-sm text-[#F4F4F0] leading-relaxed mb-6 font-normal">
+          {project.description}
+        </p>
+
+        {/* Highlights */}
+        <div className="mb-6 space-y-2">
+          {project.features.map((feature, idx) => (
+            <div key={idx} className="flex items-start gap-2 text-xs text-[#F4F4F0] font-medium">
+              <CheckCircle2 className="w-3.5 h-3.5 text-[#C7FF3D] shrink-0 mt-0.5" />
+              <span>{feature}</span>
+            </div>
+          ))}
+        </div>
+
+        {/* Tech Stack */}
+        <div className="flex flex-wrap gap-1.5 mb-6 font-mono">
+          {project.techStack.map((tech) => (
+            <span key={tech} className="px-2.5 py-1 rounded-md bg-[#16191F] border border-white/10 text-white text-[11px] font-semibold">
+              {tech}
+            </span>
+          ))}
         </div>
       </div>
 
-      {/* Action Buttons Footer */}
-      <div className="p-5 bg-slate-950/80 border-t border-slate-700/80 flex flex-wrap items-center justify-between gap-3">
+      {/* Footer Buttons */}
+      <div className="pt-6 border-t border-white/10 flex items-center justify-between gap-3 font-mono text-xs">
         <div className="flex items-center gap-2 flex-1">
           {project.liveUrl ? (
             <a
               href={project.liveUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex-1 flex items-center justify-center gap-2 px-3.5 py-2.5 rounded-xl bg-gradient-to-r from-cyan-400 via-blue-500 to-pink-500 hover:from-cyan-300 hover:to-pink-400 text-slate-950 font-black text-xs sm:text-sm shadow-lg shadow-cyan-500/25 transition-all hover:scale-[1.02] focus-visible:ring-2 focus-visible:ring-cyan-400"
+              data-cursor="OPEN"
+              className="flex-1 flex items-center justify-center gap-2 py-2.5 rounded-xl bg-[#C7FF3D] hover:bg-[#d4ff66] text-[#08090B] font-extrabold shadow-md transition-all"
             >
-              <ExternalLink className="w-4 h-4" />
-              <span>Live Demo</span>
+              <ExternalLink className="w-3.5 h-3.5" />
+              <span>LIVE DEMO</span>
             </a>
           ) : (
-            <span className="flex-1 text-center py-2.5 text-xs text-slate-400 font-mono font-semibold">
-              Demo on Request
-            </span>
+            <span className="flex-1 text-center py-2.5 text-[11px] text-[#8A8F98]">DEMO ON REQUEST</span>
           )}
 
           {project.caseStudy && (
             <button
               onClick={() => onOpenCaseStudy(project)}
-              className="flex items-center justify-center gap-1.5 px-3.5 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-700 text-cyan-300 hover:text-white font-bold text-xs sm:text-sm transition-all focus-visible:ring-2 focus-visible:ring-cyan-400"
-              title="View Architecture Case Study"
+              data-cursor="OPEN"
+              className="flex items-center justify-center gap-1.5 px-3 py-2.5 rounded-xl bg-[#16191F] hover:bg-[#202530] border border-white/10 text-white font-bold transition-all"
             >
-              <BookOpen className="w-4 h-4 text-cyan-400" />
-              <span>Case Study</span>
+              <BookOpen className="w-3.5 h-3.5 text-[#C7FF3D]" />
+              <span>CASE STUDY</span>
             </button>
           )}
         </div>
@@ -116,10 +126,11 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project, onOpenCaseStu
           href={project.githubUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="flex items-center justify-center gap-2 px-3.5 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-700 text-slate-200 hover:text-white font-bold text-xs sm:text-sm transition-all focus-visible:ring-2 focus-visible:ring-cyan-400"
-          aria-label="GitHub Repository"
+          data-cursor="↗"
+          className="p-2.5 rounded-xl bg-[#16191F] hover:bg-[#202530] border border-white/10 text-white transition-all"
+          aria-label="GitHub Repo"
         >
-          <Github className="w-4 h-4 text-cyan-400" />
+          <Github className="w-4 h-4 text-[#C7FF3D]" />
         </a>
       </div>
     </motion.div>

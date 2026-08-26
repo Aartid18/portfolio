@@ -2,73 +2,62 @@
 
 import React from "react";
 import { motion } from "framer-motion";
-import { Code, Layout, Server, Database, BrainCircuit, Wrench, Sparkles } from "lucide-react";
 import { SKILL_CATEGORIES } from "@/data/portfolioData";
-import { FadeIn, StaggerContainer, StaggerItem } from "./motion/MotionPrimitives";
-
-const ICON_MAP: Record<string, React.ReactNode> = {
-  Code: <Code className="w-5 h-5 text-cyan-400" />,
-  Layout: <Layout className="w-5 h-5 text-blue-400" />,
-  Server: <Server className="w-5 h-5 text-indigo-400" />,
-  Database: <Database className="w-5 h-5 text-emerald-400" />,
-  BrainCircuit: <BrainCircuit className="w-5 h-5 text-pink-400" />,
-  Wrench: <Wrench className="w-5 h-5 text-amber-400" />,
-};
+import { scrollEmergeUp } from "@/lib/motionConfig";
+import { TechConstellation } from "./TechConstellation";
 
 export const Skills: React.FC = () => {
   return (
-    <section id="skills" className="py-28 px-4 relative z-10 bg-[#0e1424]/60 border-y border-slate-700/80">
+    <section id="skills" className="py-32 px-4 relative z-10 bg-[#08090B] border-t border-white/10">
       <div className="max-w-6xl mx-auto">
         {/* Section Header */}
-        <FadeIn direction="up" className="text-center mb-16">
-          <h2 className="text-xs sm:text-sm font-bold tracking-widest text-cyan-400 uppercase mb-3 font-mono">
-            Engineering Competencies
+        <motion.div
+          variants={scrollEmergeUp}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          className="text-center mb-16"
+        >
+          <span className="text-xs font-mono font-bold uppercase tracking-widest text-[#C7FF3D] block mb-3">
+            02 / TECHNICAL CAPABILITIES
+          </span>
+          <h2 className="text-3xl sm:text-5xl font-black text-white tracking-tight font-display">
+            ENGINEERING <span className="text-[#C7FF3D]">STACK & CONSTELLATION</span>
           </h2>
-          <h3 className="text-3xl sm:text-4xl md:text-5xl font-black text-white tracking-tight">
-            Skills & <span className="gradient-text">Technologies</span>
-          </h3>
-          <p className="text-base text-slate-300 mt-3 max-w-xl mx-auto font-normal">
-            Practical skills applied across full-stack web applications, scalable backend APIs, and applied machine learning.
+          <p className="text-sm text-[#8A8F98] mt-3 max-w-xl mx-auto font-sans">
+            Core technologies applied across full-stack applications, scalable backend REST services, and applied ML models.
           </p>
-          <div className="w-20 h-1.5 bg-gradient-to-r from-cyan-400 via-blue-500 to-pink-500 mx-auto mt-5 rounded-full" />
-        </FadeIn>
+        </motion.div>
 
-        {/* Categorized Skills Grid */}
-        <StaggerContainer className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-7">
+        {/* Interactive Constellation Graph Component */}
+        <div className="mb-20">
+          <TechConstellation />
+        </div>
+
+        {/* Dense Editorial Skill Categories Matrix */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 font-mono">
           {SKILL_CATEGORIES.map((category) => (
-            <StaggerItem key={category.title}>
-              <motion.div
-                whileHover={{ y: -6 }}
-                className="glass-panel p-7 rounded-3xl glow-card border-slate-700/80 shadow-xl flex flex-col justify-between h-full"
-              >
-                <div>
-                  <div className="flex items-center gap-3.5 mb-6">
-                    <div className="p-3 rounded-2xl bg-slate-900 border border-slate-700/80 shadow-md">
-                      {ICON_MAP[category.iconName]}
-                    </div>
-                    <h4 className="text-xl font-extrabold text-white">{category.title}</h4>
-                  </div>
+            <div key={category.title} className="p-7 rounded-3xl bg-[#101216] border border-white/10 shadow-xl flex flex-col justify-between">
+              <div>
+                <span className="text-[10px] font-bold text-[#C7FF3D] uppercase tracking-widest block mb-1">
+                  CATEGORY
+                </span>
+                <h4 className="text-xl font-extrabold text-white mb-5 font-display">{category.title}</h4>
 
-                  <div className="flex flex-wrap gap-2.5">
-                    {category.skills.map((skill) => (
-                      <span
-                        key={skill}
-                        className="px-4 py-2 rounded-xl bg-slate-900/90 hover:bg-slate-800 border border-slate-700/90 hover:border-cyan-400/50 text-slate-100 hover:text-white text-xs sm:text-sm font-semibold transition-all duration-200 shadow-sm"
-                      >
-                        {skill}
-                      </span>
-                    ))}
-                  </div>
+                <div className="flex flex-wrap gap-2">
+                  {category.skills.map((skill) => (
+                    <span
+                      key={skill}
+                      className="px-3.5 py-1.5 rounded-xl bg-[#16191F] border border-white/10 text-white text-xs font-bold hover:border-[#C7FF3D] transition-colors"
+                    >
+                      {skill}
+                    </span>
+                  ))}
                 </div>
-
-                <div className="mt-7 pt-4 border-t border-slate-700/80 flex items-center justify-between text-xs text-slate-300 font-mono font-semibold">
-                  <span>{category.skills.length} core items</span>
-                  <Sparkles className="w-4 h-4 text-cyan-400" />
-                </div>
-              </motion.div>
-            </StaggerItem>
+              </div>
+            </div>
           ))}
-        </StaggerContainer>
+        </div>
       </div>
     </section>
   );

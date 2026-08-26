@@ -2,9 +2,9 @@
 
 import React, { useState } from "react";
 import { motion } from "framer-motion";
-import { Mail, Linkedin, Github, Send, CheckCircle2, Copy, Check, Sparkles, MessageSquare } from "lucide-react";
+import { Mail, Linkedin, Github, Send, CheckCircle2, Copy, Check, ArrowRight } from "lucide-react";
 import { PERSONAL_INFO } from "@/data/portfolioData";
-import { FadeIn, MagneticButton } from "./motion/MotionPrimitives";
+import { scrollEmergeUp } from "@/lib/motionConfig";
 
 export const Contact: React.FC = () => {
   const [formData, setFormData] = useState({ name: "", email: "", subject: "", message: "" });
@@ -30,170 +30,179 @@ export const Contact: React.FC = () => {
   };
 
   return (
-    <section id="contact" className="py-28 px-4 relative z-10">
+    <section id="contact" className="py-32 px-4 relative z-10 bg-[#08090B] border-t border-white/10">
       <div className="max-w-6xl mx-auto">
-        {/* Section Header */}
-        <FadeIn direction="up" className="text-center mb-16">
-          <h2 className="text-xs sm:text-sm font-bold tracking-widest text-cyan-400 uppercase mb-3 font-mono">
-            Get In Touch
+        {/* Section Climax Header */}
+        <motion.div
+          variants={scrollEmergeUp}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          className="text-center mb-16"
+        >
+          <span className="text-xs font-mono font-bold uppercase tracking-widest text-[#C7FF3D] block mb-3">
+            05 / GET IN TOUCH
+          </span>
+          <h2 className="text-4xl sm:text-6xl md:text-7xl font-black text-white tracking-tighter font-display leading-tight">
+            HAVE A PROBLEM
+            <br />
+            <span className="text-[#C7FF3D]">WORTH BUILDING?</span>
           </h2>
-          <h3 className="text-3xl sm:text-4xl md:text-5xl font-black text-white tracking-tight">
-            Have a problem worth building? <br className="hidden sm:block" />
-            <span className="gradient-text">Let&apos;s turn it into something useful.</span>
-          </h3>
-          <p className="text-base text-slate-300 mt-3 max-w-xl mx-auto font-normal">
-            Open for Full Stack Developer & Applied AI engineering opportunities, technical discussions, or software collaborations.
-          </p>
-          <div className="w-20 h-1.5 bg-gradient-to-r from-cyan-400 via-blue-500 to-pink-500 mx-auto mt-5 rounded-full" />
-        </FadeIn>
+          <div className="mt-4 flex items-center justify-center gap-2 font-mono text-sm sm:text-base font-extrabold text-[#F4F4F0]">
+            <span>START A CONVERSATION</span>
+            <ArrowRight className="w-5 h-5 text-[#C7FF3D]" />
+          </div>
+        </motion.div>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-          {/* Contact Details Column */}
-          <FadeIn direction="left" className="lg:col-span-5 space-y-6">
-            <div className="glass-panel p-8 rounded-3xl glow-card border-slate-700/80 space-y-6 shadow-2xl">
-              <h4 className="text-2xl font-black text-white mb-2">Direct Communication</h4>
-              <p className="text-slate-200 text-sm leading-relaxed font-normal">
-                Reach out directly via email or connect on LinkedIn and GitHub. Response guaranteed within 24 hours.
+          {/* Direct Communication Info */}
+          <div className="lg:col-span-5 space-y-6 font-mono">
+            <div className="p-8 rounded-3xl bg-[#101216] border border-white/10 space-y-6 shadow-2xl">
+              <h4 className="text-2xl font-black text-white font-display">Direct Channels</h4>
+              <p className="text-xs text-[#8A8F98] leading-relaxed font-sans font-normal">
+                Open for full-stack engineering roles, applied AI/ML system collaborations, and technical consultations.
               </p>
 
-              {/* Email Box */}
-              <div className="p-4.5 rounded-2xl bg-slate-900 border border-slate-700/80 flex items-center justify-between gap-3.5 shadow-md">
-                <div className="flex items-center gap-3.5 overflow-hidden">
-                  <div className="p-3 rounded-xl bg-cyan-500/15 text-cyan-400 border border-cyan-400/30 shrink-0">
-                    <Mail className="w-5 h-5" />
+              {/* Email Card */}
+              <div className="p-4.5 rounded-2xl bg-[#08090B] border border-white/10 flex items-center justify-between gap-3 shadow-md">
+                <div className="flex items-center gap-3 overflow-hidden">
+                  <div className="p-3 rounded-xl bg-[#C7FF3D]/10 text-[#C7FF3D] border border-[#C7FF3D]/30 shrink-0">
+                    <Mail className="w-4 h-4" />
                   </div>
                   <div className="truncate">
-                    <div className="text-xs text-slate-300 font-bold font-mono">Email Address</div>
-                    <a href={`mailto:${PERSONAL_INFO.socials.email}`} className="text-sm font-extrabold text-white hover:text-cyan-300 truncate block font-mono">
+                    <span className="text-[10px] text-[#8A8F98] block">EMAIL</span>
+                    <a href={`mailto:${PERSONAL_INFO.socials.email}`} className="text-xs font-bold text-white hover:text-[#C7FF3D] truncate block">
                       {PERSONAL_INFO.socials.email}
                     </a>
                   </div>
                 </div>
                 <button
                   onClick={handleCopyEmail}
-                  className="p-2.5 rounded-xl bg-slate-800 text-slate-200 hover:text-cyan-300 border border-slate-700 transition-colors shrink-0 focus-visible:ring-2 focus-visible:ring-cyan-400"
-                  title="Copy email address"
+                  data-cursor="OPEN"
+                  className="p-2.5 rounded-xl bg-[#16191F] text-white hover:text-[#C7FF3D] border border-white/10 transition-colors shrink-0"
+                  title="Copy Email"
                 >
-                  {emailCopied ? <Check className="w-4 h-4 text-emerald-400" /> : <Copy className="w-4 h-4" />}
+                  {emailCopied ? <Check className="w-4 h-4 text-[#C7FF3D]" /> : <Copy className="w-4 h-4" />}
                 </button>
               </div>
 
-              {/* LinkedIn Box */}
+              {/* LinkedIn Link */}
               <a
                 href={PERSONAL_INFO.socials.linkedin}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="p-4.5 rounded-2xl bg-slate-900 border border-slate-700/80 flex items-center justify-between gap-3.5 hover:border-cyan-400/50 transition-colors group shadow-md"
+                data-cursor="↗"
+                className="p-4.5 rounded-2xl bg-[#08090B] border border-white/10 flex items-center justify-between gap-3 hover:border-[#C7FF3D]/50 transition-colors group shadow-md"
               >
-                <div className="flex items-center gap-3.5">
-                  <div className="p-3 rounded-xl bg-blue-500/15 text-blue-400 border border-blue-400/30">
-                    <Linkedin className="w-5 h-5" />
+                <div className="flex items-center gap-3">
+                  <div className="p-3 rounded-xl bg-[#C7FF3D]/10 text-[#C7FF3D] border border-[#C7FF3D]/30">
+                    <Linkedin className="w-4 h-4" />
                   </div>
                   <div>
-                    <div className="text-xs text-slate-300 font-bold font-mono">LinkedIn Profile</div>
-                    <div className="text-sm font-extrabold text-white group-hover:text-cyan-300 font-mono">
+                    <span className="text-[10px] text-[#8A8F98] block">LINKEDIN</span>
+                    <span className="text-xs font-bold text-white group-hover:text-[#C7FF3D]">
                       linkedin.com/in/aarti-dinkar-534b93312
-                    </div>
+                    </span>
                   </div>
                 </div>
               </a>
 
-              {/* GitHub Box */}
+              {/* GitHub Link */}
               <a
                 href={PERSONAL_INFO.socials.github}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="p-4.5 rounded-2xl bg-slate-900 border border-slate-700/80 flex items-center justify-between gap-3.5 hover:border-cyan-400/50 transition-colors group shadow-md"
+                data-cursor="↗"
+                className="p-4.5 rounded-2xl bg-[#08090B] border border-white/10 flex items-center justify-between gap-3 hover:border-[#C7FF3D]/50 transition-colors group shadow-md"
               >
-                <div className="flex items-center gap-3.5">
-                  <div className="p-3 rounded-xl bg-pink-500/15 text-pink-400 border border-pink-400/30">
-                    <Github className="w-5 h-5" />
+                <div className="flex items-center gap-3">
+                  <div className="p-3 rounded-xl bg-[#C7FF3D]/10 text-[#C7FF3D] border border-[#C7FF3D]/30">
+                    <Github className="w-4 h-4" />
                   </div>
                   <div>
-                    <div className="text-xs text-slate-300 font-bold font-mono">GitHub Repositories</div>
-                    <div className="text-sm font-extrabold text-white group-hover:text-cyan-300 font-mono">
+                    <span className="text-[10px] text-[#8A8F98] block">GITHUB REPOSITORIES</span>
+                    <span className="text-xs font-bold text-white group-hover:text-[#C7FF3D]">
                       github.com/Aartid18
-                    </div>
+                    </span>
                   </div>
                 </div>
               </a>
             </div>
-          </FadeIn>
+          </div>
 
-          {/* Contact Form Column */}
-          <FadeIn direction="right" className="lg:col-span-7 glass-panel p-8 sm:p-10 rounded-3xl glow-card border-slate-700/80 shadow-2xl">
-            <h4 className="text-2xl font-black text-white mb-6">Send a Message</h4>
+          {/* Form Column */}
+          <div className="lg:col-span-7 p-8 sm:p-10 rounded-3xl bg-[#101216] border border-white/10 shadow-2xl font-mono">
+            <h4 className="text-2xl font-black text-white mb-6 font-display">Send a Message</h4>
 
             {status === "success" ? (
-              <div className="p-8 rounded-2xl bg-emerald-500/15 border border-emerald-400/40 text-center space-y-3 shadow-lg">
-                <CheckCircle2 className="w-14 h-14 text-emerald-400 mx-auto animate-bounce" />
-                <h5 className="text-xl font-extrabold text-white">Message Sent Successfully!</h5>
-                <p className="text-sm text-slate-200 font-medium">Thank you for reaching out, Aarti will respond to you promptly.</p>
+              <div className="p-8 rounded-2xl bg-[#C7FF3D]/10 border border-[#C7FF3D]/30 text-center space-y-3 shadow-lg">
+                <CheckCircle2 className="w-12 h-12 text-[#C7FF3D] mx-auto animate-bounce" />
+                <h5 className="text-lg font-bold text-white">Message Sent Successfully</h5>
+                <p className="text-xs text-[#8A8F98] font-sans">Thank you for reaching out. Aarti will respond shortly.</p>
               </div>
             ) : (
-              <form onSubmit={handleSubmit} className="space-y-5">
+              <form onSubmit={handleSubmit} className="space-y-5 text-xs">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                   <div>
-                    <label className="block text-xs font-bold uppercase tracking-wider text-slate-200 mb-2 font-mono">Your Name</label>
+                    <label className="block text-[10px] font-bold uppercase tracking-wider text-[#8A8F98] mb-2">YOUR NAME</label>
                     <input
                       type="text"
                       required
                       placeholder="Jane Doe"
                       value={formData.name}
                       onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                      className="w-full px-4.5 py-3.5 rounded-xl bg-slate-900 border border-slate-700 text-white placeholder-slate-400 focus:outline-none focus:border-cyan-400 focus:ring-2 focus:ring-cyan-500/20 text-sm font-semibold transition-colors"
+                      className="w-full px-4 py-3.5 rounded-xl bg-[#08090B] border border-white/10 text-white placeholder-[#8A8F98] focus:outline-none focus:border-[#C7FF3D] text-xs font-semibold transition-colors"
                     />
                   </div>
                   <div>
-                    <label className="block text-xs font-bold uppercase tracking-wider text-slate-200 mb-2 font-mono">Email Address</label>
+                    <label className="block text-[10px] font-bold uppercase tracking-wider text-[#8A8F98] mb-2">EMAIL ADDRESS</label>
                     <input
                       type="email"
                       required
                       placeholder="jane@company.com"
                       value={formData.email}
                       onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                      className="w-full px-4.5 py-3.5 rounded-xl bg-slate-900 border border-slate-700 text-white placeholder-slate-400 focus:outline-none focus:border-cyan-400 focus:ring-2 focus:ring-cyan-500/20 text-sm font-semibold transition-colors"
+                      className="w-full px-4 py-3.5 rounded-xl bg-[#08090B] border border-white/10 text-white placeholder-[#8A8F98] focus:outline-none focus:border-[#C7FF3D] text-xs font-semibold transition-colors"
                     />
                   </div>
                 </div>
 
                 <div>
-                  <label className="block text-xs font-bold uppercase tracking-wider text-slate-200 mb-2 font-mono">Subject</label>
+                  <label className="block text-[10px] font-bold uppercase tracking-wider text-[#8A8F98] mb-2">SUBJECT</label>
                   <input
                     type="text"
                     required
                     placeholder="Project Inquiry / Opportunity"
                     value={formData.subject}
                     onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
-                    className="w-full px-4.5 py-3.5 rounded-xl bg-slate-900 border border-slate-700 text-white placeholder-slate-400 focus:outline-none focus:border-cyan-400 focus:ring-2 focus:ring-cyan-500/20 text-sm font-semibold transition-colors"
+                    className="w-full px-4 py-3.5 rounded-xl bg-[#08090B] border border-white/10 text-white placeholder-[#8A8F98] focus:outline-none focus:border-[#C7FF3D] text-xs font-semibold transition-colors"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-xs font-bold uppercase tracking-wider text-slate-200 mb-2 font-mono">Message</label>
+                  <label className="block text-[10px] font-bold uppercase tracking-wider text-[#8A8F98] mb-2">MESSAGE</label>
                   <textarea
                     rows={4}
                     required
-                    placeholder="Hello Aarti, I reviewed your portfolio and would like to connect..."
+                    placeholder="Hello Aarti, I reviewed your portfolio and would like to discuss..."
                     value={formData.message}
                     onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                    className="w-full px-4.5 py-3.5 rounded-xl bg-slate-900 border border-slate-700 text-white placeholder-slate-400 focus:outline-none focus:border-cyan-400 focus:ring-2 focus:ring-cyan-500/20 text-sm font-semibold transition-colors resize-none"
+                    className="w-full px-4 py-3.5 rounded-xl bg-[#08090B] border border-white/10 text-white placeholder-[#8A8F98] focus:outline-none focus:border-[#C7FF3D] text-xs font-semibold transition-colors resize-none"
                   />
                 </div>
 
-                <MagneticButton className="w-full">
-                  <button
-                    type="submit"
-                    disabled={status === "submitting"}
-                    className="w-full py-4 rounded-xl bg-gradient-to-r from-cyan-400 via-blue-500 to-pink-500 hover:from-cyan-300 hover:to-pink-400 text-slate-950 font-black text-sm shadow-xl shadow-cyan-500/30 transition-all flex items-center justify-center gap-2.5 disabled:opacity-50 font-mono"
-                  >
-                    <Send className="w-4 h-4" />
-                    <span>{status === "submitting" ? "Sending..." : "Send Message"}</span>
-                  </button>
-                </MagneticButton>
+                <button
+                  type="submit"
+                  disabled={status === "submitting"}
+                  data-cursor="OPEN"
+                  className="w-full py-4 rounded-full bg-[#C7FF3D] hover:bg-[#d4ff66] text-[#08090B] font-black text-xs shadow-xl shadow-[#C7FF3D]/20 transition-all flex items-center justify-center gap-2 disabled:opacity-50"
+                >
+                  <Send className="w-4 h-4" />
+                  <span>{status === "submitting" ? "SENDING..." : "SEND MESSAGE"}</span>
+                </button>
               </form>
             )}
-          </FadeIn>
+          </div>
         </div>
       </div>
     </section>

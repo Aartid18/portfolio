@@ -2,10 +2,10 @@
 
 import React, { useState } from "react";
 import { motion } from "framer-motion";
-import { ArrowRight, Download, Github, Linkedin, Mail, Copy, Check, Sparkles, Send } from "lucide-react";
+import { ArrowRight, Github, Linkedin, Mail, Copy, Check, Send } from "lucide-react";
 import { PERSONAL_INFO } from "@/data/portfolioData";
-import { TextReveal, MagneticButton } from "./motion/MotionPrimitives";
-import { HeroArchitectureVisual } from "./HeroArchitectureVisual";
+import { textClipReveal, scrollEmergeUp } from "@/lib/motionConfig";
+import { HeroSystemArchitecture } from "./HeroSystemArchitecture";
 
 export const Hero: React.FC = () => {
   const [copied, setCopied] = useState(false);
@@ -17,124 +17,122 @@ export const Hero: React.FC = () => {
   };
 
   return (
-    <section id="home" className="relative min-h-screen flex flex-col justify-center pt-28 pb-20 px-4 overflow-hidden">
-      {/* Background Ambient Spotlight Radial Glows */}
-      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] bg-cyan-500/15 rounded-full blur-[160px] pointer-events-none" />
-      <div className="absolute bottom-10 right-10 w-[500px] h-[500px] bg-pink-500/15 rounded-full blur-[150px] pointer-events-none" />
-
-      <div className="max-w-5xl mx-auto w-full text-center relative z-10">
-        {/* Recruiter Role Badge */}
+    <section id="home" className="relative min-h-screen flex flex-col justify-center pt-32 pb-24 px-4 overflow-hidden bg-[#08090B]">
+      <div className="max-w-6xl mx-auto w-full text-center relative z-10">
+        {/* Quiet Recruiter Eyebrow Badge */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.1 }}
-          className="inline-flex items-center gap-2.5 px-5 py-2.5 rounded-full glass-panel border-cyan-400/40 text-cyan-300 text-xs sm:text-sm font-bold mb-8 shadow-xl shadow-cyan-950/50"
+          variants={scrollEmergeUp}
+          initial="hidden"
+          animate="visible"
+          custom={0.1}
+          className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full bg-[#101216] border border-white/10 text-xs font-mono font-bold text-[#C7FF3D] mb-8 shadow-xl"
         >
-          <Sparkles className="w-4 h-4 text-cyan-400 animate-pulse" />
-          <span>Available for Full-Stack & Applied AI Opportunities</span>
+          <span className="w-2 h-2 rounded-full bg-[#C7FF3D] animate-ping" />
+          <span>FULL STACK ENGINEER & APPLIED AI SPECIALIST</span>
         </motion.div>
 
-        {/* Hero Title */}
-        <h1 className="text-4xl sm:text-6xl md:text-7xl font-black tracking-tight text-white mb-6 leading-[1.12]">
-          Hi, I&apos;m <span className="gradient-text">{PERSONAL_INFO.name}</span>
+        {/* Oversized Headline */}
+        <motion.h1
+          variants={textClipReveal}
+          initial="hidden"
+          animate="visible"
+          custom={0.2}
+          className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-black tracking-tighter text-white mb-6 leading-[1.05] font-display"
+        >
+          FULL STACK ENGINEER
           <br />
-          <span className="text-2xl sm:text-4xl md:text-5xl font-extrabold text-slate-200 mt-3 block tracking-tight">
-            <TextReveal
-              text="Full Stack Engineer Building Intelligent Web Applications"
-              highlightWords={["Intelligent", "Full", "Stack", "Engineer"]}
-            />
-          </span>
-        </h1>
+          <span className="text-[#C7FF3D]">+ APPLIED AI</span>
+        </motion.h1>
 
-        {/* Hero Pitch Statement */}
+        {/* Statement Copy */}
+        <motion.div
+          variants={textClipReveal}
+          initial="hidden"
+          animate="visible"
+          custom={0.3}
+          className="max-w-3xl mx-auto text-lg sm:text-2xl md:text-3xl font-extrabold text-[#F4F4F0] mb-8 leading-snug tracking-tight font-display"
+        >
+          I BUILD SYSTEMS THAT THINK, SCALE & SHIP.
+        </motion.div>
+
         <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.3 }}
-          className="max-w-3xl mx-auto text-base sm:text-lg md:text-xl text-slate-300 mb-10 leading-relaxed font-normal"
+          variants={scrollEmergeUp}
+          initial="hidden"
+          animate="visible"
+          custom={0.4}
+          className="max-w-2xl mx-auto text-sm sm:text-base text-[#8A8F98] mb-10 leading-relaxed font-sans"
         >
           {PERSONAL_INFO.subHeadline}
         </motion.p>
 
-        {/* Primary CTA Buttons with Magnetic System */}
+        {/* Action CTAs */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.4 }}
-          className="flex flex-wrap items-center justify-center gap-4 mb-14"
+          variants={scrollEmergeUp}
+          initial="hidden"
+          animate="visible"
+          custom={0.5}
+          className="flex flex-wrap items-center justify-center gap-4 mb-16 font-mono text-xs sm:text-sm"
         >
-          <MagneticButton href="#projects">
-            <div className="group flex items-center gap-3 px-8 py-4 rounded-2xl bg-gradient-to-r from-cyan-400 via-blue-500 to-pink-500 text-slate-950 font-black text-base shadow-2xl shadow-cyan-500/35 transition-all">
-              <span>View Projects</span>
-              <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-            </div>
-          </MagneticButton>
+          <a
+            href="#projects"
+            data-cursor="OPEN"
+            className="flex items-center gap-3 px-8 py-4 rounded-full bg-[#C7FF3D] hover:bg-[#d4ff66] text-[#08090B] font-extrabold shadow-xl shadow-[#C7FF3D]/20 transition-all hover:scale-[1.02]"
+          >
+            <span>EXPLORE WORK</span>
+            <ArrowRight className="w-4 h-4" />
+          </a>
 
-          <MagneticButton href="#contact">
-            <div className="flex items-center gap-3 px-8 py-4 rounded-2xl glass-panel hover:bg-slate-800/90 text-white border-cyan-500/40 hover:border-cyan-400 font-bold text-base shadow-xl transition-all">
-              <Send className="w-5 h-5 text-cyan-400" />
-              <span>Contact Me</span>
-            </div>
-          </MagneticButton>
+          <a
+            href="#contact"
+            data-cursor="OPEN"
+            className="flex items-center gap-3 px-8 py-4 rounded-full bg-[#101216] hover:bg-[#16191F] border border-white/15 text-white font-extrabold transition-all hover:scale-[1.02]"
+          >
+            <Send className="w-4 h-4 text-[#C7FF3D]" />
+            <span>LET&apos;S TALK</span>
+          </a>
         </motion.div>
 
-        {/* Recruiter Quick Proof Bar */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.5 }}
-          className="pt-8 border-t border-slate-700/80 max-w-4xl mx-auto"
-        >
-          <div className="flex flex-wrap items-center justify-between gap-6 px-4">
-            {/* Social Links */}
-            <div className="flex items-center gap-3 mx-auto sm:mx-0">
-              <a
-                href={PERSONAL_INFO.socials.github}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-slate-900/90 border border-slate-700/90 text-slate-200 hover:text-white hover:border-cyan-400 transition-colors text-sm font-semibold shadow-md"
-              >
-                <Github className="w-4 h-4 text-cyan-400" />
-                <span>GitHub</span>
-              </a>
-
-              <a
-                href={PERSONAL_INFO.socials.linkedin}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-slate-900/90 border border-slate-700/90 text-slate-200 hover:text-cyan-300 hover:border-cyan-400 transition-colors text-sm font-semibold shadow-md"
-              >
-                <Linkedin className="w-4 h-4 text-cyan-400" />
-                <span>LinkedIn</span>
-              </a>
-
-              <button
-                onClick={handleCopyEmail}
-                className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-slate-900/90 border border-slate-700/90 text-slate-200 hover:text-cyan-300 hover:border-cyan-400 transition-colors text-sm font-semibold shadow-md focus-visible:ring-2 focus-visible:ring-cyan-400"
-                title="Click to copy email address"
-              >
-                {copied ? <Check className="w-4 h-4 text-emerald-400" /> : <Mail className="w-4 h-4 text-cyan-400" />}
-                <span>{copied ? "Copied!" : "Email"}</span>
-                <Copy className="w-3.5 h-3.5 opacity-70 ml-0.5" />
-              </button>
-            </div>
-
-            {/* Core Tech Stack Badges */}
-            <div className="flex flex-wrap items-center justify-center gap-2 mx-auto sm:mx-0">
-              {["React", "Next.js", "Node.js", "Python", "Java", "SQL", "ML"].map((tech) => (
-                <span
-                  key={tech}
-                  className="px-3.5 py-1.5 rounded-lg bg-slate-900/90 border border-slate-700/80 text-slate-200 text-xs font-bold tracking-wide shadow-sm"
-                >
-                  {tech}
-                </span>
-              ))}
-            </div>
+        {/* Proof Bar & Socials */}
+        <div className="pt-8 border-t border-white/10 max-w-4xl mx-auto flex flex-wrap items-center justify-between gap-4 text-xs font-mono text-[#8A8F98]">
+          <div className="flex items-center gap-3 mx-auto sm:mx-0">
+            <a
+              href={PERSONAL_INFO.socials.github}
+              target="_blank"
+              rel="noopener noreferrer"
+              data-cursor="↗"
+              className="flex items-center gap-2 px-3.5 py-2 rounded-xl bg-[#101216] border border-white/10 text-white hover:border-[#C7FF3D] transition-colors"
+            >
+              <Github className="w-3.5 h-3.5 text-[#C7FF3D]" />
+              <span>GitHub</span>
+            </a>
+            <a
+              href={PERSONAL_INFO.socials.linkedin}
+              target="_blank"
+              rel="noopener noreferrer"
+              data-cursor="↗"
+              className="flex items-center gap-2 px-3.5 py-2 rounded-xl bg-[#101216] border border-white/10 text-white hover:border-[#C7FF3D] transition-colors"
+            >
+              <Linkedin className="w-3.5 h-3.5 text-[#C7FF3D]" />
+              <span>LinkedIn</span>
+            </a>
+            <button
+              onClick={handleCopyEmail}
+              data-cursor="OPEN"
+              className="flex items-center gap-2 px-3.5 py-2 rounded-xl bg-[#101216] border border-white/10 text-white hover:border-[#C7FF3D] transition-colors"
+            >
+              {copied ? <Check className="w-3.5 h-3.5 text-[#C7FF3D]" /> : <Mail className="w-3.5 h-3.5 text-[#C7FF3D]" />}
+              <span>{copied ? "Copied" : "Email"}</span>
+            </button>
           </div>
-        </motion.div>
 
-        {/* Hero Interactive System Architecture Visual */}
-        <HeroArchitectureVisual />
+          <div className="flex items-center gap-2 mx-auto sm:mx-0">
+            <span className="text-[#C7FF3D]">●</span>
+            <span>BE IT + Data Science Honours (8.4 CGPA)</span>
+          </div>
+        </div>
+
+        {/* Hero Interactive Living Architecture Diagram */}
+        <HeroSystemArchitecture />
       </div>
     </section>
   );

@@ -2,17 +2,15 @@
 
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X, FileText, Github, Linkedin, Mail, Sparkles } from "lucide-react";
+import { Menu, X, FileText, Github, Linkedin, Mail } from "lucide-react";
 import { PERSONAL_INFO } from "@/data/portfolioData";
-import { MagneticButton } from "./motion/MotionPrimitives";
 
 const NAV_ITEMS = [
-  { label: "Home", href: "#home" },
-  { label: "About", href: "#about" },
-  { label: "Skills", href: "#skills" },
-  { label: "Projects", href: "#projects" },
-  { label: "Education", href: "#resume" },
-  { label: "Contact", href: "#contact" },
+  { label: "HOME", href: "#home" },
+  { label: "ABOUT", href: "#about" },
+  { label: "WORK", href: "#projects" },
+  { label: "STACK", href: "#skills" },
+  { label: "CONTACT", href: "#contact" },
 ];
 
 export const Navbar: React.FC = () => {
@@ -48,46 +46,40 @@ export const Navbar: React.FC = () => {
     <motion.header
       initial={{ y: -50, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
-      transition={{ duration: 0.5, ease: "easeOut" }}
+      transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        scrolled
-          ? "glass-nav py-3.5 shadow-2xl shadow-cyan-950/40 border-b border-slate-700/60"
-          : "bg-transparent py-5"
+        scrolled ? "py-3" : "py-6"
       }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between">
-          {/* Logo / Name */}
+          {/* Brand Wordmark */}
           <a
             href="#home"
-            className="flex items-center gap-2.5 text-xl font-bold tracking-tight text-white group focus-visible:ring-2 focus-visible:ring-cyan-400 rounded-xl p-1"
+            data-cursor="OPEN"
+            className="flex items-center gap-2 font-display text-lg font-black tracking-tight text-white hover:text-[#C7FF3D] transition-colors focus-visible:ring-2 focus-visible:ring-[#C7FF3D] rounded-lg p-1"
           >
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-cyan-400 via-blue-600 to-pink-500 flex items-center justify-center text-white shadow-lg shadow-cyan-500/25 group-hover:scale-105 transition-transform duration-200">
-              <Sparkles className="w-5 h-5 animate-pulse" />
-            </div>
-            <span className="font-extrabold tracking-wide text-white text-lg sm:text-xl">
-              Aarti<span className="gradient-text font-black">.dev</span>
-            </span>
+            <span className="w-2.5 h-2.5 rounded-sm bg-[#C7FF3D]" />
+            <span>AARTI<span className="text-[#C7FF3D]">.DEV</span></span>
           </a>
 
-          {/* Desktop Nav */}
-          <nav className="hidden md:flex items-center gap-1 bg-slate-900/80 backdrop-blur-xl p-1.5 rounded-full border border-slate-700/80 shadow-2xl">
+          {/* Desktop Floating Navigation Pill */}
+          <nav className="hidden md:flex items-center gap-1 floating-nav p-1.5 rounded-full shadow-2xl font-mono text-xs">
             {NAV_ITEMS.map((item) => {
               const isActive = activeSection === item.href.substring(1);
               return (
                 <a
                   key={item.label}
                   href={item.href}
-                  className={`relative px-4 py-2 text-sm font-semibold rounded-full transition-colors duration-200 ${
-                    isActive
-                      ? "text-white"
-                      : "text-slate-300 hover:text-white hover:bg-slate-800/80"
+                  data-cursor="OPEN"
+                  className={`relative px-4 py-2 font-bold tracking-wider rounded-full transition-colors duration-200 ${
+                    isActive ? "text-[#08090B]" : "text-[#8A8F98] hover:text-white"
                   }`}
                 >
                   {isActive && (
                     <motion.span
-                      layoutId="activePill"
-                      className="absolute inset-0 bg-gradient-to-r from-cyan-500 via-blue-600 to-pink-500 rounded-full shadow-lg shadow-cyan-500/30"
+                      layoutId="navActiveSlide"
+                      className="absolute inset-0 bg-[#C7FF3D] rounded-full shadow-lg shadow-[#C7FF3D]/20"
                       transition={{ type: "spring", stiffness: 380, damping: 30 }}
                     />
                   )}
@@ -97,55 +89,58 @@ export const Navbar: React.FC = () => {
             })}
           </nav>
 
-          {/* Quick CTA Actions with Magnetic Button */}
+          {/* Quick Action Links */}
           <div className="hidden lg:flex items-center gap-3">
             <a
               href={PERSONAL_INFO.socials.github}
               target="_blank"
               rel="noopener noreferrer"
-              className="p-2.5 text-slate-300 hover:text-white hover:bg-slate-800/80 border border-transparent hover:border-slate-700 rounded-xl transition-all"
+              data-cursor="↗"
+              className="p-2 text-[#8A8F98] hover:text-white transition-colors"
               aria-label="GitHub Profile"
             >
-              <Github className="w-5 h-5" />
+              <Github className="w-4.5 h-4.5" />
             </a>
             <a
               href={PERSONAL_INFO.socials.linkedin}
               target="_blank"
               rel="noopener noreferrer"
-              className="p-2.5 text-slate-300 hover:text-cyan-400 hover:bg-slate-800/80 border border-transparent hover:border-slate-700 rounded-xl transition-all"
+              data-cursor="↗"
+              className="p-2 text-[#8A8F98] hover:text-[#C7FF3D] transition-colors"
               aria-label="LinkedIn Profile"
             >
-              <Linkedin className="w-5 h-5" />
+              <Linkedin className="w-4.5 h-4.5" />
             </a>
-
-            <MagneticButton href="#resume">
-              <div className="flex items-center gap-2 px-4 py-2.5 text-xs font-bold text-cyan-300 bg-cyan-950/80 hover:bg-cyan-900/90 border border-cyan-500/50 rounded-xl transition-all shadow-md shadow-cyan-950/50">
-                <FileText className="w-4 h-4 text-cyan-400" />
-                <span>Resume</span>
-              </div>
-            </MagneticButton>
+            <a
+              href="#resume"
+              data-cursor="OPEN"
+              className="flex items-center gap-2 px-4 py-2 text-xs font-mono font-bold text-white bg-[#16191F] hover:bg-[#C7FF3D] hover:text-[#08090B] border border-white/10 hover:border-[#C7FF3D] rounded-full transition-all duration-200"
+            >
+              <FileText className="w-3.5 h-3.5" />
+              <span>RESUME</span>
+            </a>
           </div>
 
           {/* Mobile Menu Toggle */}
           <button
             onClick={() => setIsOpen(!isOpen)}
-            className="md:hidden p-2.5 rounded-xl text-slate-200 hover:text-white hover:bg-slate-800 border border-slate-700 focus:outline-none focus:ring-2 focus:ring-cyan-400"
+            className="md:hidden p-2.5 rounded-full bg-[#16191F] border border-white/10 text-white focus:outline-none focus:ring-2 focus:ring-[#C7FF3D]"
             aria-label="Toggle Menu"
           >
-            {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+            {isOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
           </button>
         </div>
       </div>
 
-      {/* Mobile Drawer Navigation */}
+      {/* Mobile Drawer */}
       <AnimatePresence>
         {isOpen && (
           <motion.div
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.25, ease: "easeInOut" }}
-            className="md:hidden glass-nav border-t border-slate-700/80 px-4 pt-4 pb-6 mt-3 space-y-3 shadow-2xl"
+            transition={{ duration: 0.2 }}
+            className="md:hidden bg-[#08090B] border-t border-white/10 px-4 pt-4 pb-6 mt-3 space-y-3 shadow-2xl font-mono text-xs"
           >
             <div className="flex flex-col space-y-2">
               {NAV_ITEMS.map((item) => (
@@ -153,10 +148,10 @@ export const Navbar: React.FC = () => {
                   key={item.label}
                   href={item.href}
                   onClick={() => setIsOpen(false)}
-                  className={`px-4 py-3 text-base font-semibold rounded-xl transition-colors ${
+                  className={`px-4 py-3 font-bold tracking-widest rounded-xl transition-colors ${
                     activeSection === item.href.substring(1)
-                      ? "bg-cyan-500/20 text-cyan-300 border border-cyan-400/40"
-                      : "text-slate-200 hover:bg-slate-800/80"
+                      ? "bg-[#C7FF3D] text-[#08090B]"
+                      : "text-[#8A8F98] hover:bg-[#16191F] hover:text-white"
                   }`}
                 >
                   {item.label}
@@ -164,31 +159,15 @@ export const Navbar: React.FC = () => {
               ))}
             </div>
 
-            <div className="pt-4 border-t border-slate-700/80 flex items-center justify-around">
-              <a
-                href={PERSONAL_INFO.socials.github}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-2 text-sm font-semibold text-slate-200 hover:text-white"
-              >
-                <Github className="w-5 h-5 text-cyan-400" />
-                GitHub
+            <div className="pt-4 border-t border-white/10 flex items-center justify-around text-[#8A8F98]">
+              <a href={PERSONAL_INFO.socials.github} target="_blank" rel="noopener noreferrer" className="hover:text-white flex items-center gap-1.5">
+                <Github className="w-4 h-4" /> GitHub
               </a>
-              <a
-                href={PERSONAL_INFO.socials.linkedin}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-2 text-sm font-semibold text-slate-200 hover:text-cyan-300"
-              >
-                <Linkedin className="w-5 h-5 text-cyan-400" />
-                LinkedIn
+              <a href={PERSONAL_INFO.socials.linkedin} target="_blank" rel="noopener noreferrer" className="hover:text-[#C7FF3D] flex items-center gap-1.5">
+                <Linkedin className="w-4 h-4" /> LinkedIn
               </a>
-              <a
-                href={`mailto:${PERSONAL_INFO.socials.email}`}
-                className="flex items-center gap-2 text-sm font-semibold text-slate-200 hover:text-cyan-300"
-              >
-                <Mail className="w-5 h-5 text-cyan-400" />
-                Email
+              <a href={`mailto:${PERSONAL_INFO.socials.email}`} className="hover:text-[#C7FF3D] flex items-center gap-1.5">
+                <Mail className="w-4 h-4" /> Email
               </a>
             </div>
           </motion.div>
