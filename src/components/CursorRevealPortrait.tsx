@@ -17,7 +17,7 @@ interface CursorRevealPortraitProps {
 
 export const CursorRevealPortrait: React.FC<CursorRevealPortraitProps> = ({
   topImage = "/portfoliophoto.jpeg",
-  baseImage = "/1788171122183_image.png",
+  baseImage = "/underneath_photo.png",
   className = "",
   topPosition = "center 28%",
   basePosition = "center 18%",
@@ -33,8 +33,8 @@ export const CursorRevealPortrait: React.FC<CursorRevealPortraitProps> = ({
   const [isHovered, setIsHovered] = useState(false);
 
   // Motion targets & current state for smooth 60fps RAF lerp interpolation
-  const targetPos = useRef({ x: 150, y: 200, r: 0 });
-  const currentPos = useRef({ x: 150, y: 200, r: 0 });
+  const targetPos = useRef({ x: 180, y: 140, r: 110 });
+  const currentPos = useRef({ x: 180, y: 140, r: 110 });
   const animFrameId = useRef<number | null>(null);
 
   useEffect(() => {
@@ -43,6 +43,17 @@ export const CursorRevealPortrait: React.FC<CursorRevealPortraitProps> = ({
 
     let isTouchDevice = "ontouchstart" in window || navigator.maxTouchPoints > 0;
     let sweepAngle = 0;
+
+    // Set initial position centered over face
+    const rect = container.getBoundingClientRect();
+    if (rect.width > 0) {
+      targetPos.current.x = rect.width * 0.5;
+      targetPos.current.y = rect.height * 0.32;
+      targetPos.current.r = 110;
+      currentPos.current.x = rect.width * 0.5;
+      currentPos.current.y = rect.height * 0.32;
+      currentPos.current.r = 110;
+    }
 
     const handleMouseMove = (e: MouseEvent) => {
       const rect = container.getBoundingClientRect();
@@ -61,7 +72,11 @@ export const CursorRevealPortrait: React.FC<CursorRevealPortraitProps> = ({
 
     const handleMouseLeave = () => {
       setIsHovered(false);
-      targetPos.current.r = 0; // Ease mask radius back to 0 over 400ms
+      // Return lens smoothly to center face position
+      const rect = container.getBoundingClientRect();
+      targetPos.current.x = rect.width * 0.5;
+      targetPos.current.y = rect.height * 0.32;
+      targetPos.current.r = 110;
     };
 
     const handleTouchStart = (e: TouchEvent) => {
@@ -86,7 +101,6 @@ export const CursorRevealPortrait: React.FC<CursorRevealPortraitProps> = ({
 
     const handleTouchEnd = () => {
       setIsHovered(false);
-      targetPos.current.r = 0;
     };
 
     container.addEventListener("mousemove", handleMouseMove);
@@ -104,10 +118,10 @@ export const CursorRevealPortrait: React.FC<CursorRevealPortraitProps> = ({
       if (isTouchDevice && !isHovered && rect.width > 0) {
         sweepAngle += 0.02;
         const centerX = rect.width / 2;
-        const centerY = rect.height / 2;
+        const centerY = rect.height * 0.35;
         targetPos.current.x = centerX + Math.sin(sweepAngle) * (rect.width * 0.25);
-        targetPos.current.y = centerY + Math.cos(sweepAngle * 0.8) * (rect.height * 0.25);
-        targetPos.current.r = 90;
+        targetPos.current.y = centerY + Math.cos(sweepAngle * 0.8) * (rect.height * 0.15);
+        targetPos.current.r = 110;
       }
 
       // Smooth lerp easing (0.2 for position, 0.15 for radius)
@@ -127,7 +141,7 @@ export const CursorRevealPortrait: React.FC<CursorRevealPortraitProps> = ({
         lensRef.current.style.setProperty("--x", `${x}px`);
         lensRef.current.style.setProperty("--y", `${y}px`);
         lensRef.current.style.setProperty("--r", `${r}px`);
-        lensRef.current.style.opacity = r > 2 ? "1" : "0";
+        lensRef.current.style.opacity = "1";
       }
 
       animFrameId.current = requestAnimationFrame(renderLoop);
@@ -151,7 +165,7 @@ export const CursorRevealPortrait: React.FC<CursorRevealPortraitProps> = ({
       ref={containerRef}
       className={`relative w-full aspect-[3/4] rounded-[12px] overflow-hidden border border-[#39FF14]/30 bg-[#0a0a0a] shadow-2xl group cursor-crosshair select-none ${className}`}
     >
-      {/* Base Layer: Hidden Editorial B&W / Blue-toned sunglasses photo (Aligned to map facial features 1:1) */}
+      {/* Base Layer: Hidden Editorial B&W / Blue-toned sunglasses photo (Revealed inside lens) */}
       <div className="absolute inset-0 z-0 overflow-hidden">
         <div
           className="w-full h-full relative"
@@ -178,9 +192,9 @@ export const CursorRevealPortrait: React.FC<CursorRevealPortraitProps> = ({
         className="absolute inset-0 z-10 pointer-events-none transition-[mask-image] duration-300 ease-out"
         style={{
           maskImage:
-            "radial-gradient(circle var(--r, 0px) at var(--x, 50%) var(--y, 50%), transparent 0%, transparent 70%, black 100%)",
+            "radial-gradient(circle var(--r, 110px) at var(--x, 50%) var(--y, 32%), transparent 0%, transparent 70%, black 100%)",
           WebkitMaskImage:
-            "radial-gradient(circle var(--r, 0px) at var(--x, 50%) var(--y, 50%), transparent 0%, transparent 70%, black 100%)",
+            "radial-gradient(circle var(--r, 110px) at var(--x, 50%) var(--y, 32%), transparent 0%, transparent 70%, black 100%)",
         }}
       >
         <div
@@ -211,10 +225,10 @@ export const CursorRevealPortrait: React.FC<CursorRevealPortraitProps> = ({
           height: "220px",
           transform: "translate(-50%, -50%)",
           left: "var(--x, 50%)",
-          top: "var(--y, 50%)",
+          top: "var(--y, 32%)",
           border: "2px solid #39FF14",
           boxShadow: "0 0 20px rgba(57, 255, 20, 0.7), inset 0 0 15px rgba(57, 255, 20, 0.3)",
-          opacity: 0,
+          opacity: 1,
         }}
       />
 
