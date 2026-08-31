@@ -7,12 +7,24 @@ interface CursorRevealPortraitProps {
   topImage?: string;
   baseImage?: string;
   className?: string;
+  topPosition?: string;
+  basePosition?: string;
+  topScale?: number;
+  baseScale?: number;
+  baseOffsetX?: number;
+  baseOffsetY?: number;
 }
 
 export const CursorRevealPortrait: React.FC<CursorRevealPortraitProps> = ({
   topImage = "/portfoliophoto.jpeg",
   baseImage = "/1788171122183_image.png",
   className = "",
+  topPosition = "center 28%",
+  basePosition = "center 18%",
+  topScale = 1.0,
+  baseScale = 0.88,
+  baseOffsetX = 0,
+  baseOffsetY = 12,
 }) => {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const topLayerRef = useRef<HTMLDivElement | null>(null);
@@ -139,16 +151,25 @@ export const CursorRevealPortrait: React.FC<CursorRevealPortraitProps> = ({
       ref={containerRef}
       className={`relative w-full aspect-[3/4] rounded-[12px] overflow-hidden border border-[#39FF14]/30 bg-[#0a0a0a] shadow-2xl group cursor-crosshair select-none ${className}`}
     >
-      {/* Base Layer: Hidden Editorial B&W / Blue-toned sunglasses photo (Revealed inside lens) */}
-      <div className="absolute inset-0 z-0">
-        <Image
-          src={baseImage}
-          alt="Aarti Dinkar — Editorial Reveal"
-          fill
-          sizes="(max-width: 768px) 100vw, 50vw"
-          className="object-cover object-center filter saturate-125 contrast-110"
-          priority
-        />
+      {/* Base Layer: Hidden Editorial B&W / Blue-toned sunglasses photo (Aligned to map facial features 1:1) */}
+      <div className="absolute inset-0 z-0 overflow-hidden">
+        <div
+          className="w-full h-full relative"
+          style={{
+            transform: `scale(${baseScale}) translate(${baseOffsetX}px, ${baseOffsetY}px)`,
+            transformOrigin: "center center",
+          }}
+        >
+          <Image
+            src={baseImage}
+            alt="Aarti Dinkar — Editorial Reveal"
+            fill
+            sizes="(max-width: 768px) 100vw, 50vw"
+            className="object-cover filter saturate-125 contrast-110"
+            style={{ objectPosition: basePosition }}
+            priority
+          />
+        </div>
       </div>
 
       {/* Top Layer: Default Visible Soft Color Black Turtleneck Photo (Masked by radial gradient) */}
@@ -162,14 +183,23 @@ export const CursorRevealPortrait: React.FC<CursorRevealPortraitProps> = ({
             "radial-gradient(circle var(--r, 0px) at var(--x, 50%) var(--y, 50%), transparent 0%, transparent 70%, black 100%)",
         }}
       >
-        <Image
-          src={topImage}
-          alt="Aarti Dinkar — Full Stack Engineer"
-          fill
-          sizes="(max-width: 768px) 100vw, 50vw"
-          className="object-cover object-center"
-          priority
-        />
+        <div
+          className="w-full h-full relative"
+          style={{
+            transform: `scale(${topScale})`,
+            transformOrigin: "center center",
+          }}
+        >
+          <Image
+            src={topImage}
+            alt="Aarti Dinkar — Full Stack Engineer"
+            fill
+            sizes="(max-width: 768px) 100vw, 50vw"
+            className="object-cover"
+            style={{ objectPosition: topPosition }}
+            priority
+          />
+        </div>
       </div>
 
       {/* Circular Lens Glow Border Following Cursor */}
