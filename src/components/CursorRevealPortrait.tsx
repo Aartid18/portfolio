@@ -106,7 +106,7 @@ export const CursorRevealPortrait: React.FC<CursorRevealPortraitProps> = ({
       if (revealLayerRef.current) {
         const clipValue = `circle(${Math.max(0, r)}px at ${x}px ${y}px)`;
         revealLayerRef.current.style.clipPath = clipValue;
-        revealLayerRef.current.style.webkitClipPath = clipValue;
+        (revealLayerRef.current.style as unknown as Record<string, string>).webkitClipPath = clipValue;
       }
 
       if (lensRef.current) {

@@ -151,7 +151,7 @@ export const Contact: React.FC = () => {
                       placeholder="Jane Doe"
                       value={formData.name}
                       onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                      className="w-full px-4 py-3.5 rounded-xl bg-[#0a0b0a] border border-white/10 text-white placeholder-[#8a938a] focus:outline-none focus:border-[#3ef281] text-xs font-semibold transition-colors"
+                      className="w-full px-4 py-3.5 min-h-[44px] rounded-xl bg-[#0a0b0a] border border-white/10 text-white placeholder-[#8a938a] focus:outline-none focus:border-[#3ef281] text-base md:text-sm font-semibold transition-colors"
                     />
                   </div>
                   <div>
@@ -162,7 +162,7 @@ export const Contact: React.FC = () => {
                       placeholder="jane@company.com"
                       value={formData.email}
                       onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                      className="w-full px-4 py-3.5 rounded-xl bg-[#0a0b0a] border border-white/10 text-white placeholder-[#8a938a] focus:outline-none focus:border-[#3ef281] text-xs font-semibold transition-colors"
+                      className="w-full px-4 py-3.5 min-h-[44px] rounded-xl bg-[#0a0b0a] border border-white/10 text-white placeholder-[#8a938a] focus:outline-none focus:border-[#3ef281] text-base md:text-sm font-semibold transition-colors"
                     />
                   </div>
                 </div>
@@ -175,7 +175,7 @@ export const Contact: React.FC = () => {
                     placeholder="Project Inquiry / Opportunity"
                     value={formData.subject}
                     onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
-                    className="w-full px-4 py-3.5 rounded-xl bg-[#0a0b0a] border border-white/10 text-white placeholder-[#8a938a] focus:outline-none focus:border-[#3ef281] text-xs font-semibold transition-colors"
+                    className="w-full px-4 py-3.5 min-h-[44px] rounded-xl bg-[#0a0b0a] border border-white/10 text-white placeholder-[#8a938a] focus:outline-none focus:border-[#3ef281] text-base md:text-sm font-semibold transition-colors"
                   />
                 </div>
 
@@ -187,7 +187,7 @@ export const Contact: React.FC = () => {
                     placeholder="Hello Aarti, I reviewed your portfolio and would like to discuss..."
                     value={formData.message}
                     onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                    className="w-full px-4 py-3.5 rounded-xl bg-[#0a0b0a] border border-white/10 text-white placeholder-[#8a938a] focus:outline-none focus:border-[#3ef281] text-xs font-semibold transition-colors resize-none"
+                    className="w-full px-4 py-3.5 rounded-xl bg-[#0a0b0a] border border-white/10 text-white placeholder-[#8a938a] focus:outline-none focus:border-[#3ef281] text-base md:text-sm font-semibold transition-colors resize-none"
                   />
                 </div>
 
@@ -195,7 +195,7 @@ export const Contact: React.FC = () => {
                   type="submit"
                   disabled={status === "submitting"}
                   data-cursor="OPEN"
-                  className="w-full py-4 rounded-full bg-[#3ef281] hover:bg-[#59f493] text-[#0a0b0a] font-black text-xs shadow-xl shadow-[#3ef281]/20 transition-all flex items-center justify-center gap-2 disabled:opacity-50"
+                  className="w-full py-4 min-h-[44px] rounded-full bg-[#3ef281] hover:bg-[#59f493] text-[#0a0b0a] font-black text-xs sm:text-sm shadow-xl shadow-[#3ef281]/20 transition-all flex items-center justify-center gap-2 disabled:opacity-50"
                 >
                   <Send className="w-4 h-4" />
                   <span>{status === "submitting" ? "SENDING..." : "SEND MESSAGE"}</span>

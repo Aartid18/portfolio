@@ -132,28 +132,28 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
       </div>
 
       {/* Footer CTAs */}
-      <div className="pt-6 border-t border-white/10 flex items-center justify-between gap-3 font-mono text-xs">
-        <div className="flex items-center gap-2 flex-1">
+      <div className="pt-6 border-t border-white/10 flex flex-wrap sm:flex-nowrap items-center justify-between gap-3 font-mono text-xs">
+        <div className="flex flex-wrap sm:flex-nowrap items-center gap-2 flex-1 w-full sm:w-auto">
           {project.liveUrl ? (
             <a
               href={project.liveUrl}
               target="_blank"
               rel="noopener noreferrer"
               data-cursor="OPEN"
-              className="flex-1 flex items-center justify-center gap-2 py-2.5 rounded-xl bg-[#3ef281] hover:bg-[#59f493] text-[#0a0b0a] font-extrabold shadow-md transition-all hover:scale-[1.02]"
+              className="flex-1 flex items-center justify-center gap-2 py-3 min-h-[44px] rounded-xl bg-[#3ef281] hover:bg-[#59f493] text-[#0a0b0a] font-extrabold shadow-md transition-all hover:scale-[1.02]"
             >
               <ExternalLink className="w-3.5 h-3.5" />
               <span>LIVE DEMO</span>
             </a>
           ) : (
-            <span className="flex-1 text-center py-2.5 text-[11px] text-[#8a938a]">DEMO ON REQUEST</span>
+            <span className="flex-1 text-center py-3 min-h-[44px] flex items-center justify-center text-[11px] text-[#a3aca3]">DEMO ON REQUEST</span>
           )}
 
           {project.caseStudy && (
             <button
               onClick={() => onOpenCaseStudy(project)}
               data-cursor="OPEN"
-              className="flex items-center justify-center gap-1.5 px-3 py-2.5 rounded-xl bg-[#171917] hover:bg-[#202420] border border-white/10 text-white font-bold transition-all hover:border-[#3ef281]"
+              className="flex items-center justify-center gap-1.5 px-3.5 py-3 min-h-[44px] rounded-xl bg-[#171917] hover:bg-[#202420] border border-white/10 text-white font-bold transition-all hover:border-[#3ef281]"
             >
               <BookOpen className="w-3.5 h-3.5 text-[#3ef281]" />
               <span>CASE STUDY</span>
@@ -166,7 +166,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
           target="_blank"
           rel="noopener noreferrer"
           data-cursor="↗"
-          className="p-2.5 rounded-xl bg-[#171917] hover:bg-[#202420] border border-white/10 text-white hover:text-[#3ef281] transition-all"
+          className="p-3 min-w-[44px] min-h-[44px] flex items-center justify-center rounded-xl bg-[#171917] hover:bg-[#202420] border border-white/10 text-white hover:text-[#3ef281] transition-all"
           aria-label="GitHub Repo"
         >
           <Github className="w-4 h-4 text-[#3ef281]" />

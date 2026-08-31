@@ -96,7 +96,7 @@ export const Navbar: React.FC = () => {
               target="_blank"
               rel="noopener noreferrer"
               data-cursor="↗"
-              className="p-2 text-[#737373] hover:text-white transition-colors"
+              className="p-3 min-w-[44px] min-h-[44px] flex items-center justify-center text-[#a3aca3] hover:text-white transition-colors"
               aria-label="GitHub Profile"
             >
               <Github className="w-4.5 h-4.5" />
@@ -106,7 +106,7 @@ export const Navbar: React.FC = () => {
               target="_blank"
               rel="noopener noreferrer"
               data-cursor="↗"
-              className="p-2 text-[#737373] hover:text-[#39ff88] transition-colors"
+              className="p-3 min-w-[44px] min-h-[44px] flex items-center justify-center text-[#a3aca3] hover:text-[#39ff88] transition-colors"
               aria-label="LinkedIn Profile"
             >
               <Linkedin className="w-4.5 h-4.5" />
@@ -114,7 +114,7 @@ export const Navbar: React.FC = () => {
             <a
               href="#resume"
               data-cursor="OPEN"
-              className="flex items-center gap-2 px-4 py-2 text-xs font-mono font-bold text-white bg-[#141414] hover:bg-[#39ff88] hover:text-[#050505] border border-white/10 hover:border-[#39ff88] rounded-full transition-all duration-200"
+              className="flex items-center gap-2 px-4 py-2.5 min-h-[44px] text-xs font-mono font-bold text-white bg-[#141414] hover:bg-[#39ff88] hover:text-[#050505] border border-white/10 hover:border-[#39ff88] rounded-full transition-all duration-200"
             >
               <FileText className="w-3.5 h-3.5" />
               <span>RESUME</span>
@@ -124,7 +124,7 @@ export const Navbar: React.FC = () => {
           {/* Mobile Menu Toggle */}
           <button
             onClick={() => setIsOpen(!isOpen)}
-            className="md:hidden p-2.5 rounded-full bg-[#141414] border border-white/10 text-white focus:outline-none focus:ring-2 focus:ring-[#39ff88]"
+            className="md:hidden p-3 min-w-[44px] min-h-[44px] flex items-center justify-center rounded-full bg-[#141414] border border-white/10 text-white focus:outline-none focus:ring-2 focus:ring-[#39ff88]"
             aria-label="Toggle Menu"
           >
             {isOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
@@ -148,10 +148,10 @@ export const Navbar: React.FC = () => {
                   key={item.label}
                   href={item.href}
                   onClick={() => setIsOpen(false)}
-                  className={`px-4 py-3 font-bold tracking-widest rounded-xl transition-colors ${
+                  className={`px-4 py-3.5 min-h-[44px] flex items-center font-bold tracking-widest rounded-xl transition-colors ${
                     activeSection === item.href.substring(1)
                       ? "bg-[#39ff88] text-[#050505]"
-                      : "text-[#737373] hover:bg-[#141414] hover:text-white"
+                      : "text-[#a3aca3] hover:bg-[#141414] hover:text-white"
                   }`}
                 >
                   {item.label}
@@ -159,14 +159,14 @@ export const Navbar: React.FC = () => {
               ))}
             </div>
 
-            <div className="pt-4 border-t border-white/10 flex items-center justify-around text-[#737373]">
-              <a href={PERSONAL_INFO.socials.github} target="_blank" rel="noopener noreferrer" className="hover:text-white flex items-center gap-1.5">
+            <div className="pt-4 border-t border-white/10 flex items-center justify-around text-[#a3aca3]">
+              <a href={PERSONAL_INFO.socials.github} target="_blank" rel="noopener noreferrer" className="hover:text-white min-h-[44px] px-3 flex items-center gap-1.5" aria-label="GitHub">
                 <Github className="w-4 h-4" /> GitHub
               </a>
-              <a href={PERSONAL_INFO.socials.linkedin} target="_blank" rel="noopener noreferrer" className="hover:text-[#39ff88] flex items-center gap-1.5">
+              <a href={PERSONAL_INFO.socials.linkedin} target="_blank" rel="noopener noreferrer" className="hover:text-[#39ff88] min-h-[44px] px-3 flex items-center gap-1.5" aria-label="LinkedIn">
                 <Linkedin className="w-4 h-4" /> LinkedIn
               </a>
-              <a href={`mailto:${PERSONAL_INFO.socials.email}`} className="hover:text-[#39ff88] flex items-center gap-1.5">
+              <a href={`mailto:${PERSONAL_INFO.socials.email}`} className="hover:text-[#39ff88] min-h-[44px] px-3 flex items-center gap-1.5" aria-label="Email">
                 <Mail className="w-4 h-4" /> Email
               </a>
             </div>

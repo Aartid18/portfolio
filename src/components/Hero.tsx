@@ -72,7 +72,7 @@ export const Hero: React.FC = () => {
   };
 
   return (
-    <section id="home" className="relative min-h-screen flex flex-col justify-center pt-32 pb-24 px-4 overflow-hidden bg-[#0a0b0a] font-mono">
+    <section id="home" className="relative min-h-[100dvh] flex flex-col justify-center pt-28 sm:pt-32 pb-16 sm:pb-24 px-4 overflow-hidden bg-[#0a0b0a] font-mono">
       {/* Layer 1: Parallax Ambient Grid */}
       <motion.div
         style={shouldReduceMotion ? {} : { x: layerBgX, y: layerBgY }}
@@ -103,7 +103,7 @@ export const Hero: React.FC = () => {
         style={shouldReduceMotion ? {} : { x: layerTextX, y: layerTextY }}
         className="max-w-6xl mx-auto w-full relative z-20"
       >
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center mb-16">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 sm:gap-12 items-center mb-12 sm:mb-16">
           {/* Left Column: Headlines & Call to Actions */}
           <div className="lg:col-span-7 text-center lg:text-left">
             {/* Text Morphing Descriptor Eyebrow */}
@@ -129,7 +129,7 @@ export const Hero: React.FC = () => {
               initial="hidden"
               animate="visible"
               custom={0.2}
-              className="text-4xl sm:text-6xl md:text-7xl font-black tracking-tighter text-white mb-6 leading-[1.05]"
+              className="text-[clamp(2.1rem,6vw+0.5rem,4.5rem)] font-black tracking-tighter text-white mb-6 leading-[1.05]"
             >
               FULL STACK ENGINEER
               <br />
@@ -142,7 +142,7 @@ export const Hero: React.FC = () => {
               initial="hidden"
               animate="visible"
               custom={0.4}
-              className="text-lg sm:text-2xl font-extrabold text-[#e9ece7] mb-6 leading-snug tracking-tight"
+              className="text-base sm:text-2xl font-extrabold text-[#e9ece7] mb-6 leading-snug tracking-tight"
             >
               I BUILD SYSTEMS THAT THINK, SCALE & SHIP.
             </motion.div>
@@ -159,24 +159,24 @@ export const Hero: React.FC = () => {
             {/* Layer 4: Magnetic Action Controls */}
             <motion.div
               style={shouldReduceMotion ? {} : { x: layerFgX, y: layerFgY }}
-              className="flex flex-wrap items-center justify-center lg:justify-start gap-4 mb-8 text-xs sm:text-sm relative z-30"
+              className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 mb-8 text-xs sm:text-sm relative z-30 w-full sm:w-auto"
             >
-              <MagneticButton strength={0.4}>
+              <MagneticButton strength={0.4} className="w-full sm:w-auto">
                 <a
                   href="#projects"
                   data-cursor="OPEN"
-                  className="flex items-center gap-3 px-8 py-4 rounded-full bg-[#3ef281] hover:bg-[#59f493] text-[#0a0b0a] font-extrabold shadow-xl shadow-[#3ef281]/20 transition-all hover:scale-[1.02]"
+                  className="flex items-center justify-center gap-3 px-8 py-3.5 min-h-[44px] w-full sm:w-auto rounded-full bg-[#3ef281] hover:bg-[#59f493] text-[#0a0b0a] font-extrabold shadow-xl shadow-[#3ef281]/20 transition-all hover:scale-[1.02]"
                 >
                   <span>EXPLORE WORK</span>
                   <ArrowRight className="w-4 h-4" />
                 </a>
               </MagneticButton>
 
-              <MagneticButton strength={0.4}>
+              <MagneticButton strength={0.4} className="w-full sm:w-auto">
                 <a
                   href="#contact"
                   data-cursor="OPEN"
-                  className="flex items-center gap-3 px-8 py-4 rounded-full bg-[#131513] hover:bg-[#171917] border border-white/15 text-white font-extrabold transition-all hover:scale-[1.02] hover:border-[#3ef281]"
+                  className="flex items-center justify-center gap-3 px-8 py-3.5 min-h-[44px] w-full sm:w-auto rounded-full bg-[#131513] hover:bg-[#171917] border border-white/15 text-white font-extrabold transition-all hover:scale-[1.02] hover:border-[#3ef281]"
                 >
                   <Send className="w-4 h-4 text-[#3ef281]" />
                   <span>LET&apos;S TALK</span>

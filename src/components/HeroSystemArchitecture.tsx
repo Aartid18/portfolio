@@ -64,38 +64,45 @@ export const HeroSystemArchitecture: React.FC = () => {
       </div>
 
       {/* System Flow Diagram */}
-      <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-6 gap-3 relative z-10 mb-6">
+      <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-6 gap-3.5 relative z-10 mb-6">
         {NODES.map((node, index) => {
           const isActive = activeNode.id === node.id;
           return (
-            <motion.button
-              key={node.id}
-              onClick={() => setActiveNode(node)}
-              data-cursor="VIEW"
-              whileHover={{ y: -4, scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-              className={`p-4 rounded-2xl text-left border transition-all duration-200 flex flex-col justify-between h-36 relative ${
-                isActive
-                  ? "bg-[#171917] border-[#3ef281] shadow-lg shadow-[#3ef281]/10 ring-1 ring-[#3ef281]/30"
-                  : "bg-[#0a0b0a] border-white/10 hover:border-white/20"
-              }`}
-            >
-              <div>
-                <div className="flex items-center justify-between mb-2">
-                  <div className="p-2 rounded-xl bg-[#131513] border border-white/10">
-                    {node.icon}
+            <React.Fragment key={node.id}>
+              <motion.button
+                onClick={() => setActiveNode(node)}
+                data-cursor="VIEW"
+                whileHover={{ y: -4, scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                className={`p-4 rounded-2xl text-left border transition-all duration-200 flex flex-col justify-between h-36 min-h-[44px] relative cursor-pointer ${
+                  isActive
+                    ? "bg-[#171917] border-[#3ef281] shadow-lg shadow-[#3ef281]/10 ring-1 ring-[#3ef281]/30"
+                    : "bg-[#0a0b0a] border-white/10 hover:border-white/20"
+                }`}
+              >
+                <div>
+                  <div className="flex items-center justify-between mb-2">
+                    <div className="p-2 rounded-xl bg-[#131513] border border-white/10">
+                      {node.icon}
+                    </div>
+                    <span className="text-[10px] text-[#a3aca3]">0{index + 1}</span>
                   </div>
-                  <span className="text-[10px] text-[#8a938a]">0{index + 1}</span>
+                  <div className="text-xs font-extrabold text-white truncate">{node.title}</div>
+                  <div className="text-[10px] text-[#a3aca3] truncate">{node.subTitle}</div>
                 </div>
-                <div className="text-xs font-extrabold text-white truncate">{node.title}</div>
-                <div className="text-[10px] text-[#8a938a] truncate">{node.subTitle}</div>
-              </div>
 
-              <div className="flex items-center justify-between text-[10px] pt-2 border-t border-white/5">
-                <LatencyReadout base={node.baseLatency} />
-                <span className="text-[9px] text-[#8a938a] uppercase">{node.category}</span>
-              </div>
-            </motion.button>
+                <div className="flex items-center justify-between text-[10px] pt-2 border-t border-white/5">
+                  <LatencyReadout base={node.baseLatency} />
+                  <span className="text-[9px] text-[#a3aca3] uppercase">{node.category}</span>
+                </div>
+              </motion.button>
+              {/* Vertical Step Connector for Mobile 1-Column View */}
+              {index < NODES.length - 1 && (
+                <div className="md:hidden flex justify-center -my-1 text-[#3ef281]/60 text-xs">
+                  ↓
+                </div>
+              )}
+            </React.Fragment>
           );
         })}
       </div>
