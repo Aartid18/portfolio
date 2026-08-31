@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import { Code2, Database, Brain, Server, Terminal, Cpu, Layers } from "lucide-react";
 import { SKILL_CATEGORIES } from "@/data/portfolioData";
 import { scrollEmergeUp } from "@/lib/motionConfig";
+import { StackVisualCharts } from "./StackVisualCharts";
 
 const CATEGORY_ICONS: Record<string, React.ElementType> = {
   "Languages": Terminal,
@@ -18,28 +19,33 @@ const CATEGORY_ICONS: Record<string, React.ElementType> = {
 export const Skills: React.FC = () => {
   return (
     <section id="skills" className="py-32 px-4 relative z-10 bg-[#050505] border-t border-white/10 font-mono">
-      <div className="max-w-6xl mx-auto">
+      <div className="max-w-6xl mx-auto space-y-16">
         {/* Section Header */}
         <motion.div
           variants={scrollEmergeUp}
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true }}
-          className="text-center mb-16"
+          className="text-center"
         >
           <span className="text-xs font-bold uppercase tracking-widest text-[#39ff88] block mb-3">
             02 / TECHNICAL CAPABILITIES
           </span>
           <h2 className="text-3xl sm:text-5xl font-black text-white tracking-tight">
-            ENGINEERING <span className="text-[#39ff88]">STACK & CAPABILITIES</span>
+            ENGINEERING <span className="text-[#39ff88]">STACK & ANALYTICS</span>
           </h2>
           <p className="text-xs text-[#8a938a] mt-3 max-w-xl mx-auto font-sans font-normal">
-            Core technologies applied across full-stack web applications, scalable backend REST microservices, and applied ML pipelines.
+            Real-time visual telemetry, system latency metrics, stack distribution pie charts, and competency radar diagrams.
           </p>
         </motion.div>
 
+        {/* Visual Charts Dashboard (Pie Chart, Telemetry Latency Bar Chart, Radar Chart) */}
+        <div>
+          <StackVisualCharts />
+        </div>
+
         {/* Visual Skill Categories Matrix */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 pt-4">
           {SKILL_CATEGORIES.map((category, idx) => {
             const Icon = CATEGORY_ICONS[category.title] || Layers;
 
