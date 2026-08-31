@@ -2,10 +2,9 @@
 
 import React from "react";
 import { motion } from "framer-motion";
-import { Code2, Database, Brain, Server, ShieldCheck, Terminal, Cpu, Layers } from "lucide-react";
+import { Code2, Database, Brain, Server, Terminal, Cpu, Layers } from "lucide-react";
 import { SKILL_CATEGORIES } from "@/data/portfolioData";
 import { scrollEmergeUp } from "@/lib/motionConfig";
-import { TechConstellation } from "./TechConstellation";
 
 const CATEGORY_ICONS: Record<string, React.ElementType> = {
   "Languages": Terminal,
@@ -32,17 +31,12 @@ export const Skills: React.FC = () => {
             02 / TECHNICAL CAPABILITIES
           </span>
           <h2 className="text-3xl sm:text-5xl font-black text-white tracking-tight">
-            ENGINEERING <span className="text-[#39ff88]">STACK & CONSTELLATION</span>
+            ENGINEERING <span className="text-[#39ff88]">STACK & CAPABILITIES</span>
           </h2>
           <p className="text-xs text-[#8a938a] mt-3 max-w-xl mx-auto font-sans font-normal">
             Core technologies applied across full-stack web applications, scalable backend REST microservices, and applied ML pipelines.
           </p>
         </motion.div>
-
-        {/* Interactive Constellation Graph Component */}
-        <div className="mb-20">
-          <TechConstellation />
-        </div>
 
         {/* Visual Skill Categories Matrix */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
