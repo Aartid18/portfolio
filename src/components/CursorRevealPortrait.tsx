@@ -27,12 +27,12 @@ export const CursorRevealPortrait: React.FC<CursorRevealPortraitProps> = ({
   baseOffsetY = 10,
 }) => {
   const containerRef = useRef<HTMLDivElement | null>(null);
-  const topLayerRef = useRef<HTMLDivElement | null>(null);
+  const revealLayerRef = useRef<HTMLDivElement | null>(null);
   const lensRef = useRef<HTMLDivElement | null>(null);
 
   const [isHovered, setIsHovered] = useState(false);
 
-  // Motion targets & current state: default radius is 0 when not hovering
+  // Motion targets & current state for 60fps RAF lerp interpolation
   const targetPos = useRef({ x: 180, y: 140, r: 0 });
   const currentPos = useRef({ x: 180, y: 140, r: 0 });
   const animFrameId = useRef<number | null>(null);
@@ -41,9 +41,6 @@ export const CursorRevealPortrait: React.FC<CursorRevealPortraitProps> = ({
     const container = containerRef.current;
     if (!container) return;
 
-    let isTouchDevice = "ontouchstart" in window || navigator.maxTouchPoints > 0;
-    let sweepAngle = 0;
-
     const handleMouseMove = (e: MouseEvent) => {
       const rect = container.getBoundingClientRect();
       const x = Math.max(0, Math.min(rect.width, e.clientX - rect.left));
@@ -51,7 +48,7 @@ export const CursorRevealPortrait: React.FC<CursorRevealPortraitProps> = ({
 
       targetPos.current.x = x;
       targetPos.current.y = y;
-      targetPos.current.r = 110; // 110px mask radius on hover
+      targetPos.current.r = 110; // 110px circle radius on hover
     };
 
     const handleMouseEnter = (e: MouseEvent) => {
@@ -61,7 +58,7 @@ export const CursorRevealPortrait: React.FC<CursorRevealPortraitProps> = ({
 
     const handleMouseLeave = () => {
       setIsHovered(false);
-      // Fade/shrink circle lens away to 0px when cursor leaves image
+      // Smoothly shrink circle lens to 0px when cursor leaves
       targetPos.current.r = 0;
     };
 
@@ -97,15 +94,8 @@ export const CursorRevealPortrait: React.FC<CursorRevealPortraitProps> = ({
     container.addEventListener("touchmove", handleTouchMove, { passive: true });
     container.addEventListener("touchend", handleTouchEnd);
 
-    // Render loop updating mask & lens position styles in real-time
+    // 60fps RAF Render Loop updating clipPath directly for 100% GPU accelerated redraws
     const renderLoop = () => {
-      const rect = container.getBoundingClientRect();
-
-      // Touch auto-sweep only if touched
-      if (isTouchDevice && isHovered && rect.width > 0) {
-        sweepAngle += 0.02;
-      }
-
       // Smooth lerp easing (0.2 for position, 0.15 for radius)
       currentPos.current.x += (targetPos.current.x - currentPos.current.x) * 0.2;
       currentPos.current.y += (targetPos.current.y - currentPos.current.y) * 0.2;
@@ -113,21 +103,16 @@ export const CursorRevealPortrait: React.FC<CursorRevealPortraitProps> = ({
 
       const { x, y, r } = currentPos.current;
 
-      if (topLayerRef.current) {
-        if (r < 1) {
-          topLayerRef.current.style.maskImage = "none";
-          topLayerRef.current.style.webkitMaskImage = "none";
-        } else {
-          const maskValue = `radial-gradient(circle ${r}px at ${x}px ${y}px, transparent 0%, transparent 75%, black 100%)`;
-          topLayerRef.current.style.maskImage = maskValue;
-          topLayerRef.current.style.webkitMaskImage = maskValue;
-        }
+      if (revealLayerRef.current) {
+        const clipValue = `circle(${Math.max(0, r)}px at ${x}px ${y}px)`;
+        revealLayerRef.current.style.clipPath = clipValue;
+        revealLayerRef.current.style.webkitClipPath = clipValue;
       }
 
       if (lensRef.current) {
         lensRef.current.style.left = `${x}px`;
         lensRef.current.style.top = `${y}px`;
-        lensRef.current.style.opacity = r > 5 ? "1" : "0";
+        lensRef.current.style.opacity = r > 3 ? "1" : "0";
       }
 
       animFrameId.current = requestAnimationFrame(renderLoop);
@@ -144,39 +129,15 @@ export const CursorRevealPortrait: React.FC<CursorRevealPortraitProps> = ({
       container.removeEventListener("touchmove", handleTouchMove);
       container.removeEventListener("touchend", handleTouchEnd);
     };
-  }, [isHovered]);
+  }, []); // Empty dependency array so listeners are attached once and never torn down on hover state change
 
   return (
     <div
       ref={containerRef}
       className={`relative w-full aspect-[3/4] rounded-[12px] overflow-hidden border border-[#39FF14]/30 bg-[#0a0a0a] shadow-2xl group cursor-crosshair select-none ${className}`}
     >
-      {/* Base Layer (Z-0): Hidden Editorial B&W / Blue-toned sunglasses photo (Revealed inside lens) */}
+      {/* 1. Base Layer (Z-0): Default Image 1 (Soft color, black turtleneck - Always visible underneath) */}
       <div className="absolute inset-0 z-0 overflow-hidden">
-        <div
-          className="w-full h-full relative"
-          style={{
-            transform: `scale(${baseScale}) translate(${baseOffsetX}px, ${baseOffsetY}px)`,
-            transformOrigin: "center center",
-          }}
-        >
-          <Image
-            src={baseImage}
-            alt="Aarti Dinkar — Editorial Reveal"
-            fill
-            sizes="(max-width: 768px) 100vw, 50vw"
-            className="object-cover filter saturate-125 contrast-110"
-            style={{ objectPosition: basePosition }}
-            priority
-          />
-        </div>
-      </div>
-
-      {/* Top Layer (Z-10): Default Visible Soft Color Black Turtleneck Photo (Masked by radial gradient on hover) */}
-      <div
-        ref={topLayerRef}
-        className="absolute inset-0 z-10 pointer-events-none"
-      >
         <div
           className="w-full h-full relative"
           style={{
@@ -196,7 +157,35 @@ export const CursorRevealPortrait: React.FC<CursorRevealPortraitProps> = ({
         </div>
       </div>
 
-      {/* Circular Lens Glow Border Following Cursor (Z-20) */}
+      {/* 2. Reveal Layer (Z-10): Image 2 (Blue sunglasses - Clipped inside circular lens on hover) */}
+      <div
+        ref={revealLayerRef}
+        className="absolute inset-0 z-10 pointer-events-none"
+        style={{
+          clipPath: "circle(0px at 50% 50%)",
+          WebkitClipPath: "circle(0px at 50% 50%)",
+        }}
+      >
+        <div
+          className="w-full h-full relative"
+          style={{
+            transform: `scale(${baseScale}) translate(${baseOffsetX}px, ${baseOffsetY}px)`,
+            transformOrigin: "center center",
+          }}
+        >
+          <Image
+            src={baseImage}
+            alt="Aarti Dinkar — Editorial Reveal"
+            fill
+            sizes="(max-width: 768px) 100vw, 50vw"
+            className="object-cover filter saturate-125 contrast-110"
+            style={{ objectPosition: basePosition }}
+            priority
+          />
+        </div>
+      </div>
+
+      {/* 3. Circular Lens Glow Border Following Cursor (Z-20) */}
       <div
         ref={lensRef}
         className="absolute pointer-events-none rounded-full z-20 transition-opacity duration-200"
