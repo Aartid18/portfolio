@@ -38,6 +38,18 @@ const RADAR_DIMENSIONS = [
 
 export const StackVisualCharts: React.FC = () => {
   const [hoveredPieSector, setHoveredPieSector] = useState<string | null>(null);
+  const [telemetryJitter, setTelemetryJitter] = useState({ api: 14, ml: 42, db: 8 });
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setTelemetryJitter({
+        api: 13 + Math.floor(Math.random() * 3),
+        ml: 40 + Math.floor(Math.random() * 5),
+        db: 7 + Math.floor(Math.random() * 3),
+      });
+    }, 2500);
+    return () => clearInterval(interval);
+  }, []);
 
   // Radar Polygon Points Calculation
   const radarCenter = 110;
@@ -209,7 +221,15 @@ export const StackVisualCharts: React.FC = () => {
                       <span className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: m.color }} />
                       <span>{m.label}</span>
                     </span>
-                    <span className="font-mono text-white font-black">{m.val}</span>
+                    <span className="font-mono text-white font-black">
+                      {m.label.includes("API")
+                        ? `${telemetryJitter.api}ms`
+                        : m.label.includes("ML")
+                        ? `${telemetryJitter.ml}ms`
+                        : m.label.includes("DB")
+                        ? `${telemetryJitter.db}ms`
+                        : m.val}
+                    </span>
                   </div>
 
                   <div className="w-full h-2.5 rounded-full bg-[#171c18] border border-white/10 overflow-hidden">

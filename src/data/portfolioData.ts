@@ -27,6 +27,13 @@ export interface SkillCategory {
   skills: string[];
 }
 
+export const PORTFOLIO_METRICS = {
+  totalProjects: 5,
+  liveDeployments: 5,
+  coreTechnologies: 15,
+  cgpa: "8.4 CGPA",
+} as const;
+
 export const PERSONAL_INFO = {
   name: "Aarti Dinkar",
   headline: "Full Stack Engineer | Applied AI & Data Science",
@@ -49,10 +56,10 @@ export const PERSONAL_INFO = {
     }
   ],
   stats: [
-    { label: "Full Stack & AI Projects", value: "5+" },
-    { label: "Core Technologies", value: "15+" },
-    { label: "Live Production Deployments", value: "4" },
-    { label: "BE IT + DS Honours", value: "8.4 CGPA" }
+    { label: "Full Stack & AI Projects", value: `${PORTFOLIO_METRICS.totalProjects}+` },
+    { label: "Core Technologies", value: `${PORTFOLIO_METRICS.coreTechnologies}+` },
+    { label: "Live Production Deployments", value: `${PORTFOLIO_METRICS.liveDeployments}` },
+    { label: "BE IT + DS Honours", value: PORTFOLIO_METRICS.cgpa }
   ],
   socials: {
     github: "https://github.com/Aartid18",
@@ -236,7 +243,18 @@ export const PROJECTS: Project[] = [
     liveUrl: "https://ai-ecommerce-hazel.vercel.app/customer/products",
     githubUrl: "https://github.com/Aartid18",
     isFeatured: false,
-    gradient: "from-emerald-500/20 via-teal-500/10 to-cyan-500/20"
+    gradient: "from-emerald-500/20 via-teal-500/10 to-cyan-500/20",
+    caseStudy: {
+      overview: "A customer-centric e-commerce application featuring dynamic AI product recommendation widgets and instant cart state synchronization.",
+      problem: "Traditional online stores display generic product carousels without personalized item relevance matching customer browsing history.",
+      solution: "Engineered a responsive Next.js marketplace backed by Node.js and MongoDB Atlas, utilizing intelligent item category mapping for automated related product suggestions.",
+      architectureDescription: "Next.js client interface communicates with Express REST endpoints. Product catalog schemas and customer orders are stored in indexed MongoDB document collections.",
+      keyDecisions: [
+        "Structured modular client cart hooks for instant UI updates.",
+        "Implemented indexed MongoDB text search for rapid product catalog filtering.",
+        "Engineered recommendation payload caching to minimize database query latency."
+      ]
+    }
   },
   {
     id: "secure-print-link",
@@ -251,9 +269,20 @@ export const PROJECTS: Project[] = [
       "Backend REST API validation & Firebase asset storage",
       "Protection against unauthorized document duplication"
     ],
-    liveUrl: undefined,
+    liveUrl: "https://secure-print-link.vercel.app/",
     githubUrl: "https://github.com/Aartid18",
     isFeatured: false,
-    gradient: "from-indigo-500/20 via-blue-500/10 to-violet-500/20"
+    gradient: "from-indigo-500/20 via-blue-500/10 to-violet-500/20",
+    caseStudy: {
+      overview: "An encrypted document protection application engineered to prevent unauthorized printing and link leakage for sensitive files.",
+      problem: "Sharing sensitive print payloads over standard URLs exposes documents to unauthorized saving, forwarding, and indefinite access.",
+      solution: "Developed an AES-256 encryption API service that converts document payloads into time-restricted, single-use secure print links.",
+      architectureDescription: "React frontend interacts with a Node.js Express encryption API. Files are stored in Firebase with temporal token validation rules.",
+      keyDecisions: [
+        "Utilized client-side and server-side AES-256 payload encryption.",
+        "Enforced self-destructing time-to-live (TTL) expiration timestamps on print links.",
+        "Designed anti-duplication print view styles preventing browser asset download."
+      ]
+    }
   }
 ];

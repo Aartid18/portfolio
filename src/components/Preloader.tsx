@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { motion, AnimatePresence, Variants } from "framer-motion";
+import { motion, AnimatePresence, Variants, useReducedMotion } from "framer-motion";
 import { curtainLiftPanelLeft, curtainLiftPanelRight } from "@/lib/motionConfig";
 
 const STEPS = [
@@ -33,6 +33,7 @@ const curtainSplitRight: Variants = {
 };
 
 export const Preloader: React.FC<{ onComplete?: () => void }> = ({ onComplete }) => {
+  const shouldReduceMotion = useReducedMotion();
   const [phase, setPhase] = useState<"welcome" | "boot" | "done">("welcome");
   const [progress, setProgress] = useState(0);
   const [currentStep, setCurrentStep] = useState(0);
@@ -40,6 +41,13 @@ export const Preloader: React.FC<{ onComplete?: () => void }> = ({ onComplete })
   const [displayLetters, setDisplayLetters] = useState<string[]>(Array(7).fill(""));
   const [lockedFlags, setLockedFlags] = useState<boolean[]>(Array(7).fill(false));
   const [flashFlags, setFlashFlags] = useState<boolean[]>(Array(7).fill(false));
+
+  useEffect(() => {
+    if (shouldReduceMotion) {
+      setPhase("done");
+      if (onComplete) onComplete();
+    }
+  }, [shouldReduceMotion, onComplete]);
 
   // 1st Curtain: Scramble decoding + Hold -> Transition to boot (2100ms)
   useEffect(() => {

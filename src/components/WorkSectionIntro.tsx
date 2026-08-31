@@ -3,6 +3,7 @@
 import React from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import { Layers, Sparkles } from "lucide-react";
+import { PORTFOLIO_METRICS } from "@/data/portfolioData";
 
 export const WorkSectionIntro: React.FC = () => {
   const shouldReduceMotion = useReducedMotion();
@@ -59,12 +60,12 @@ export const WorkSectionIntro: React.FC = () => {
       >
         <span className="flex items-center gap-1.5 font-bold text-white">
           <Layers className="w-3.5 h-3.5 text-[#3ef281]" />
-          5 Active Projects
+          {PORTFOLIO_METRICS.totalProjects} Active Projects
         </span>
         <span className="text-white/20">•</span>
         <span className="flex items-center gap-1.5 font-bold text-white">
           <Sparkles className="w-3.5 h-3.5 text-[#3ef281]" />
-          4 Live Vercel Deployments
+          {PORTFOLIO_METRICS.liveDeployments} Live Vercel Deployments
         </span>
       </motion.div>
     </div>

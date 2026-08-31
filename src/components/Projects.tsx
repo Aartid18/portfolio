@@ -2,7 +2,7 @@
 
 import React, { useState, useRef } from "react";
 import { motion, AnimatePresence, useScroll, useTransform, useSpring } from "framer-motion";
-import { PROJECTS, Project } from "@/data/portfolioData";
+import { PROJECTS, Project, PORTFOLIO_METRICS } from "@/data/portfolioData";
 import { ProjectCard } from "./ProjectCard";
 import { ProjectCaseStudyModal } from "./ProjectCaseStudyModal";
 import { WorkSectionIntro } from "./WorkSectionIntro";
@@ -138,7 +138,7 @@ export const Projects: React.FC = () => {
               <Layers className="w-6 h-6" />
             </div>
             <div>
-              <h4 className="text-sm font-extrabold text-white">4 Live Vercel & ML Deployments Active</h4>
+              <h4 className="text-sm font-extrabold text-white">{PORTFOLIO_METRICS.liveDeployments} Live Vercel & ML Deployments Active</h4>
               <p className="text-xs text-[#8a938a] font-sans font-normal">All production web applications and ML dashboards are live.</p>
             </div>
           </div>

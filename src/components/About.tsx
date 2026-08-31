@@ -1,19 +1,25 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
-import { motion, useReducedMotion } from "framer-motion";
+import React, { useState, useEffect, useRef } from "react";
+import { motion, useReducedMotion, useInView } from "framer-motion";
 import { GraduationCap, Award, Code, Brain, Database, CheckCircle2 } from "lucide-react";
 import { PERSONAL_INFO } from "@/data/portfolioData";
 import { scrollEmergeUp } from "@/lib/motionConfig";
 
 const SpringCounter: React.FC<{ value: string }> = ({ value }) => {
+  const shouldReduceMotion = useReducedMotion();
   const numericValue = parseFloat(value.replace(/[^0-9.]/g, ""));
-  const [displayNum, setDisplayNum] = useState(0);
+  const ref = useRef<HTMLSpanElement>(null);
+  const isInView = useInView(ref, { once: true });
+  // Always initialize with final numericValue so static HTML / JS disabled renders target value
+  const [displayNum, setDisplayNum] = useState(isNaN(numericValue) ? 0 : numericValue);
 
   useEffect(() => {
-    if (isNaN(numericValue)) return;
+    if (isNaN(numericValue) || shouldReduceMotion || !isInView) return;
+
     let start = 0;
-    const duration = 1500;
+    setDisplayNum(0);
+    const duration = 1200;
     const stepTime = 30;
     const steps = duration / stepTime;
     const increment = numericValue / steps;
@@ -29,15 +35,15 @@ const SpringCounter: React.FC<{ value: string }> = ({ value }) => {
     }, stepTime);
 
     return () => clearInterval(timer);
-  }, [numericValue]);
+  }, [numericValue, isInView, shouldReduceMotion]);
 
-  if (isNaN(numericValue)) return <>{value}</>;
+  if (isNaN(numericValue)) return <span>{value}</span>;
 
   const hasPlus = value.includes("+");
   const formatted = numericValue % 1 !== 0 ? displayNum.toFixed(1) : Math.floor(displayNum);
 
   return (
-    <span>
+    <span ref={ref}>
       {formatted}
       {hasPlus && "+"}
     </span>

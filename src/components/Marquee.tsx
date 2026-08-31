@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 
 interface MarqueeProps {
   items: string[];
@@ -14,12 +14,18 @@ export const Marquee: React.FC<MarqueeProps> = ({
   direction = "left",
   className = "",
 }) => {
+  const shouldReduceMotion = useReducedMotion();
+
   return (
     <div className={`w-full overflow-hidden py-3.5 border-y border-white/10 bg-[#070707] font-mono ${className}`}>
       <motion.div
-        animate={{
-          x: direction === "left" ? ["0%", "-50%"] : ["-50%", "0%"],
-        }}
+        animate={
+          shouldReduceMotion
+            ? {}
+            : {
+                x: direction === "left" ? ["0%", "-50%"] : ["-50%", "0%"],
+              }
+        }
         transition={{
           repeat: Infinity,
           ease: "linear",

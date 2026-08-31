@@ -1,11 +1,10 @@
 "use client";
 
 import React from "react";
+import dynamic from "next/dynamic";
 import { SmoothScrollProvider } from "@/components/SmoothScrollProvider";
 import { ScrollProgress } from "@/components/ScrollProgress";
 import { Preloader } from "@/components/Preloader";
-import { CustomCursor } from "@/components/CustomCursor";
-import { SplashCursor } from "@/components/SplashCursor";
 import { Navbar } from "@/components/Navbar";
 import { Hero } from "@/components/Hero";
 import { About } from "@/components/About";
@@ -15,6 +14,10 @@ import { ResumeSection } from "@/components/ResumeSection";
 import { Contact } from "@/components/Contact";
 import { Footer } from "@/components/Footer";
 import { Marquee } from "@/components/Marquee";
+
+// Dynamic Client-Only Heavy Components
+const SplashCursor = dynamic(() => import("@/components/SplashCursor").then((m) => m.SplashCursor), { ssr: false });
+const CustomCursor = dynamic(() => import("@/components/CustomCursor").then((m) => m.CustomCursor), { ssr: false });
 
 export default function Home() {
   return (
@@ -40,7 +43,7 @@ export default function Home() {
         <main className="flex-1 relative z-10">
           <Hero />
 
-          {/* Post-Hero Section Marquee */}
+          {/* Instance 1: Post-Hero Marquee */}
           <Marquee
             items={["FULL STACK ENGINEERING", "APPLIED AI", "DATA SCIENCE", "SYSTEM ARCHITECTURE", "PRODUCTION SYSTEMS"]}
             direction="left"
@@ -48,30 +51,18 @@ export default function Home() {
 
           <About />
 
-          {/* Post-About Section Marquee */}
-          <Marquee
-            items={["01 PHILOSOPHY", "PRODUCTION SYSTEMS", "INTELLIGENT WORKFLOWS", "MICROSERVICES", "RESTFUL APIS"]}
-            direction="right"
-          />
-
           <Skills />
 
-          {/* Post-Stack Section Marquee */}
-          <Marquee
-            items={["02 TECHNICAL CAPABILITIES", "CORE LANGUAGES", "FRAMEWORKS", "DATA INFRASTRUCTURE", "MACHINE LEARNING"]}
-            direction="left"
-          />
-
-          {/* Work Section with Scroll-Driven Color Inversion (#0a0b0a -> #f4f1e8 Editorial Ivory) */}
+          {/* Work Section with Scroll-Driven Color Inversion */}
           <Projects />
 
-          {/* Post-Resume Section Marquee */}
+          <ResumeSection />
+
+          {/* Instance 2: Pre-Footer Marquee */}
           <Marquee
             items={["04 ENGINEERING PROFILE", "ACADEMIC CREDENTIALS", "HONOURS IN DATA SCIENCE", "LIVE DEPLOYMENTS"]}
             direction="right"
           />
-
-          <ResumeSection />
 
           <Contact />
         </main>
