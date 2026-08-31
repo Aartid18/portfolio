@@ -5,6 +5,7 @@ import { SmoothScrollProvider } from "@/components/SmoothScrollProvider";
 import { ScrollProgress } from "@/components/ScrollProgress";
 import { Preloader } from "@/components/Preloader";
 import { CustomCursor } from "@/components/CustomCursor";
+import { SplashCursor } from "@/components/SplashCursor";
 import { Navbar } from "@/components/Navbar";
 import { Hero } from "@/components/Hero";
 import { About } from "@/components/About";
@@ -27,6 +28,9 @@ export default function Home() {
 
         {/* Context-Aware Custom Cursor (Desktop Only) */}
         <CustomCursor />
+
+        {/* Interactive WebGL Splash Cursor Fluid Effect */}
+        <SplashCursor />
 
         {/* Fine Technical Mesh */}
         <div className="fixed inset-0 bg-tech-mesh opacity-20 pointer-events-none z-0" />

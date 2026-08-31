@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, Variants } from "framer-motion";
 import { curtainLiftPanelLeft, curtainLiftPanelRight } from "@/lib/motionConfig";
 
 const STEPS = [
@@ -11,47 +11,215 @@ const STEPS = [
   "04 Initializing AI inference pipeline...",
 ];
 
+const TARGET_LETTERS = ["W", "E", "L", "C", "O", "M", "E"];
+const CHARSET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+
+const BOOT_DURATION_MS = 3000; // 2nd curtain duration
+
+const curtainSplitLeft: Variants = {
+  initial: { x: "0%" },
+  exit: {
+    x: "-100%",
+    transition: { duration: 0.9, ease: [0.83, 0, 0.17, 1] },
+  },
+};
+
+const curtainSplitRight: Variants = {
+  initial: { x: "0%" },
+  exit: {
+    x: "100%",
+    transition: { duration: 0.9, ease: [0.83, 0, 0.17, 1] },
+  },
+};
+
 export const Preloader: React.FC<{ onComplete?: () => void }> = ({ onComplete }) => {
+  const [phase, setPhase] = useState<"welcome" | "boot" | "done">("welcome");
   const [progress, setProgress] = useState(0);
   const [currentStep, setCurrentStep] = useState(0);
-  const [isFinished, setIsFinished] = useState(false);
 
+  const [displayLetters, setDisplayLetters] = useState<string[]>(Array(7).fill(""));
+  const [lockedFlags, setLockedFlags] = useState<boolean[]>(Array(7).fill(false));
+  const [flashFlags, setFlashFlags] = useState<boolean[]>(Array(7).fill(false));
+
+  // 1st Curtain: Scramble decoding + Hold -> Transition to boot (2100ms)
   useEffect(() => {
-    // Non-linear realistic boot sequence timing
-    const timer = setInterval(() => {
-      setProgress((prev) => {
-        if (prev >= 100) {
-          clearInterval(timer);
-          setTimeout(() => {
-            setIsFinished(true);
-            if (onComplete) onComplete();
-          }, 250);
-          return 100;
-        }
+    if (phase !== "welcome") return;
 
-        // Realistic non-linear tick: fast initial, brief stall at 45%, fast burst finish
-        let increment = Math.floor(Math.random() * 9) + 3;
-        if (prev > 40 && prev < 55) {
-          increment = 2; // intentional boot stall
-        }
+    const startTime = Date.now();
+    const interval = setInterval(() => {
+      const elapsed = Date.now() - startTime;
 
-        const next = prev + increment;
-        if (next > 25 && next <= 50) setCurrentStep(1);
-        else if (next > 50 && next <= 75) setCurrentStep(2);
-        else if (next > 75) setCurrentStep(3);
+      setDisplayLetters(() => {
+        return TARGET_LETTERS.map((targetChar, i) => {
+          const startMs = i * 180;
+          const lockMs = startMs + 400;
 
-        return next > 100 ? 100 : next;
+          if (elapsed < startMs) {
+            return "";
+          } else if (elapsed >= startMs && elapsed < lockMs) {
+            return CHARSET[Math.floor(Math.random() * CHARSET.length)];
+          } else {
+            return targetChar;
+          }
+        });
       });
-    }, 40);
+
+      setLockedFlags(() => {
+        return TARGET_LETTERS.map((_, i) => {
+          const lockMs = i * 180 + 400;
+          return elapsed >= lockMs;
+        });
+      });
+
+      setFlashFlags(() => {
+        return TARGET_LETTERS.map((_, i) => {
+          const lockMs = i * 180 + 400;
+          return elapsed >= lockMs && elapsed < lockMs + 150;
+        });
+      });
+
+      if (elapsed >= 2100) {
+        clearInterval(interval);
+        setPhase("boot");
+      }
+    }, 30);
+
+    return () => clearInterval(interval);
+  }, [phase]);
+
+  // 2nd Curtain (.DEV System Boot Curtain) — now exactly 3.0 seconds, time-based
+  useEffect(() => {
+    if (phase !== "boot") return;
+
+    const startTime = Date.now();
+    const timer = setInterval(() => {
+      const elapsed = Date.now() - startTime;
+      const pct = Math.min(100, Math.round((elapsed / BOOT_DURATION_MS) * 100));
+
+      setProgress(pct);
+
+      if (pct > 25 && pct <= 50) setCurrentStep(1);
+      else if (pct > 50 && pct <= 75) setCurrentStep(2);
+      else if (pct > 75) setCurrentStep(3);
+
+      if (elapsed >= BOOT_DURATION_MS) {
+        clearInterval(timer);
+        setTimeout(() => {
+          setPhase("done");
+          if (onComplete) onComplete();
+        }, 200);
+      }
+    }, 20);
 
     return () => clearInterval(timer);
-  }, [onComplete]);
+  }, [phase, onComplete]);
 
   return (
-    <AnimatePresence>
-      {!isFinished && (
-        <div className="fixed inset-0 z-[100] flex pointer-events-none font-mono">
-          {/* Left Vertical Panel */}
+    <AnimatePresence mode="wait">
+      {/* 1ST CURTAIN: Terminal scramble decode of WELCOME -> horizontal split WEL | COME */}
+      {phase === "welcome" && (
+        <motion.div
+          key="welcome-curtain"
+          className="fixed inset-0 z-[110] flex font-mono bg-[#000000] pointer-events-none"
+        >
+          <motion.div
+            variants={curtainSplitLeft}
+            initial="initial"
+            exit="exit"
+            className="w-1/2 h-full flex items-center justify-end pr-2 sm:pr-4 pointer-events-auto relative z-10 overflow-hidden"
+            style={{
+              background: "linear-gradient(to right, #050505, #0a1f0a, #123a12)",
+              borderRight: "2px solid #39FF14",
+              boxShadow: "0 0 12px rgba(57, 255, 20, 0.9)",
+            }}
+          >
+            <div
+              className="font-black uppercase tracking-tight flex items-center select-none"
+              style={{
+                fontSize: "clamp(4rem, 14vw, 11rem)",
+                fontFamily: "monospace",
+                letterSpacing: "0.05em",
+              }}
+            >
+              {[0, 1, 2].map((idx) => {
+                const isLocked = lockedFlags[idx];
+                const isFlash = flashFlags[idx];
+                const letter = displayLetters[idx];
+
+                return (
+                  <span
+                    key={idx}
+                    className="inline-block transition-colors duration-75 text-center"
+                    style={{
+                      color: isLocked ? "#0a0a0a" : "#39FF14",
+                      textShadow: isFlash
+                        ? "0 0 18px #39FF14, 0 0 35px #39FF14"
+                        : isLocked
+                          ? "0 0 6px rgba(57, 255, 20, 0.9)"
+                          : "0 0 12px rgba(57, 255, 20, 0.9)",
+                      WebkitTextStroke: isLocked ? "1.5px #39FF14" : "none",
+                      minWidth: "0.6em",
+                    }}
+                  >
+                    {letter || "\u00A0"}
+                  </span>
+                );
+              })}
+            </div>
+          </motion.div>
+
+          <motion.div
+            variants={curtainSplitRight}
+            initial="initial"
+            exit="exit"
+            className="w-1/2 h-full flex items-center justify-start pl-2 sm:pl-4 pointer-events-auto relative z-10 overflow-hidden"
+            style={{
+              background: "linear-gradient(to left, #050505, #0a1f0a, #123a12)",
+            }}
+          >
+            <div
+              className="font-black uppercase tracking-tight flex items-center select-none"
+              style={{
+                fontSize: "clamp(4rem, 14vw, 11rem)",
+                fontFamily: "monospace",
+                letterSpacing: "0.05em",
+              }}
+            >
+              {[3, 4, 5, 6].map((idx) => {
+                const isLocked = lockedFlags[idx];
+                const isFlash = flashFlags[idx];
+                const letter = displayLetters[idx];
+
+                return (
+                  <span
+                    key={idx}
+                    className="inline-block transition-colors duration-75 text-center"
+                    style={{
+                      color: isLocked ? "#0a0a0a" : "#39FF14",
+                      textShadow: isFlash
+                        ? "0 0 18px #39FF14, 0 0 35px #39FF14"
+                        : isLocked
+                          ? "0 0 6px rgba(57, 255, 20, 0.9)"
+                          : "0 0 12px rgba(57, 255, 20, 0.9)",
+                      WebkitTextStroke: isLocked ? "1.5px #39FF14" : "none",
+                      minWidth: "0.6em",
+                    }}
+                  >
+                    {letter || "\u00A0"}
+                  </span>
+                );
+              })}
+            </div>
+          </motion.div>
+        </motion.div>
+      )}
+
+      {/* 2ND CURTAIN: .DEV system boot sequence — now 3.0s */}
+      {phase === "boot" && (
+        <motion.div
+          key="boot-curtain"
+          className="fixed inset-0 z-[100] flex font-mono bg-[#050505] pointer-events-none"
+        >
           <motion.div
             variants={curtainLiftPanelLeft}
             initial="initial"
@@ -68,7 +236,6 @@ export const Preloader: React.FC<{ onComplete?: () => void }> = ({ onComplete })
             </div>
           </motion.div>
 
-          {/* Right Vertical Panel */}
           <motion.div
             variants={curtainLiftPanelRight}
             initial="initial"
@@ -92,7 +259,7 @@ export const Preloader: React.FC<{ onComplete?: () => void }> = ({ onComplete })
               </div>
             </div>
           </motion.div>
-        </div>
+        </motion.div>
       )}
     </AnimatePresence>
   );
