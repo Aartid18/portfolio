@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import Image from "next/image";
 import { motion } from "framer-motion";
 import { ShieldAlert, Sparkles, Film, Lock, Activity, Search, ShoppingBag, CreditCard, ChevronRight } from "lucide-react";
 
@@ -221,31 +222,26 @@ export const ProjectFrontPageMock: React.FC<ProjectFrontPageMockProps> = ({ proj
     );
   }
 
-  // 5. Secure Print Link
+  // 5. Secure Print Link (Real Dashboard Screenshot)
   return (
-    <div className="w-full h-52 sm:h-60 rounded-2xl bg-[#0a0b0a] border border-white/10 p-4 font-mono flex flex-col justify-between relative overflow-hidden group-hover:border-[#3ef281]/60 transition-all duration-300">
-      <div className="flex items-center justify-between border-b border-white/10 pb-2 text-[10px]">
-        <div className="flex items-center gap-2">
-          <Lock className="w-3.5 h-3.5 text-[#3ef281]" />
-          <span className="font-bold text-white">SECURE_PRINT_PAYLOAD</span>
+    <div className="w-full h-52 sm:h-60 rounded-2xl bg-[#0e1118] border border-white/10 relative overflow-hidden group-hover:border-[#3ef281]/60 transition-all duration-300">
+      <Image
+        src="/projects/secure-print-link.png"
+        alt="Secure Print Link Dashboard"
+        fill
+        sizes="(max-width: 768px) 100vw, 33vw"
+        className="object-cover object-top filter contrast-105 group-hover:scale-105 transition-transform duration-500"
+        priority
+      />
+      {/* Top Gradient Overlay Header Badge */}
+      <div className="absolute top-0 left-0 right-0 p-2.5 bg-gradient-to-b from-[#090b10]/90 via-[#090b10]/60 to-transparent flex items-center justify-between text-[10px] font-mono z-10">
+        <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-md bg-[#0a0b0a]/80 border border-[#3ef281]/30 backdrop-blur-md">
+          <Lock className="w-3 h-3 text-[#3ef281]" />
+          <span className="font-bold text-white tracking-wider">Secure Print Link</span>
         </div>
-        <span className="text-[#3ef281]">AES-256 ENCRYPTED</span>
-      </div>
-
-      <div className="space-y-2 py-2">
-        <div className="text-xs font-black text-white flex items-center gap-2 font-display">
-          <Lock className="w-4 h-4 text-[#3ef281]" />
-          <span>Temporal Expiring Encrypted Link Generator</span>
-        </div>
-        <div className="p-2.5 rounded-xl bg-[#131513] border border-white/5 text-[10px] text-[#e9ece7] flex justify-between items-center">
-          <span>Temporal Token Access Control</span>
-          <span className="text-[#3ef281] font-bold">Firebase Shield</span>
-        </div>
-      </div>
-
-      <div className="pt-2 border-t border-white/10 flex justify-between text-[9px] text-[#8a938a]">
-        <span>AES-256 Bit Cipher Payload</span>
-        <span className="text-[#3ef281] font-bold">● API Protected</span>
+        <span className="px-2 py-0.5 rounded-full bg-[#3ef281]/20 border border-[#3ef281]/40 text-[#3ef281] font-bold text-[9px] backdrop-blur-md">
+          AES-256 DASHBOARD
+        </span>
       </div>
     </div>
   );
