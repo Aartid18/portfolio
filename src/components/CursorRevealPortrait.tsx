@@ -32,9 +32,9 @@ export const CursorRevealPortrait: React.FC<CursorRevealPortraitProps> = ({
 
   const [isHovered, setIsHovered] = useState(false);
 
-  // Motion targets & current state for smooth 60fps RAF lerp interpolation
-  const targetPos = useRef({ x: 180, y: 140, r: 110 });
-  const currentPos = useRef({ x: 180, y: 140, r: 110 });
+  // Motion targets & current state: default radius is 0 when not hovering
+  const targetPos = useRef({ x: 180, y: 140, r: 0 });
+  const currentPos = useRef({ x: 180, y: 140, r: 0 });
   const animFrameId = useRef<number | null>(null);
 
   useEffect(() => {
@@ -44,17 +44,6 @@ export const CursorRevealPortrait: React.FC<CursorRevealPortraitProps> = ({
     let isTouchDevice = "ontouchstart" in window || navigator.maxTouchPoints > 0;
     let sweepAngle = 0;
 
-    // Set initial position centered over face
-    const rect = container.getBoundingClientRect();
-    if (rect.width > 0) {
-      targetPos.current.x = rect.width * 0.5;
-      targetPos.current.y = rect.height * 0.32;
-      targetPos.current.r = 110;
-      currentPos.current.x = rect.width * 0.5;
-      currentPos.current.y = rect.height * 0.32;
-      currentPos.current.r = 110;
-    }
-
     const handleMouseMove = (e: MouseEvent) => {
       const rect = container.getBoundingClientRect();
       const x = Math.max(0, Math.min(rect.width, e.clientX - rect.left));
@@ -62,7 +51,7 @@ export const CursorRevealPortrait: React.FC<CursorRevealPortraitProps> = ({
 
       targetPos.current.x = x;
       targetPos.current.y = y;
-      targetPos.current.r = 110; // 110px mask radius
+      targetPos.current.r = 110; // 110px mask radius on hover
     };
 
     const handleMouseEnter = (e: MouseEvent) => {
@@ -72,11 +61,8 @@ export const CursorRevealPortrait: React.FC<CursorRevealPortraitProps> = ({
 
     const handleMouseLeave = () => {
       setIsHovered(false);
-      // Return lens smoothly to center face position
-      const rect = container.getBoundingClientRect();
-      targetPos.current.x = rect.width * 0.5;
-      targetPos.current.y = rect.height * 0.32;
-      targetPos.current.r = 110;
+      // Fade/shrink circle lens away to 0px when cursor leaves image
+      targetPos.current.r = 0;
     };
 
     const handleTouchStart = (e: TouchEvent) => {
@@ -101,6 +87,7 @@ export const CursorRevealPortrait: React.FC<CursorRevealPortraitProps> = ({
 
     const handleTouchEnd = () => {
       setIsHovered(false);
+      targetPos.current.r = 0;
     };
 
     container.addEventListener("mousemove", handleMouseMove);
@@ -110,18 +97,13 @@ export const CursorRevealPortrait: React.FC<CursorRevealPortraitProps> = ({
     container.addEventListener("touchmove", handleTouchMove, { passive: true });
     container.addEventListener("touchend", handleTouchEnd);
 
-    // Render loop directly updating mask & position styles for 60fps instant Chromium redraw
+    // Render loop updating mask & lens position styles in real-time
     const renderLoop = () => {
       const rect = container.getBoundingClientRect();
 
-      // Mobile / Touch Auto-sweep fallback if not actively hovering
-      if (isTouchDevice && !isHovered && rect.width > 0) {
+      // Touch auto-sweep only if touched
+      if (isTouchDevice && isHovered && rect.width > 0) {
         sweepAngle += 0.02;
-        const centerX = rect.width / 2;
-        const centerY = rect.height * 0.35;
-        targetPos.current.x = centerX + Math.sin(sweepAngle) * (rect.width * 0.25);
-        targetPos.current.y = centerY + Math.cos(sweepAngle * 0.8) * (rect.height * 0.15);
-        targetPos.current.r = 110;
       }
 
       // Smooth lerp easing (0.2 for position, 0.15 for radius)
@@ -132,9 +114,14 @@ export const CursorRevealPortrait: React.FC<CursorRevealPortraitProps> = ({
       const { x, y, r } = currentPos.current;
 
       if (topLayerRef.current) {
-        const maskValue = `radial-gradient(circle ${r}px at ${x}px ${y}px, transparent 0%, transparent 75%, black 100%)`;
-        topLayerRef.current.style.maskImage = maskValue;
-        topLayerRef.current.style.webkitMaskImage = maskValue;
+        if (r < 1) {
+          topLayerRef.current.style.maskImage = "none";
+          topLayerRef.current.style.webkitMaskImage = "none";
+        } else {
+          const maskValue = `radial-gradient(circle ${r}px at ${x}px ${y}px, transparent 0%, transparent 75%, black 100%)`;
+          topLayerRef.current.style.maskImage = maskValue;
+          topLayerRef.current.style.webkitMaskImage = maskValue;
+        }
       }
 
       if (lensRef.current) {
@@ -185,7 +172,7 @@ export const CursorRevealPortrait: React.FC<CursorRevealPortraitProps> = ({
         </div>
       </div>
 
-      {/* Top Layer (Z-10): Default Visible Soft Color Black Turtleneck Photo (Masked by radial gradient) */}
+      {/* Top Layer (Z-10): Default Visible Soft Color Black Turtleneck Photo (Masked by radial gradient on hover) */}
       <div
         ref={topLayerRef}
         className="absolute inset-0 z-10 pointer-events-none"
@@ -219,7 +206,7 @@ export const CursorRevealPortrait: React.FC<CursorRevealPortraitProps> = ({
           transform: "translate(-50%, -50%)",
           border: "2px solid #39FF14",
           boxShadow: "0 0 20px rgba(57, 255, 20, 0.7), inset 0 0 15px rgba(57, 255, 20, 0.3)",
-          opacity: 1,
+          opacity: 0,
         }}
       />
 
@@ -230,9 +217,9 @@ export const CursorRevealPortrait: React.FC<CursorRevealPortraitProps> = ({
       <div className="absolute bottom-2 right-2 w-4 h-4 border-b-2 border-r-2 border-[#39FF14]/40 z-30 pointer-events-none" />
 
       {/* Interactive Lens Telemetry Badge Overlay */}
-      <div className="absolute bottom-3 left-3 z-30 pointer-events-none px-2.5 py-1 rounded-md bg-[#0a0a0a]/80 border border-[#39FF14]/30 backdrop-blur-md flex items-center gap-1.5 text-[10px] font-mono text-[#39FF14]">
+      <div className={`absolute bottom-3 left-3 z-30 pointer-events-none px-2.5 py-1 rounded-md bg-[#0a0a0a]/80 border border-[#39FF14]/30 backdrop-blur-md flex items-center gap-1.5 text-[10px] font-mono text-[#39FF14] transition-opacity duration-300 ${isHovered ? "opacity-100" : "opacity-60"}`}>
         <span className="w-1.5 h-1.5 rounded-full bg-[#39FF14] animate-ping" />
-        <span className="font-bold tracking-wider">[ REVEAL LENS ACTIVE ]</span>
+        <span className="font-bold tracking-wider">{isHovered ? "[ REVEAL LENS ACTIVE ]" : "[ HOVER TO REVEAL ]"}</span>
       </div>
     </div>
   );
