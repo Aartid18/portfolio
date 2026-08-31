@@ -7,6 +7,7 @@ import { PERSONAL_INFO } from "@/data/portfolioData";
 import { textInkRise, scrollEmergeUp } from "@/lib/motionConfig";
 import { HeroSystemArchitecture } from "./HeroSystemArchitecture";
 import { MagneticButton } from "./MagneticButton";
+import { CursorRevealPortrait } from "./CursorRevealPortrait";
 
 const DESCRIPTORS = [
   "FULL STACK ENGINEER",
@@ -97,91 +98,106 @@ export const Hero: React.FC = () => {
         </div>
       </motion.div>
 
-      {/* Layer 3: Main Typography & Controls */}
+      {/* Layer 3: Main Typography & Split Content */}
       <motion.div
         style={shouldReduceMotion ? {} : { x: layerTextX, y: layerTextY }}
-        className="max-w-6xl mx-auto w-full text-center relative z-20"
+        className="max-w-6xl mx-auto w-full relative z-20"
       >
-        {/* Text Morphing Descriptor Eyebrow */}
-        <div className="h-9 mb-6 flex items-center justify-center overflow-hidden">
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={descriptorIndex}
-              initial={{ y: 25, opacity: 0, filter: "blur(4px)" }}
-              animate={{ y: 0, opacity: 1, filter: "blur(0px)" }}
-              exit={{ y: -25, opacity: 0, filter: "blur(4px)" }}
-              transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
-              className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full bg-[#131513] border border-white/10 text-xs font-bold text-[#3ef281] shadow-xl"
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center mb-16">
+          {/* Left Column: Headlines & Call to Actions */}
+          <div className="lg:col-span-7 text-center lg:text-left">
+            {/* Text Morphing Descriptor Eyebrow */}
+            <div className="h-9 mb-6 flex items-center justify-center lg:justify-start overflow-hidden">
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={descriptorIndex}
+                  initial={{ y: 25, opacity: 0, filter: "blur(4px)" }}
+                  animate={{ y: 0, opacity: 1, filter: "blur(0px)" }}
+                  exit={{ y: -25, opacity: 0, filter: "blur(4px)" }}
+                  transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
+                  className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full bg-[#131513] border border-white/10 text-xs font-bold text-[#3ef281] shadow-xl"
+                >
+                  <Sparkles className="w-3.5 h-3.5" />
+                  <span>{DESCRIPTORS[descriptorIndex]}</span>
+                </motion.div>
+              </AnimatePresence>
+            </div>
+
+            {/* Kinetic Split Text Oversized Headline */}
+            <motion.h1
+              variants={textInkRise}
+              initial="hidden"
+              animate="visible"
+              custom={0.2}
+              className="text-4xl sm:text-6xl md:text-7xl font-black tracking-tighter text-white mb-6 leading-[1.05]"
             >
-              <Sparkles className="w-3.5 h-3.5" />
-              <span>{DESCRIPTORS[descriptorIndex]}</span>
+              FULL STACK ENGINEER
+              <br />
+              <span className="text-[#3ef281]">+ APPLIED AI</span>
+            </motion.h1>
+
+            {/* Statement Copy */}
+            <motion.div
+              variants={textInkRise}
+              initial="hidden"
+              animate="visible"
+              custom={0.4}
+              className="text-lg sm:text-2xl font-extrabold text-[#e9ece7] mb-6 leading-snug tracking-tight"
+            >
+              I BUILD SYSTEMS THAT THINK, SCALE & SHIP.
             </motion.div>
-          </AnimatePresence>
+
+            <motion.p
+              variants={scrollEmergeUp}
+              initial="hidden"
+              animate="visible"
+              className="text-xs sm:text-sm text-[#8a938a] mb-8 leading-relaxed font-sans max-w-xl mx-auto lg:mx-0"
+            >
+              {PERSONAL_INFO.subHeadline}
+            </motion.p>
+
+            {/* Layer 4: Magnetic Action Controls */}
+            <motion.div
+              style={shouldReduceMotion ? {} : { x: layerFgX, y: layerFgY }}
+              className="flex flex-wrap items-center justify-center lg:justify-start gap-4 mb-8 text-xs sm:text-sm relative z-30"
+            >
+              <MagneticButton strength={0.4}>
+                <a
+                  href="#projects"
+                  data-cursor="OPEN"
+                  className="flex items-center gap-3 px-8 py-4 rounded-full bg-[#3ef281] hover:bg-[#59f493] text-[#0a0b0a] font-extrabold shadow-xl shadow-[#3ef281]/20 transition-all hover:scale-[1.02]"
+                >
+                  <span>EXPLORE WORK</span>
+                  <ArrowRight className="w-4 h-4" />
+                </a>
+              </MagneticButton>
+
+              <MagneticButton strength={0.4}>
+                <a
+                  href="#contact"
+                  data-cursor="OPEN"
+                  className="flex items-center gap-3 px-8 py-4 rounded-full bg-[#131513] hover:bg-[#171917] border border-white/15 text-white font-extrabold transition-all hover:scale-[1.02] hover:border-[#3ef281]"
+                >
+                  <Send className="w-4 h-4 text-[#3ef281]" />
+                  <span>LET&apos;S TALK</span>
+                </a>
+              </MagneticButton>
+            </motion.div>
+          </div>
+
+          {/* Right Column: Persistent Interactive Cursor Reveal Portrait */}
+          <div className="lg:col-span-5 flex justify-center">
+            <div className="w-full max-w-sm sm:max-w-md">
+              <CursorRevealPortrait
+                topImage="/portfoliophoto.jpeg"
+                baseImage="/1788171122183_image.png"
+              />
+            </div>
+          </div>
         </div>
 
-        {/* Kinetic Split Text Oversized Headline */}
-        <motion.h1
-          variants={textInkRise}
-          initial="hidden"
-          animate="visible"
-          custom={0.2}
-          className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-black tracking-tighter text-white mb-6 leading-[1.05]"
-        >
-          FULL STACK ENGINEER
-          <br />
-          <span className="text-[#3ef281]">+ APPLIED AI</span>
-        </motion.h1>
-
-        {/* Statement Copy */}
-        <motion.div
-          variants={textInkRise}
-          initial="hidden"
-          animate="visible"
-          custom={0.4}
-          className="max-w-3xl mx-auto text-lg sm:text-2xl md:text-3xl font-extrabold text-[#e9ece7] mb-8 leading-snug tracking-tight"
-        >
-          I BUILD SYSTEMS THAT THINK, SCALE & SHIP.
-        </motion.div>
-
-        <motion.p
-          variants={scrollEmergeUp}
-          initial="hidden"
-          animate="visible"
-          className="max-w-2xl mx-auto text-xs sm:text-sm text-[#8a938a] mb-10 leading-relaxed font-sans"
-        >
-          {PERSONAL_INFO.subHeadline}
-        </motion.p>
-
-        {/* Layer 4: Magnetic Action Controls */}
-        <motion.div
-          style={shouldReduceMotion ? {} : { x: layerFgX, y: layerFgY }}
-          className="flex flex-wrap items-center justify-center gap-4 mb-16 text-xs sm:text-sm relative z-30"
-        >
-          <MagneticButton strength={0.4}>
-            <a
-              href="#projects"
-              data-cursor="OPEN"
-              className="flex items-center gap-3 px-8 py-4 rounded-full bg-[#3ef281] hover:bg-[#59f493] text-[#0a0b0a] font-extrabold shadow-xl shadow-[#3ef281]/20 transition-all hover:scale-[1.02]"
-            >
-              <span>EXPLORE WORK</span>
-              <ArrowRight className="w-4 h-4" />
-            </a>
-          </MagneticButton>
-
-          <MagneticButton strength={0.4}>
-            <a
-              href="#contact"
-              data-cursor="OPEN"
-              className="flex items-center gap-3 px-8 py-4 rounded-full bg-[#131513] hover:bg-[#171917] border border-white/15 text-white font-extrabold transition-all hover:scale-[1.02] hover:border-[#3ef281]"
-            >
-              <Send className="w-4 h-4 text-[#3ef281]" />
-              <span>LET&apos;S TALK</span>
-            </a>
-          </MagneticButton>
-        </motion.div>
-
         {/* Proof Bar & Social Links */}
-        <div className="pt-8 border-t border-white/10 max-w-4xl mx-auto flex flex-wrap items-center justify-between gap-4 text-xs text-[#8a938a]">
+        <div className="pt-8 border-t border-white/10 max-w-5xl mx-auto flex flex-wrap items-center justify-between gap-4 text-xs text-[#8a938a]">
           <div className="flex items-center gap-3 mx-auto sm:mx-0">
             <MagneticButton strength={0.25}>
               <a
@@ -233,3 +249,4 @@ export const Hero: React.FC = () => {
     </section>
   );
 };
+
