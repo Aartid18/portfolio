@@ -110,7 +110,7 @@ export const CursorRevealPortrait: React.FC<CursorRevealPortraitProps> = ({
     container.addEventListener("touchmove", handleTouchMove, { passive: true });
     container.addEventListener("touchend", handleTouchEnd);
 
-    // Render loop directly updating CSS variables --x, --y, --r for 0-re-render performance
+    // Render loop directly updating mask & position styles for 60fps instant Chromium redraw
     const renderLoop = () => {
       const rect = container.getBoundingClientRect();
 
@@ -132,16 +132,15 @@ export const CursorRevealPortrait: React.FC<CursorRevealPortraitProps> = ({
       const { x, y, r } = currentPos.current;
 
       if (topLayerRef.current) {
-        topLayerRef.current.style.setProperty("--x", `${x}px`);
-        topLayerRef.current.style.setProperty("--y", `${y}px`);
-        topLayerRef.current.style.setProperty("--r", `${r}px`);
+        const maskValue = `radial-gradient(circle ${r}px at ${x}px ${y}px, transparent 0%, transparent 75%, black 100%)`;
+        topLayerRef.current.style.maskImage = maskValue;
+        topLayerRef.current.style.webkitMaskImage = maskValue;
       }
 
       if (lensRef.current) {
-        lensRef.current.style.setProperty("--x", `${x}px`);
-        lensRef.current.style.setProperty("--y", `${y}px`);
-        lensRef.current.style.setProperty("--r", `${r}px`);
-        lensRef.current.style.opacity = "1";
+        lensRef.current.style.left = `${x}px`;
+        lensRef.current.style.top = `${y}px`;
+        lensRef.current.style.opacity = r > 5 ? "1" : "0";
       }
 
       animFrameId.current = requestAnimationFrame(renderLoop);
@@ -165,7 +164,7 @@ export const CursorRevealPortrait: React.FC<CursorRevealPortraitProps> = ({
       ref={containerRef}
       className={`relative w-full aspect-[3/4] rounded-[12px] overflow-hidden border border-[#39FF14]/30 bg-[#0a0a0a] shadow-2xl group cursor-crosshair select-none ${className}`}
     >
-      {/* Base Layer: Hidden Editorial B&W / Blue-toned sunglasses photo (Revealed inside lens) */}
+      {/* Base Layer (Z-0): Hidden Editorial B&W / Blue-toned sunglasses photo (Revealed inside lens) */}
       <div className="absolute inset-0 z-0 overflow-hidden">
         <div
           className="w-full h-full relative"
@@ -186,16 +185,10 @@ export const CursorRevealPortrait: React.FC<CursorRevealPortraitProps> = ({
         </div>
       </div>
 
-      {/* Top Layer: Default Visible Soft Color Black Turtleneck Photo (Masked by radial gradient) */}
+      {/* Top Layer (Z-10): Default Visible Soft Color Black Turtleneck Photo (Masked by radial gradient) */}
       <div
         ref={topLayerRef}
-        className="absolute inset-0 z-10 pointer-events-none transition-[mask-image] duration-300 ease-out"
-        style={{
-          maskImage:
-            "radial-gradient(circle var(--r, 110px) at var(--x, 50%) var(--y, 32%), transparent 0%, transparent 70%, black 100%)",
-          WebkitMaskImage:
-            "radial-gradient(circle var(--r, 110px) at var(--x, 50%) var(--y, 32%), transparent 0%, transparent 70%, black 100%)",
-        }}
+        className="absolute inset-0 z-10 pointer-events-none"
       >
         <div
           className="w-full h-full relative"
@@ -216,23 +209,21 @@ export const CursorRevealPortrait: React.FC<CursorRevealPortraitProps> = ({
         </div>
       </div>
 
-      {/* Circular Lens Glow Border Following Cursor */}
+      {/* Circular Lens Glow Border Following Cursor (Z-20) */}
       <div
         ref={lensRef}
-        className="absolute pointer-events-none rounded-full z-20 transition-opacity duration-300"
+        className="absolute pointer-events-none rounded-full z-20 transition-opacity duration-200"
         style={{
           width: "220px",
           height: "220px",
           transform: "translate(-50%, -50%)",
-          left: "var(--x, 50%)",
-          top: "var(--y, 32%)",
           border: "2px solid #39FF14",
           boxShadow: "0 0 20px rgba(57, 255, 20, 0.7), inset 0 0 15px rgba(57, 255, 20, 0.3)",
           opacity: 1,
         }}
       />
 
-      {/* Terminal-Style Bracket Corners (30% Opacity) */}
+      {/* Terminal-Style Bracket Corners */}
       <div className="absolute top-2 left-2 w-4 h-4 border-t-2 border-l-2 border-[#39FF14]/40 z-30 pointer-events-none" />
       <div className="absolute top-2 right-2 w-4 h-4 border-t-2 border-r-2 border-[#39FF14]/40 z-30 pointer-events-none" />
       <div className="absolute bottom-2 left-2 w-4 h-4 border-b-2 border-l-2 border-[#39FF14]/40 z-30 pointer-events-none" />
