@@ -190,7 +190,7 @@ export const Hero: React.FC = () => {
             <div className="w-full max-w-sm sm:max-w-md">
               <CursorRevealPortrait
                 topImage="/portfoliophoto.jpeg"
-                baseImage="/1788171122183_image.png"
+                baseImage="/underneath_photo.png"
               />
             </div>
           </div>
